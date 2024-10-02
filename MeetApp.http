@@ -1,6 +1,0 @@
-@MeetApp_HostAddress = http://localhost:5237
-
-GET {{MeetApp_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
