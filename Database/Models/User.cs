@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace MeetApp.Database.Models
 {
 
-    public class User : Microsoft.AspNetCore.Identity.IdentityUser<Guid>
+    public class User : IdentityUser<Guid>
     {
     }
 

@@ -1,8 +1,6 @@
 using MeetApp.Database;
-using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,8 +23,6 @@ namespace MeetApp
                 dbContextOptionsBuilder.UseInMemoryDatabase("MeetApp");
             });
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
-            webApplicationBuilder.Services.AddIdentityApiEndpoints<User>()
-                .AddEntityFrameworkStores<AppDbContext>();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
             if (webApplication.Environment.IsDevelopment())
@@ -37,7 +33,6 @@ namespace MeetApp
             webApplication.UseHttpsRedirection();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
-            webApplication.MapIdentityApi<User>();
             await webApplication.RunAsync();
         }
 
