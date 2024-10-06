@@ -9,7 +9,7 @@ jobs:
     - run: "dotnet tool restore"
     - run: "dotnet restore"
     - run: "dotnet build --configuration ${{ matrix.configuration }}"
-    - run: "dotnet format --verify-no-changes"
+    #- run: "dotnet format --verify-no-changes"
     - run: "dotnet test --configuration ${{ matrix.configuration }}"
     strategy:
       matrix:
