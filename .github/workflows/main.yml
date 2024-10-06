@@ -1,0 +1,36 @@
+jobs:
+  build:
+    runs-on: "${{ matrix.runs-on }}"
+    steps:
+    - uses: "actions/checkout@v3"
+    - uses: "actions/setup-dotnet@v3"
+      with:
+        global-json-file: "global.json"
+    - run: "dotnet tool restore"
+    - run: "dotnet restore"
+    - run: "dotnet build --configuration ${{ matrix.configuration }}"
+    #- run: "dotnet format --verify-no-changes"
+    - run: "dotnet test --configuration ${{ matrix.configuration }}"
+    strategy:
+      matrix:
+        configuration: [
+          "Debug",
+          "Release"
+        ]
+        runs-on: [
+          "macos-latest", 
+          "ubuntu-latest", 
+          "windows-latest"
+        ]
+name: "main"
+on:
+  push:
+    branches: [ 
+      "main" 
+    ]
+  pull_request:
+    branches: [ 
+      "main" 
+    ]
+  schedule:
+    - cron: "0 0 * * *"
