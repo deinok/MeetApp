@@ -1,4 +1,4 @@
-using MeetApp.Database;
+using MeetApp.Backend.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 
-namespace MeetApp
+namespace MeetApp.Backend
 {
 
     public class Program
@@ -23,7 +23,8 @@ namespace MeetApp
             {
                 dbContextOptionsBuilder.EnableDetailedErrors();
                 dbContextOptionsBuilder.EnableSensitiveDataLogging();
-                dbContextOptionsBuilder.UseNpgsql(webApplicationBuilder.Configuration.GetConnectionString(nameof(AppDbContext)), npgsqlOptionsAction => {
+                dbContextOptionsBuilder.UseNpgsql(webApplicationBuilder.Configuration.GetConnectionString(nameof(AppDbContext)), npgsqlOptionsAction =>
+                {
                     npgsqlOptionsAction.CommandTimeout(120);
                     npgsqlOptionsAction.EnableRetryOnFailure();
                     npgsqlOptionsAction.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);

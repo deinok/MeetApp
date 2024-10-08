@@ -1,9 +1,9 @@
-﻿using MeetApp.Database.Models;
+﻿using MeetApp.Backend.Database.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace MeetApp.Database
+namespace MeetApp.Backend.Database
 {
 
     public class AppDbContext : IdentityDbContext<User, Role, Guid>
