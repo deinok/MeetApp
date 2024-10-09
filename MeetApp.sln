@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5682996B-710
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetApp.Backend", "src\MeetApp.Backend\MeetApp.Backend.csproj", "{191032FA-1A46-46BD-BD95-0CF198F08311}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{C68A0316-CCB8-4FAE-8D50-4DA4958106B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
