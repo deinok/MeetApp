@@ -41,6 +41,13 @@ namespace MeetApp.Backend
             webApplication.UseHttpsRedirection();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
+
+            {
+                using var asyncServiceScope = webApplication.Services.CreateAsyncScope();
+                var appDbContext = asyncServiceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await appDbContext.Database.MigrateAsync();
+            }
+
             await webApplication.RunAsync();
         }
 
