@@ -1,2 +1,3 @@
 ﻿/.vs
-/artifacts
+bin/
+obj/
