@@ -13,8 +13,8 @@ jobs:
     - run: "dotnet test --configuration ${{ matrix.configuration }}"
     - uses: "sonarsource/sonarqube-scan-action@3"
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+        SONAR_HOST_URL: "${{ vars.SONAR_HOST_URL }}"
+        SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
     strategy:
       matrix:
         configuration: [
