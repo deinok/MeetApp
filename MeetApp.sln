@@ -18,6 +18,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetApp.Backend", "src\MeetApp.Backend\MeetApp.Backend.csproj", "{191032FA-1A46-46BD-BD95-0CF198F08311}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{C68A0316-CCB8-4FAE-8D50-4DA4958106B5}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetApp.Database", "src\MeetApp.Database\MeetApp.Database.csproj", "{72AB8932-0B14-4F97-A812-A78E6AA93677}"
 EndProject
