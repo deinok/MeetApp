@@ -1,23 +1,23 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using MeetApp.Database.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
-using System.Text.Json.Serialization;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 using System.Threading;
-using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using MeetApp.Backend.Database.Models;
+using System.Threading.Tasks;
 
 namespace MeetApp.Backend.Controllers.Api.V1
 {

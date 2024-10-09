@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetApp.Backend", "src\Meet
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{C68A0316-CCB8-4FAE-8D50-4DA4958106B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetApp.Database", "src\MeetApp.Database\MeetApp.Database.csproj", "{72AB8932-0B14-4F97-A812-A78E6AA93677}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{191032FA-1A46-46BD-BD95-0CF198F08311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{191032FA-1A46-46BD-BD95-0CF198F08311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{191032FA-1A46-46BD-BD95-0CF198F08311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72AB8932-0B14-4F97-A812-A78E6AA93677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72AB8932-0B14-4F97-A812-A78E6AA93677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72AB8932-0B14-4F97-A812-A78E6AA93677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72AB8932-0B14-4F97-A812-A78E6AA93677}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{191032FA-1A46-46BD-BD95-0CF198F08311} = {5682996B-7101-45DE-AB6E-458B641DC95A}
+		{72AB8932-0B14-4F97-A812-A78E6AA93677} = {5682996B-7101-45DE-AB6E-458B641DC95A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E2F3610-FC03-4DA6-9491-B045E9EC7D48}

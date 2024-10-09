@@ -6,10 +6,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"  />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" PrivateAssets="all" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MeetApp.Database\MeetApp.Database.csproj" />
 	</ItemGroup>
 
 </Project>

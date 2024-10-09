@@ -1,4 +1,4 @@
-using MeetApp.Backend.Database;
+using MeetApp.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
