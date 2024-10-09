@@ -16,6 +16,8 @@ jobs:
         SONAR_HOST_URL: "${{ vars.SONAR_HOST_URL }}"
         SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
       if: "matrix.runs-on == 'ubuntu-latest'"
+      with:
+        args: "-Dsonar.organization=meetapp -Dsonar.projectKey=deinok_MeetApp"
     strategy:
       matrix:
         configuration: [
