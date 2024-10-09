@@ -1,0 +1,17 @@
+<Project>
+
+	<PropertyGroup>
+		<!--<ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>-->
+		<LangVersion>12</LangVersion>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<NoWarn>CS8601;CS8604</NoWarn>
+		<Nullable>enable</Nullable>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/deinok/MeetApp.git</RepositoryUrl>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<!--<UseArtifactsOutput>true</UseArtifactsOutput>-->
+		<WarningLevel>5</WarningLevel>
+	</PropertyGroup>
+
+</Project>

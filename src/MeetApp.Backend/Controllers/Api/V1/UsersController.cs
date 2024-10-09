@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
-using System.Text.Json.Serialization;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 using System.Threading;
-using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
-namespace MeetApp.Controllers.Api.V1
+namespace MeetApp.Backend.Controllers.Api.V1
 {
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -48,14 +48,14 @@ namespace MeetApp.Controllers.Api.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetAsync(CancellationToken cancellationToken = default)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return this.BadRequest();
+                return BadRequest();
             }
-            var userIds = await this.userManager.Users
+            var userIds = await userManager.Users
                 .Select(x => x.Id)
                 .ToListAsync(cancellationToken);
-            return this.Ok(userIds);
+            return Ok(userIds);
         }
 
 
@@ -67,17 +67,17 @@ namespace MeetApp.Controllers.Api.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAsync([FromRoute][Required] Guid id, CancellationToken cancellationToken = default)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return this.BadRequest();
+                return BadRequest();
             }
             var userId = id.ToString();
-            var user = await this.userManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-            return this.Ok(new UserResponse
+            return Ok(new UserResponse
             {
                 Email = user.Email,
                 Id = user.Id,
@@ -93,32 +93,32 @@ namespace MeetApp.Controllers.Api.V1
         [ProducesResponseType<TokenResponseError>(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> TokenAsync([FromForm][Required] TokenRequest tokenRequest, CancellationToken cancellationToken = default)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return this.BadRequest(new TokenResponseError
+                return BadRequest(new TokenResponseError
                 {
                     Error = "invalid_request",
                 });
             }
             if (tokenRequest.GrantType != "password")
             {
-                return this.BadRequest(new TokenResponseError
+                return BadRequest(new TokenResponseError
                 {
                     Error = "invalid_grant"
                 });
             }
-            var user = await this.userManager.FindByEmailAsync(tokenRequest.Username);
+            var user = await userManager.FindByEmailAsync(tokenRequest.Username);
             if (user == null)
             {
-                return this.Unauthorized(new TokenResponseError
+                return Unauthorized(new TokenResponseError
                 {
                     Error = "invalid_client"
                 });
             }
-            var validPassword = await this.userManager.CheckPasswordAsync(user, tokenRequest.Password);
+            var validPassword = await userManager.CheckPasswordAsync(user, tokenRequest.Password);
             if (!validPassword)
             {
-                return this.Unauthorized(new TokenResponseError
+                return Unauthorized(new TokenResponseError
                 {
                     Error = "invalid_client"
                 });
@@ -128,7 +128,7 @@ namespace MeetApp.Controllers.Api.V1
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Email),
             };
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JwtBearer:Secret"]));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtBearer:Secret"]));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var jwtSecurityToken = new JwtSecurityToken(
                 issuer: null,
@@ -137,7 +137,7 @@ namespace MeetApp.Controllers.Api.V1
                 signingCredentials: signingCredentials
             );
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-            return this.Ok(new TokenResponse
+            return Ok(new TokenResponse
             {
                 AccessToken = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken),
                 TokenType = "Bearer",
