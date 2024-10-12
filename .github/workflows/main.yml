@@ -13,7 +13,7 @@ jobs:
     - run: "dotnet test --configuration ${{ matrix.configuration }}"
     - uses: "actions/upload-artifact@v4"
       with:
-        path: ""
+        path: "./src/MeetApp.Backend/bin/${{ matrix.configuration}}/net8.0/publish/"
     strategy:
       matrix:
         configuration: [
