@@ -22,7 +22,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{C68A
 		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetApp.Database", "src\MeetApp.Database\MeetApp.Database.csproj", "{72AB8932-0B14-4F97-A812-A78E6AA93677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetApp.Database", "src\MeetApp.Database\MeetApp.Database.csproj", "{72AB8932-0B14-4F97-A812-A78E6AA93677}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MeetApp.Frontend", "MeetApp.Frontend", "{68C3E8C7-7247-42D5-ABB8-067EE13CC445}"
+	ProjectSection(SolutionItems) = preProject
+		src\MeetApp.Frontend\package.json = src\MeetApp.Frontend\package.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +50,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{191032FA-1A46-46BD-BD95-0CF198F08311} = {5682996B-7101-45DE-AB6E-458B641DC95A}
 		{72AB8932-0B14-4F97-A812-A78E6AA93677} = {5682996B-7101-45DE-AB6E-458B641DC95A}
+		{68C3E8C7-7247-42D5-ABB8-067EE13CC445} = {5682996B-7101-45DE-AB6E-458B641DC95A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E2F3610-FC03-4DA6-9491-B045E9EC7D48}
