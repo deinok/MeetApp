@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{C68A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetApp.Database", "src\MeetApp.Database\MeetApp.Database.csproj", "{72AB8932-0B14-4F97-A812-A78E6AA93677}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MeetApp.Frontend", "MeetApp.Frontend", "{F3AE7DCF-DDE3-4446-BF26-8BC5378A8B0F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MeetApp", "MeetApp", "{F3AE7DCF-DDE3-4446-BF26-8BC5378A8B0F}"
 	ProjectSection(SolutionItems) = preProject
 		src\MeetApp.Frontend\package.json = src\MeetApp.Frontend\package.json
 	EndProjectSection
