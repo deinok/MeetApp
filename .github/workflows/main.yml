@@ -34,17 +34,12 @@ jobs:
     - uses: "actions/download-artifact@v4"
       with:
         name: "ubuntu-latest-Release"
-    - uses: "actions/checkout@v4"
-    - uses: "actions/setup-dotnet@v4"
-      with:
-        global-json-file: "global.json"
-    - run: "dotnet publish --configuration Release"
+    - run: "ls ./"
     - uses: "azure/webapps-deploy@v2"
       with:
-        app-name: "${{ env.AZURE_WEBAPP_NAME }}" # Replace with your app name
-        package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp"
-        publish-profile: "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}" # Define secret variable in repository settings as per action documentation
-        # https://learn.microsoft.com/en-us/dotnet/devops/dotnet-publish-github-action
+        app-name: "meet-app-udl"
+        package: "MeetApp"
+        publish-profile: "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}"
 name: "main"
 on:
   push:
