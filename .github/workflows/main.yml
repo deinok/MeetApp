@@ -28,8 +28,9 @@ jobs:
           "windows-latest"
         ]
   deploy:
-    runs-on: "ubuntu-latest"
+    if: "github.ref == 'refs/heads/main'"
     needs: "build"
+    runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/download-artifact@v4"
       with:
@@ -37,7 +38,6 @@ jobs:
     - uses: "azure/webapps-deploy@v2"
       with:
         app-name: "meet-app-udl"
-        #package: "./"
         publish-profile: "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}"
 name: "main"
 on:
