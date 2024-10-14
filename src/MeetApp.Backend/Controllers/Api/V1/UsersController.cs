@@ -85,6 +85,24 @@ namespace MeetApp.Backend.Controllers.Api.V1
         }
 
         [AllowAnonymous]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [HttpPost("registration")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<TokenResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<TokenResponseError>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<TokenResponseError>(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> RegistrationAsync([FromBody][Required] RegistrationRequest registrationRequest, CancellationToken cancellationToken = default)
+        {
+            var user = new User
+            {
+                Email = registrationRequest.Email,
+                UserName = registrationRequest.Email
+            };
+            var identityResult = await this.userManager.CreateAsync(user, registrationRequest.Password);
+            return this.Ok();
+        }
+
+        [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.FormUrlEncoded)]
         [HttpPost("token")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -142,6 +160,12 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 AccessToken = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken),
                 TokenType = "Bearer",
             });
+        }
+
+        public record RegistrationRequest
+        {
+            public required string Email { get; init; }
+            public required string Password { get; init; }
         }
 
         public record TokenRequest

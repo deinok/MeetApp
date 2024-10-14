@@ -1,6 +1,8 @@
 using MeetApp.Database;
+using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +18,8 @@ namespace MeetApp.Backend
         {
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
             webApplicationBuilder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddBearerToken();
+                .AddJwtBearer();
+            webApplicationBuilder.Services.AddAuthorization();
             webApplicationBuilder.Services.AddControllers();
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
             {
@@ -30,12 +33,23 @@ namespace MeetApp.Backend
                 });
             });
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
+            webApplicationBuilder.Services.AddIdentity<User, Role>(identityOptions =>
+            {
+                identityOptions.Password.RequireDigit = false;
+                identityOptions.Password.RequireLowercase = false;
+                identityOptions.Password.RequireNonAlphanumeric = false;
+                identityOptions.Password.RequireUppercase = false;
+                identityOptions.Password.RequiredLength = 0;
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<AppDbContext>();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
             webApplication.UseStaticFiles();
             webApplication.UseSwagger();
             webApplication.UseSwaggerUI();
             webApplication.UseHttpsRedirection();
+            webApplication.UseAuthentication();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
             webApplication.MapFallbackToFile("index.html");
