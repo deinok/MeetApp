@@ -3,8 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import layoutEN from './locales/en/layout.json';
 import layoutES from './locales/es/layout.json';
-import mainpageEN from './locales/en/mainpage.json';
-import mainpageES from './locales/es/mainpage.json';
+import mainpageEN from './locales/en/mainPage.json';
+import mainpageES from './locales/es/mainPage.json';
 
 const resources = {
   en: {
