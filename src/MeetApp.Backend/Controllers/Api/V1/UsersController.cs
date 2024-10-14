@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using static MeetApp.Database.Models.User;
 
 namespace MeetApp.Backend.Controllers.Api.V1
 {
@@ -88,18 +89,27 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [Consumes(MediaTypeNames.Application.Json)]
         [HttpPost("registration")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType<TokenResponse>(StatusCodes.Status200OK)]
-        [ProducesResponseType<TokenResponseError>(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType<TokenResponseError>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType<RegistrationRequest>(StatusCodes.Status200OK)]
+        [ProducesResponseType<RegistrationRequest>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegistrationAsync([FromBody][Required] RegistrationRequest registrationRequest, CancellationToken cancellationToken = default)
         {
             var user = new User
             {
                 Email = registrationRequest.Email,
-                UserName = registrationRequest.Email
+                UserName = registrationRequest.Email,
+                Type = registrationRequest.UserType,
+                RegisterDateTime = registrationRequest.RegisterDateTime,
+                City = registrationRequest.City,
+                ProfilePicture = registrationRequest.ProfilePicture,
+                BussinesName = registrationRequest.BussinesName,
+                BussinesAddress = registrationRequest.BussinesAddress,
+                BussinesCategory = registrationRequest.BussinesCategory,
+                CIF = registrationRequest.CIF,
+                GoogleMapsUrl = registrationRequest.GoogleMapsUrl,
             };
             var identityResult = await this.userManager.CreateAsync(user, registrationRequest.Password);
-            return this.Ok();
+            if (identityResult.Succeeded) { return this.Ok(); }
+            return this.BadRequest();
         }
 
         [AllowAnonymous]
@@ -166,6 +176,18 @@ namespace MeetApp.Backend.Controllers.Api.V1
         {
             public required string Email { get; init; }
             public required string Password { get; init; }
+            public required User.UserType UserType { get; init; }
+            public required DateTimeOffset RegisterDateTime { get; init; }
+            public required string City { get; init; }
+            public required string ProfilePicture { get; set; }
+
+            /* BUSSINES FIELDS */
+            public string? BussinesName { get; set; }
+            public string? BussinesAddress { get; set; }
+            public BussinesCategoryType BussinesCategory { get; set; }
+            public string? CIF { get; set; }
+            public string? GoogleMapsUrl { get; set; }
+            /* BUSSINES FIELDS */
         }
 
         public record TokenRequest
