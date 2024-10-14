@@ -10,6 +10,7 @@ jobs:
     - run: "dotnet tool restore"
     - run: "dotnet restore"
     - run: "npm install"
+      working-directory: "./src/MeetApp.Frontend/"
     - run: "dotnet build --configuration ${{ matrix.configuration }}"
     - run: "dotnet format --verify-no-changes"
     - run: "dotnet test --configuration ${{ matrix.configuration }}"
