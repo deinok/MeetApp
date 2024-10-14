@@ -1,0 +1,9 @@
+{
+    "welcome_message": "Welcome, {{name}}!",
+    "search_placeholder": "Search by title or date",
+    "add_activity": "Add Activity",
+    "no_results": "No results found.",
+    "activity_date": "Date: {{date}}",
+    "activity_location": "Location: {{location}}"
+  }
+  

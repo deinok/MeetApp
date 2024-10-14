@@ -6,11 +6,16 @@ jobs:
     - uses: "actions/setup-dotnet@v4"
       with:
         global-json-file: "global.json"
+    - uses: "actions/setup-node@v4"
     - run: "dotnet tool restore"
     - run: "dotnet restore"
+    - run: "npm install"
+      working-directory: "./src/MeetApp.Frontend/"
     - run: "dotnet build --configuration ${{ matrix.configuration }}"
     - run: "dotnet format --verify-no-changes"
     - run: "dotnet test --configuration ${{ matrix.configuration }}"
+    - run: "npm run build"
+      working-directory: "./src/MeetApp.Frontend/"
     - run: "dotnet publish --configuration ${{ matrix.configuration }}"
     - uses: "actions/upload-artifact@v4"
       with:

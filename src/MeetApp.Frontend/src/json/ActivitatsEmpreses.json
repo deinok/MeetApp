@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "name": "ExempleAct1",
+      "details": "Exemple de descripció de l'activitat 1",
+      "date": "2024-10-15",
+      "location": "localització 1"
+    },
+    {
+      "id": 2,
+      "name": "ExempleActivitat2",
+      "details": "Exemple de descripció de l'activitat 2",
+      "date": "2024-10-22",
+      "location": "localització 2"
+    },
+    {
+      "id": 3,
+      "name": "ExempleActivitat3",
+      "details": "Exemple de descripció de l'activitat 3",
+      "date": "2024-11-05",
+      "location": "localització 3"
+    }
+  ]
+  

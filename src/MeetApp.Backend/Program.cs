@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 
 namespace MeetApp.Backend
@@ -33,14 +32,13 @@ namespace MeetApp.Backend
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
-            if (webApplication.Environment.IsDevelopment())
-            {
-                webApplication.UseSwagger();
-                webApplication.UseSwaggerUI();
-            }
+            webApplication.UseStaticFiles();
+            webApplication.UseSwagger();
+            webApplication.UseSwaggerUI();
             webApplication.UseHttpsRedirection();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
+            webApplication.MapFallbackToFile("index.html");
 
             {
                 using var asyncServiceScope = webApplication.Services.CreateAsyncScope();
