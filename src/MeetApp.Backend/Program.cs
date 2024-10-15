@@ -26,7 +26,8 @@ namespace MeetApp.Backend
                 {
                     jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
-            webApplicationBuilder.Services.AddCors(corsOptions => {
+            webApplicationBuilder.Services.AddCors(corsOptions =>
+            {
                 corsOptions.AddDefaultPolicy(corsPolicyBuilder =>
                 {
                     corsPolicyBuilder.AllowAnyHeader()
