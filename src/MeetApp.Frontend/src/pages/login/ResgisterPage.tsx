@@ -8,12 +8,12 @@ const { Title } = Typography;
 interface RegisterForm {
   email: string;
   password: string;
-  userType: number;
+  userType: string;
   city: string;
   profilePicture: string;
   bussinesName: string;
   bussinesAddress: string;
-  bussinesCategory: number;
+  bussinesCategory: string;
   cif: string;
   googleMapsUrl: string;
 }
@@ -87,6 +87,13 @@ export const RegisterPage = () => {
         <Form.Item
           label="Foto de Perfil (URL)"
           name="profilePicture"
+          rules={[{ required: true, message: 'Por favor ingrese la URL de su foto de perfil!' }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="userType"
+          name="userType"
           rules={[{ required: true, message: 'Por favor ingrese la URL de su foto de perfil!' }]}
         >
           <Input />
