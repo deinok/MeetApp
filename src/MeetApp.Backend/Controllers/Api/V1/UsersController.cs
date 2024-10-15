@@ -1,7 +1,6 @@
 ﻿using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +25,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
-    [DisableCors]
     [Route("/api/v1/users")]
     public class UsersController : ControllerBase
     {
@@ -99,7 +97,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 Email = registrationRequest.Email,
                 UserName = registrationRequest.Email,
                 Type = registrationRequest.UserType,
-                RegisterDateTime = registrationRequest.RegisterDateTime,
+                RegisterDateTime = DateTimeOffset.UtcNow,
                 City = registrationRequest.City,
                 ProfilePicture = registrationRequest.ProfilePicture,
                 BussinesName = registrationRequest.BussinesName,
@@ -178,7 +176,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required string Email { get; init; }
             public required string Password { get; init; }
             public required User.UserType UserType { get; init; }
-            public required DateTimeOffset RegisterDateTime { get; init; }
             public required string City { get; init; }
             public required string ProfilePicture { get; set; }
 

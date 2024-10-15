@@ -1,26 +1,28 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "C#: MeetApp.Backend",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/src/MeetApp.Backend/MeetApp.Backend.csproj"
-        },
-        {
-            "type": "node-terminal",
-            "name": "Node.js: MeetApp.Frontend",
-            "request": "launch",
-            "command": "npm run dev",
-            "cwd": "${workspaceFolder}/src/MeetApp.Frontend"
-        }
-    ],
-    "compounds": [
-        {
-          "name": "Server/Client",
-          "configurations": ["C#: MeetApp.Backend", "Node.js: MeetApp.Frontend"],
-        //   "preLaunchTask": "${defaultBuildTask}",
-          "stopAll": true
-        }
-      ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "MeetApp.Backend",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/src/MeetApp.Backend/MeetApp.Backend.csproj"
+    },
+    {
+      "type": "node-terminal",
+      "name": "MeetApp.Frontend",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/src/MeetApp.Frontend"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Server/Client",
+      "configurations": [
+        "MeetApp.Backend",
+        "MeetApp.Frontend"
+      ],
+      "stopAll": true
+    }
+  ]
 }
