@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MeetApp.Backend
@@ -20,7 +21,11 @@ namespace MeetApp.Backend
             webApplicationBuilder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer();
             webApplicationBuilder.Services.AddAuthorization();
-            webApplicationBuilder.Services.AddControllers();
+            webApplicationBuilder.Services.AddControllers()
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
             webApplicationBuilder.Services.AddCors(corsOptions => {
                 corsOptions.AddDefaultPolicy(corsPolicyBuilder =>
                 {
