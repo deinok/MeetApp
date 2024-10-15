@@ -1,6 +1,7 @@
 ﻿using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using static MeetApp.Database.Models.User;
 
 namespace MeetApp.Backend.Controllers.Api.V1
 {
@@ -26,6 +26,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
+    [DisableCors]
     [Route("/api/v1/users")]
     public class UsersController : ControllerBase
     {
@@ -184,7 +185,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             /* BUSSINES FIELDS */
             public string? BussinesName { get; set; }
             public string? BussinesAddress { get; set; }
-            public BussinesCategoryType BussinesCategory { get; set; }
+            public User.BussinesCategoryType BussinesCategory { get; set; }
             public string? CIF { get; set; }
             public string? GoogleMapsUrl { get; set; }
             /* BUSSINES FIELDS */
