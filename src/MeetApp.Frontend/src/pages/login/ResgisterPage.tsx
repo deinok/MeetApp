@@ -8,12 +8,12 @@ const { Title } = Typography;
 interface RegisterForm {
   email: string;
   password: string;
-  userType: 0;
+  userType: number;
   city: string;
   profilePicture: string;
   bussinesName: string;
   bussinesAddress: string;
-  bussinesCategory: 0;
+  bussinesCategory: number;
   cif: string;
   googleMapsUrl: string;
 }
@@ -22,13 +22,15 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm<RegisterForm>();
   const [isCompany, setIsCompany] = useState(false);
-  const url = "http://localhost:5000/api/v1/users/registration";
+  const url = "https://localhost:5001/api/v1/users/registration";
 
   const handleSubmit = async (values: RegisterForm) => {
     try {
       const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json' 
+        },
         body: JSON.stringify(values),
       });
       
