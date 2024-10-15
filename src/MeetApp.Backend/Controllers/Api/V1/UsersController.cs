@@ -98,7 +98,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 Email = registrationRequest.Email,
                 UserName = registrationRequest.Email,
                 Type = registrationRequest.UserType,
-                RegisterDateTime = registrationRequest.RegisterDateTime,
+                RegisterDateTime = DateTimeOffset.Now,
                 City = registrationRequest.City,
                 ProfilePicture = registrationRequest.ProfilePicture,
                 BussinesName = registrationRequest.BussinesName,
@@ -177,7 +177,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required string Email { get; init; }
             public required string Password { get; init; }
             public required User.UserType UserType { get; init; }
-            public required DateTimeOffset RegisterDateTime { get; init; }
             public required string City { get; init; }
             public required string ProfilePicture { get; set; }
 
