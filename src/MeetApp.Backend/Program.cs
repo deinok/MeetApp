@@ -21,6 +21,14 @@ namespace MeetApp.Backend
                 .AddJwtBearer();
             webApplicationBuilder.Services.AddAuthorization();
             webApplicationBuilder.Services.AddControllers();
+            webApplicationBuilder.Services.AddCors(corsOptions => {
+                corsOptions.AddDefaultPolicy(corsPolicyBuilder =>
+                {
+                    corsPolicyBuilder.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin();
+                });
+            });
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
             {
                 dbContextOptionsBuilder.EnableDetailedErrors();
@@ -45,10 +53,12 @@ namespace MeetApp.Backend
                 .AddEntityFrameworkStores<AppDbContext>();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
-            webApplication.UseStaticFiles();
             webApplication.UseSwagger();
             webApplication.UseSwaggerUI();
             webApplication.UseHttpsRedirection();
+            webApplication.UseStaticFiles();
+            webApplication.UseRouting();
+            webApplication.UseCors();
             webApplication.UseAuthentication();
             webApplication.UseAuthorization();
             webApplication.MapControllers();

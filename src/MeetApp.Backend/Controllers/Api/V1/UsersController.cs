@@ -26,7 +26,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
-    [DisableCors]
     [Route("/api/v1/users")]
     public class UsersController : ControllerBase
     {
