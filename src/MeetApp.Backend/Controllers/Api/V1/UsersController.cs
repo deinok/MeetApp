@@ -98,7 +98,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 Email = registrationRequest.Email,
                 UserName = registrationRequest.Email,
                 Type = registrationRequest.UserType,
-                RegisterDateTime = DateTimeOffset.Now,
+                RegisterDateTime = DateTimeOffset.UtcNow,
                 City = registrationRequest.City,
                 ProfilePicture = registrationRequest.ProfilePicture,
                 BussinesName = registrationRequest.BussinesName,
