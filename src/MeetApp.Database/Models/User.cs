@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeetApp.Database.Models
 {
@@ -32,6 +34,9 @@ namespace MeetApp.Database.Models
             Cinema = 2,
         }
         /* BUSSINES FIELDS */
+
+        [InverseProperty(nameof(Offer.Bussines))]
+        public virtual ICollection<Offer> Offers { get; set; } = [];
 
     }
 
