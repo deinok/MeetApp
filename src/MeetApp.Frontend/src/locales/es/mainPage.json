@@ -6,5 +6,6 @@
   "expiration_date": "Fecha de expiración",
   "add_offer": "Añadir oferta",
   "publish_button": "Publicar",
-  "cancel_button": "Cancelar"
+  "cancel_button": "Cancelar",
+  "format_date": "DD/MM/YYYY"
 }

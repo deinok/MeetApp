@@ -4,6 +4,7 @@
     "add_activity": "Add Activity",
     "no_results": "No results found.",
     "activity_date": "Date: {{date}}",
-    "activity_location": "Location: {{location}}"
+    "activity_location": "Location: {{location}}",
+    "format_date": "YYYY/MM/DD"
   }
   
