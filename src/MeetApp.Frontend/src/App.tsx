@@ -6,6 +6,7 @@ import { MainPage } from "./pages/main/MainPage";
 import { RegisterPage } from "./pages/login/ResgisterPage";
 import AppLayout from "./layout/MainLayout";
 import './i18n'; 
+import NoPermissionPage from "./pages/noPermissionPage/NoPermissionPage";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           </RequireAuth>
         }
       />
+      <Route path="*" element={<NoPermissionPage />} />
+
     </Routes>
   );
 }
