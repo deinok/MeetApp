@@ -58,7 +58,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             return Ok(userIds);
         }
 
-        private async Task<UserResponse> GetAsync( Guid id, CancellationToken cancellationToken = default)
+        private async Task<UserResponse> GetAsync(Guid id, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
             {
@@ -236,7 +236,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             [Required]
             public required string TokenType { get; init; }
 
-            public required UserResponse User {  get; init; }
+            public required UserResponse User { get; init; }
 
         }
 
