@@ -98,7 +98,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             _ = appDbContext.SaveChangesAsync(cancellationToken);
             return Ok();
         }
-  
+
     }
 
 }
