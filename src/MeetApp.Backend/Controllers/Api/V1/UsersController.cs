@@ -58,30 +58,31 @@ namespace MeetApp.Backend.Controllers.Api.V1
             return Ok(userIds);
         }
 
-
-        [HttpGet("{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType<UserResponse>(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAsync([FromRoute][Required] Guid id, CancellationToken cancellationToken = default)
+        private async Task<UserResponse> GetAsync(Guid id, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                throw new NotImplementedException();
             }
             var userId = id.ToString();
             var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound();
+                throw new NotImplementedException();
             }
-            return Ok(new UserResponse
+            return new UserResponse
             {
                 Email = user.Email,
                 Id = user.Id,
-            });
+                UserType = user.Type,
+                BussinesAddress = user.BussinesAddress,
+                BussinesCategory = user.BussinesCategory,
+                BussinesName = user.BussinesName,
+                CIF = user.CIF,
+                City = user.City,
+                GoogleMapsUrl = user.GoogleMapsUrl,
+                ProfilePicture = user.ProfilePicture,
+            };
         }
 
         [AllowAnonymous]
@@ -168,6 +169,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             {
                 AccessToken = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken),
                 TokenType = "Bearer",
+                User = await this.GetAsync(user.Id, cancellationToken),
             });
         }
 
@@ -234,6 +236,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
             [Required]
             public required string TokenType { get; init; }
 
+            public required UserResponse User { get; init; }
+
         }
 
         public record TokenResponseError
@@ -259,6 +263,18 @@ namespace MeetApp.Backend.Controllers.Api.V1
 
             [Required]
             public required Guid Id { get; init; }
+
+            public required User.UserType UserType { get; init; }
+            public required string City { get; init; }
+            public required string ProfilePicture { get; set; }
+
+            /* BUSSINES FIELDS */
+            public string? BussinesName { get; set; }
+            public string? BussinesAddress { get; set; }
+            public User.BussinesCategoryType BussinesCategory { get; set; }
+            public string? CIF { get; set; }
+            public string? GoogleMapsUrl { get; set; }
+            /* BUSSINES FIELDS */
 
         }
 
