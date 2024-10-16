@@ -8,8 +8,55 @@ body {
     align-items: center;
     height: 100vh;
   }
+  #root {
+    width: 100%;
+    align-items: center;
+    height: 100%;
+  }
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.banner {
+  background-color: rebeccapurple;
+  width: 50%;
+  height: 100vh;
+}
+.loginPagecontainer {
+  background-color: blue;
+  width: 50%;
+  height: 100vh;
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+.login-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.ant-form-item-label > label {
+  font-weight: bold;
+  color: #555;
+}
+
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+.ant-btn-primary:hover {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
   
-  .login-container {
+  /* .login-container {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 12px;
@@ -33,4 +80,4 @@ body {
     background-color: #40a9ff;
     border-color: #40a9ff;
   }
-  
+   */

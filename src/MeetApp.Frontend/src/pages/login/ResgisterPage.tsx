@@ -33,17 +33,19 @@ export const RegisterPage = () => {
         },
         body: JSON.stringify(values),
       });
-      
-      if (!response.ok) {
-        throw new Error('Error en el registro');
-      }
 
-      const data = await response.json();
-      message.success('Registro exitoso!');
-      console.log('Success:', data);
-      navigate('/login'); 
+      if (response.ok) {
+        message.success('Registro exitoso!');
+        navigate('/login');
+      } else if (response.status === 400) {
+        const errorData = await response.json();
+        message.error(`Error 400: ${errorData.message || 'Solicitud inválida, cosa de camps.'}`);
+      } else {
+        message.error('Error en el servidor');
+      }
+      
     } catch (error) {
-      message.error('Error en el registro, por favor intente de nuevo.');
+      message.error('Error en el registro');
       console.error('Error:', error);
     } 
   };
@@ -94,7 +96,7 @@ export const RegisterPage = () => {
         <Form.Item
           label="userType"
           name="userType"
-          rules={[{ required: true, message: 'Por favor ingrese la URL de su foto de perfil!' }]}
+          rules={[{ required: true, message: 'Por favor ingrese el tipo de usuario!' }]}
         >
           <Input />
         </Form.Item>
