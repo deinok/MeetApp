@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import type { DatePickerProps } from "antd";
 import { DatePicker, Space } from "antd";
 
+import dayjs from 'dayjs';
+
 interface Activity {
   id: number;
   name: string;
@@ -169,7 +171,7 @@ export const MainPage = () => {
               <Card.Meta title={activity.name} description={activity.details} />
               <p>
                 {" "}
-                {t("available_until", { expiration_date: activity.date || "" })}
+                {t("available_until", { expiration_date: dayjs(activity.date).format(t("format_date")) || "" })}
               </p>
               {/* <p> Ubicación: {activity.location }</p> */}
             </Card>
