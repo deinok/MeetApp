@@ -81,6 +81,24 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required string Title { get; init; }
         }
 
+
+        [AllowAnonymous]
+        [HttpDelete("{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+        {
+            var offer = await appDbContext.Offers.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+            if (offer == null)
+            {
+                return NotFound();
+            }
+            appDbContext.Offers.Remove(offer);
+            _ = appDbContext.SaveChangesAsync(cancellationToken);
+            return Ok();
+        }
+  
     }
 
 }
