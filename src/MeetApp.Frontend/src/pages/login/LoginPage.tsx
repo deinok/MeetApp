@@ -42,7 +42,7 @@ export const LoginPage = () => {
       if (response.ok && data.access_token) {
         signIn({
           token: data.access_token,
-          expiresIn: data.expires_inm,
+          expiresIn: data.expires_inm || 6000,
           tokenType: data.token_type,
           authState: {},
         });
