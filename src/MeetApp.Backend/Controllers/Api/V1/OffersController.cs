@@ -148,7 +148,33 @@ namespace MeetApp.Backend.Controllers.Api.V1
             _ = appDbContext.SaveChangesAsync(cancellationToken);
             return Ok();
         }
-
+        [AllowAnonymous]
+        [HttpPut("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<OfferCreateResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<OfferCreateResponse>(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody][Required] OfferUpdateRequest offerUpdateRequest, CancellationToken cancellationToken = default)
+        {
+            var offer = await appDbContext.Offers.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+            if (offer == null)
+            {
+                return NotFound();
+            }
+            offer.Description = offerUpdateRequest.Description;
+            offer.ExpirationDate = offerUpdateRequest.ExpirationDate;
+            offer.Tag = offerUpdateRequest.Tag;
+            offer.Title = offerUpdateRequest.Title;
+            _ = await appDbContext.SaveChangesAsync(cancellationToken);
+            return Ok();
+        }
+        public record OfferUpdateRequest
+        {
+            public required string Description { get; init; }
+            public required DateOnly ExpirationDate { get; init; }
+            public string? Tag { get; init; }
+            public required string Title { get; init; }
+        }
     }
 
 }
