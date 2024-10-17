@@ -5,15 +5,19 @@ import layoutEN from './locales/en/layout.json';
 import layoutES from './locales/es/layout.json';
 import mainpageEN from './locales/en/mainPage.json';
 import mainpageES from './locales/es/mainPage.json';
+import profilepageEN from './locales/en/profilePage.json';
+import profilepageES from './locales/es/profilePage.json';
 
 const resources = {
   en: {
     layout: layoutEN,  // Namespace para el layout
-    mainpage: mainpageEN // Namespace para MainPage
+    mainpage: mainpageEN, // Namespace para MainPage
+    profilepage: profilepageEN // Namespace para ProfilePage
   },
   es: {
     layout: layoutES,
-    mainpage: mainpageES
+    mainpage: mainpageES,
+    profilepage: profilepageES
   }
 };
 

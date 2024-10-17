@@ -5,7 +5,7 @@ import { Button, Col, Divider, Form, Input, Row } from "antd";
 import { Avatar } from "antd";
 import { AntDesignOutlined } from "@ant-design/icons";
 import profileData from "../../json/Perfil.json";
-
+import "./profilePage.css";
 
 interface RegisterForm {
   email: string;
@@ -13,28 +13,28 @@ interface RegisterForm {
   userType: string;
   city: string;
   profilePicture: string;
-  bussinesName: string;
-  bussinesAddress: string;
-  bussinesCategory: string;
+  businessName: string;
+  businessAddress: string;
+  businessCategory: string;
   cif: string;
   googleMapsUrl: string;
 }
 
 interface Profile {
-    email: string;
-    password: string;
-    userType: string;
-    city: string;
-    profilePicture: string;
-    bussinesName: string;
-    bussinesAddress: string;
-    bussinesCategory: string;
-    cif: string;
-    googleMapsUrl: string;
-  }
+  email: string;
+  password: string;
+  userType: string;
+  city: string;
+  profilePicture: string;
+  businessName: string;
+  businessAddress: string;
+  businessCategory: string;
+  cif: string;
+  googleMapsUrl: string;
+}
 
 export const ProfilePage = () => {
-  const { t } = useTranslation("profilePage");
+  const { t } = useTranslation("profilepage");
   const auth = useAuthUser();
   const [form] = Form.useForm<RegisterForm>();
   const [isCompany, setIsCompany] = useState(false);
@@ -44,55 +44,74 @@ export const ProfilePage = () => {
     setProfile(profileData);
   }, []);
 
-
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="profileContainer">
       {/* <div style={{ position: "fixed", top: "100px", left: "100px", zIndex: 10 }} > */}
-      <Divider orientation="center">Profile</Divider>
-      <Row align="middle" justify="center">
-        <Col flex="20%">
-          <Avatar
-            size={{ xs: 32, sm: 40, md: 64, lg: 80, xl: 100, xxl: 200 }}
-            src="https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png"
-          />
+      <Divider orientation="center">
+        <h1>{t("profile")}</h1>
+      </Divider>
+      <Row className="row-container" gutter={[16, 16]}>
+        <Col
+          xs={24} // Tamaño completo en pantallas pequeñas (móvil)
+          md={4} // 6 columnas en pantallas más grandes
+          className="profile-col"
+        >
+          <div className="profile-photo">
+            <Avatar
+              size={{ xs: 150, sm: 150, md: 100, lg: 120, xl: 140, xxl: 200 }}
+              src="https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png"
+              className="avatar-size"
+            />
+          </div>
         </Col>
-        <Divider
-          type="vertical"
-          style={{ borderColor: "#7cb305", height: "500px" }}
-          orientation="right"
-        ></Divider>
-        <Col flex="auto">
-          <div style={{ width: "80%" }}>
+        <Col
+          xs={24}
+          md={20} // Aproximadamente 80% en pantallas grandes
+          className="info-col"
+        >
+          <div className="info-fields">
             <Form form={form} layout="vertical">
-              <Form.Item label="Email" name="email">
-                <Input variant="filled" placeholder={profile?.email} disabled/>
+              <Form.Item label={t("business_name")} name="businessName">
+                <Input
+                  variant="filled"
+                  placeholder={profile?.businessName}
+                  disabled
+                />
+              </Form.Item>
+              <Form.Item label={t("email")} name="email">
+                <Input variant="filled" placeholder={profile?.email} disabled />
               </Form.Item>
 
-              <Form.Item label="Ciudad" name="city">
-              <Input variant="filled" placeholder={profile?.city} disabled/>
+              <Form.Item label={t("city")} name="city">
+                <Input variant="filled" placeholder={profile?.city} disabled />
               </Form.Item>
 
-              <Form.Item label="Foto de Perfil (URL)" name="profilePicture">
-                <Input variant="filled" placeholder={profile?.profilePicture} disabled/>
-              </Form.Item>
-              <Form.Item label="userType" name="userType">
-                <Input variant="filled" placeholder={profile?.userType} disabled/>
-              </Form.Item>
-
-              <Form.Item label="Nombre de la Empresa" name="bussinesName">
-                <Input variant="filled" placeholder={profile?.bussinesName} disabled/>
+              <Form.Item label={t("profile_picture")} name="profilePicture">
+                <Input
+                  variant="filled"
+                  placeholder={profile?.profilePicture}
+                  disabled
+                />
               </Form.Item>
 
-              <Form.Item label="Dirección de la Empresa" name="bussinesAddress">
-                <Input variant="filled" placeholder={profile?.bussinesAddress} disabled/>
+              <Form.Item label={t("cif")} name="businessCif">
+                <Input variant="filled" placeholder={profile?.cif} disabled />
               </Form.Item>
 
-              <Form.Item label="CIF de la Empresa" name="cif">
-                <Input variant="filled" placeholder={profile?.cif} disabled/>
+              <Form.Item label={t("business_address")} name="businessAdress">
+                <Input
+                  variant="filled"
+                  placeholder={profile?.businessAddress}
+                  disabled
+                />
               </Form.Item>
 
-              <Form.Item label="URL de Google Maps" name="googleMapsUrl">
-                <Input variant="filled" placeholder={profile?.googleMapsUrl} disabled/>
+              <Form.Item label={t("google_maps_url")} name="googleMapsUrl">
+                <Input
+                  variant="filled"
+                  placeholder={profile?.googleMapsUrl}
+                  disabled
+                />
               </Form.Item>
             </Form>
           </div>
