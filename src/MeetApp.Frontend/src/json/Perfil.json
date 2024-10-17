@@ -1,0 +1,12 @@
+{
+  "email": "mcdonaldscopador@gmail.com",
+  "password": "string",
+  "userType": "Undefined",
+  "city": "Lleida",
+  "profilePicture": "https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png",
+  "bussinesName": "McDonald's Copa d'Or",
+  "bussinesAddress": "Carrer Joaquin Costa, s/n, 25001 Lleida",
+  "bussinesCategory": "Restaurante",
+  "cif": "M1234567C",
+  "googleMapsUrl": "https://maps.app.goo.gl/QxUqGpbfY5RHcLSa6"
+}
