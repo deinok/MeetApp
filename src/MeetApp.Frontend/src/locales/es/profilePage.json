@@ -1,3 +1,11 @@
 {
-    
+    "profile": "Perfil",
+    "email": "Correo electrónico",
+    "city": "Ciudad",
+    "profile_picture": "Foto de perfil",
+    "business_name": "Nombre del negocio",
+    "business_address": "Dirección del negocio",
+    "business_category": "Categoría del negocio",
+    "cif": "CIF",
+    "google_maps_url": "URL de Google Maps"
 }
