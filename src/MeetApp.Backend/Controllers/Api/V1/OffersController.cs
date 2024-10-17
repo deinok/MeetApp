@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -62,6 +63,45 @@ namespace MeetApp.Backend.Controllers.Api.V1
             });
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ReadAsync(CancellationToken cancellationToken = default)
+        {
+            var result = await this.Read()
+                .ToListAsync(cancellationToken);
+            return this.Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ReadAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+        {
+            var result = await this.Read()
+                .Where(x => x.Id == id)
+                .ToListAsync(cancellationToken);
+            return this.Ok(result);
+        }
+
+        private IQueryable<OfferReadResponse> Read()
+        {
+            return this.appDbContext.Offers
+                .Select(x => new OfferReadResponse
+                {
+                    BussinesId = x.Bussines.Id,
+                    Description = x.Description,
+                    ExpirationDate = x.ExpirationDate,
+                    Id = x.Id,
+                    Tag = x.Tag,
+                    Title = x.Title,
+                });
+        }
+
         public record OfferCreateRequest
         {
             public required Guid BussinesId { get; init; }
@@ -72,6 +112,16 @@ namespace MeetApp.Backend.Controllers.Api.V1
         }
 
         public record OfferCreateResponse
+        {
+            public required Guid BussinesId { get; init; }
+            public required string Description { get; init; }
+            public required DateOnly ExpirationDate { get; init; }
+            public required Guid Id { get; init; }
+            public string? Tag { get; init; }
+            public required string Title { get; init; }
+        }
+
+        public record OfferReadResponse
         {
             public required Guid BussinesId { get; init; }
             public required string Description { get; init; }
