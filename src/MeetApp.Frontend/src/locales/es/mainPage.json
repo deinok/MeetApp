@@ -1,5 +1,5 @@
 {
-  "welcome_message": "¡Bienvenido, {{name}}!",
+  "welcome_message": "Mis Ofertas",
   "available_until": "Disponible hasta: {{expiration_date}}",
   "offer_title": "Título",
   "offer_desc": "Descripción",
