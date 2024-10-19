@@ -1,0 +1,15 @@
+.layout-container {
+    width: 100%;
+    height: 100%;
+}
+
+.main-content {
+    padding: 20px;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+
+.steps-card {
+    width: 500px;
+    margin-top: 20px;
+}

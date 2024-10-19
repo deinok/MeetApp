@@ -1,4 +1,5 @@
 import "./loginStyles.css";
+import LogoLogin from '../../img/logoWithWhiteLetters.png';
 import React, { useState } from 'react';
 import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +45,7 @@ export const LoginPage = () => {
           token: data.access_token,
           expiresIn: data.expires_inm || 6000,
           tokenType: data.token_type,
-          authState: {},
+          authState: { user: data.user },
         });
 
         message.success('Inicio de sesión exitoso!');
@@ -60,6 +61,7 @@ export const LoginPage = () => {
   return (
     <div className="container">
       <div className="banner">
+        <img className="logoLogin" src={LogoLogin} />
       </div>
       <div className="loginPagecontainer">
       <div className="login-container">

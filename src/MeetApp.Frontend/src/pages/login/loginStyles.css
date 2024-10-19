@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
+    background-color: #deebf8;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,13 +17,19 @@ body {
   display: flex;
   flex-direction: row;
 }
+.logoLogin {
+  width: 35em;
+}
 .banner {
-  background-color: rebeccapurple;
+  background-color: #34638a;
   width: 50%;
   height: 100vh;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.64);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .loginPagecontainer {
-  background-color: blue;
   width: 50%;
   height: 100vh;
   align-content: center;
@@ -34,11 +40,11 @@ body {
 }
 .login-container {
   background-color: #ffffff;
-  padding: 30px;
+  padding: 35px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   text-align: center;
 }
 .ant-form-item-label > label {
@@ -47,6 +53,7 @@ body {
 }
 
 .ant-btn-primary {
+  margin-top: 3em;
   background-color: #1890ff;
   border-color: #1890ff;
 }
@@ -55,29 +62,3 @@ body {
   background-color: #40a9ff;
   border-color: #40a9ff;
 }
-  
-  /* .login-container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-  }
-  
-  .ant-form-item-label > label {
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .ant-btn-primary {
-    background-color: #1890ff;
-    border-color: #1890ff;
-  }
-  
-  .ant-btn-primary:hover {
-    background-color: #40a9ff;
-    border-color: #40a9ff;
-  }
-   */
