@@ -2,7 +2,7 @@ import './MainLayoutStyles.css';
 import LogoLogin from '../img/logoWithWhiteLetters.png';
 import React, { useState } from 'react';
 import { Layout, Dropdown, Avatar, Divider, Space, Switch } from 'antd';
-import { useSignOut } from 'react-auth-kit';
+import { useAuthUser, useSignOut } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
@@ -15,9 +15,12 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { t } = useTranslation('layout');
+  const auth = useAuthUser();
   const signOut = useSignOut();
   const navigate = useNavigate();
   const [language, setLanguage] = useState('es');
+
+  const user = auth()?.user;
 
   const handleLogout = () => {
     signOut();
@@ -84,7 +87,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             </div>
         </div>
         <div className="header-right">
-          <p className="email-text">usuario@ejemplo.com</p>
+          <p className="email-text">{ user?.email || "correo@ejemplo.com"}</p>
           <Divider type="vertical" className="custom-divider" />
           <Dropdown menu={{ items }} placement="bottomRight" arrow={{ pointAtCenter: true }}>
             <Avatar

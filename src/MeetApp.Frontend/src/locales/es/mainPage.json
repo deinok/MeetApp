@@ -1,5 +1,5 @@
 {
-  "welcome_message": "Mis Ofertas",
+  "title": "Mis Ofertas",
   "available_until": "Disponible hasta: {{expiration_date}}",
   "offer_title": "Título",
   "offer_desc": "Descripción",
@@ -7,5 +7,5 @@
   "add_offer": "Añadir oferta",
   "publish_button": "Publicar",
   "cancel_button": "Cancelar",
-  "format_date": "DD/MM/YYYY"
+  "date_format": "DD/MM/YYYY"
 }
