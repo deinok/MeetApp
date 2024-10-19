@@ -1,0 +1,21 @@
+.offer-card {
+  .delete-button:hover {
+    color: red !important;
+  }
+}
+.card-container {
+    position: relative; /* Necesario para que el botón se posicione relativo a esta tarjeta */
+    width: 300px; /* Ajusta según el tamaño de tu Card */
+    margin: 20px;
+  }
+  
+  .overlay-tag {
+    position: absolute;
+    top: 10px;      /* Ajusta para sobresalir hacia arriba */
+    right: 2px;    /* Ajusta para sobresalir hacia la derecha */
+    z-index: 1;      /* Asegura que el botón esté encima de la tarjeta */
+    padding: 1px 5px;
+    border-radius: 50px;
+    width: 50px;
+    text-align: center;
+  }

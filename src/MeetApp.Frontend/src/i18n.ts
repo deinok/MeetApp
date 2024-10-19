@@ -7,17 +7,21 @@ import mainpageEN from './locales/en/mainPage.json';
 import mainpageES from './locales/es/mainPage.json';
 import profilepageEN from './locales/en/profilePage.json';
 import profilepageES from './locales/es/profilePage.json';
+import statspageES from './locales/es/statsPage.json';
+import statspageEN from './locales/en/statsPage.json';
 
 const resources = {
   en: {
     layout: layoutEN,  // Namespace para el layout
     mainpage: mainpageEN, // Namespace para MainPage
-    profilepage: profilepageEN // Namespace para ProfilePage
+    profilepage: profilepageEN, // Namespace para ProfilePage
+    statspage: statspageEN  // Namespace para StatsPage
   },
   es: {
     layout: layoutES,
     mainpage: mainpageES,
-    profilepage: profilepageES
+    profilepage: profilepageES,
+    statspage: statspageES
   }
 };
 
