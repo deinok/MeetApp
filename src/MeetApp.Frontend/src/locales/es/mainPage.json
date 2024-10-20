@@ -1,11 +1,3 @@
 {
-  "title": "Mis Ofertas",
-  "available_until": "Disponible hasta: {{expiration_date}}",
-  "offer_title": "Título",
-  "offer_desc": "Descripción",
-  "expiration_date": "Fecha de expiración",
-  "add_offer": "Añadir oferta",
-  "publish_button": "Publicar",
-  "cancel_button": "Cancelar",
-  "date_format": "DD/MM/YYYY"
+  "title": "Bienvenido, {{name}}"
 }

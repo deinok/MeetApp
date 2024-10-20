@@ -33,9 +33,11 @@
   margin: 0;
 }
 
-.logo-link {
+.logo-button {
   display: flex;
   align-items: center;
+  border-style: none;
+  background-color: transparent;
 }
 
 .logo {
@@ -54,6 +56,13 @@
   align-items: center;
   color: white;
   margin-left: 2em;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 a {

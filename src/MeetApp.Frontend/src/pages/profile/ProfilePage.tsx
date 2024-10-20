@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
-import { Button, Col, Divider, Form, Input, Row } from "antd";
-import { Avatar } from "antd";
-import { AntDesignOutlined } from "@ant-design/icons";
-import profileData from "../../json/Perfil.json";
+import { Col, Divider, Form, Input, Row, Avatar } from "antd";
 import "./profilePage.css";
 
 interface RegisterForm {
@@ -35,20 +32,14 @@ interface Profile {
 
 export const ProfilePage = () => {
   const { t } = useTranslation("profilepage");
-  const auth = useAuthUser();
+  const user = useAuthUser()()?.user;
   const [form] = Form.useForm<RegisterForm>();
-  const [isCompany, setIsCompany] = useState(false);
-  const [profile, setProfile] = useState<Profile>();
-
-  useEffect(() => {
-    setProfile(profileData);
-  }, []);
 
   return (
     <div className="profileContainer">
       {/* <div style={{ position: "fixed", top: "100px", left: "100px", zIndex: 10 }} > */}
       <Divider orientation="center">
-        <h1>{t("profile")}</h1>
+        <h1>{t("title")}</h1>
       </Divider>
       <Row className="row-container" gutter={[16, 16]}>
         <Col
@@ -74,34 +65,34 @@ export const ProfilePage = () => {
               <Form.Item label={t("business_name")} name="businessName">
                 <Input
                   variant="filled"
-                  placeholder={profile?.businessName}
+                  placeholder={user?.bussinesName}
                   disabled
                 />
               </Form.Item>
               <Form.Item label={t("email")} name="email">
-                <Input variant="filled" placeholder={profile?.email} disabled />
+                <Input variant="filled" placeholder={user?.email} disabled />
               </Form.Item>
 
               <Form.Item label={t("city")} name="city">
-                <Input variant="filled" placeholder={profile?.city} disabled />
+                <Input variant="filled" placeholder={user?.city} disabled />
               </Form.Item>
 
               <Form.Item label={t("profile_picture")} name="profilePicture">
                 <Input
                   variant="filled"
-                  placeholder={profile?.profilePicture}
+                  placeholder={user?.profilePicture}
                   disabled
                 />
               </Form.Item>
 
               <Form.Item label={t("cif")} name="businessCif">
-                <Input variant="filled" placeholder={profile?.cif} disabled />
+                <Input variant="filled" placeholder={user?.cif} disabled />
               </Form.Item>
 
               <Form.Item label={t("business_address")} name="businessAdress">
                 <Input
                   variant="filled"
-                  placeholder={profile?.businessAddress}
+                  placeholder={user?.bussinesAddress}
                   disabled
                 />
               </Form.Item>
@@ -109,7 +100,7 @@ export const ProfilePage = () => {
               <Form.Item label={t("google_maps_url")} name="googleMapsUrl">
                 <Input
                   variant="filled"
-                  placeholder={profile?.googleMapsUrl}
+                  placeholder={user?.googleMapsUrl}
                   disabled
                 />
               </Form.Item>

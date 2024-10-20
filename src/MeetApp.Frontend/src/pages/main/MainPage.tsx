@@ -1,15 +1,19 @@
 import React from "react";
 import { Layout, Divider, Card, Steps } from "antd";
 import "./MainPageStyles.css";
+import { useAuthUser } from "react-auth-kit";
+import { useTranslation } from "react-i18next";
 
 const { Content } = Layout;
 const { Step } = Steps;
 
 const MainPage: React.FC = () => {
+  const { t } = useTranslation("mainpage");
+  const user = useAuthUser()()?.user;
   return (
     <>
       <Divider>
-        <h1>Welcome, correoexemplo</h1>
+        <h1>{t("title", { name: user?.bussinesName })}</h1>
       </Divider>
       <Card
         className="steps-card"

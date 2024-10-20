@@ -1,0 +1,12 @@
+{
+  "title": "My Offers",
+  "available_until": "Available until: {{expiration_date}}",
+  "offer_title": "Title",
+  "offer_desc": "Description",
+  "expiration_date": "Expiration Date",
+  "add_offer": "Add Offer",
+  "publish_button": "Publish",
+  "cancel_button": "Cancel",
+  "date_format": "MM/DD/YYYY"
+  }
+  
