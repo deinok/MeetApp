@@ -1,7 +1,7 @@
 import './MainLayoutStyles.css';
 import LogoLogin from '../img/logoWithWhiteLetters.png';
 import React, { useState } from 'react';
-import { Layout, Dropdown, Avatar, Divider, Space, Switch } from 'antd';
+import { Layout, Dropdown, Avatar, Divider, Switch } from 'antd';
 import { useAuthUser, useSignOut } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

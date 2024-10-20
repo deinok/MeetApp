@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
-import { Button, Col, Divider, Form, Input, Row } from "antd";
-import { Avatar } from "antd";
-import { AntDesignOutlined } from "@ant-design/icons";
+import { Avatar, Col, Divider, Form, Input, Row } from "antd";
 import profileData from "../../json/Perfil.json";
 import "./profilePage.css";
 
