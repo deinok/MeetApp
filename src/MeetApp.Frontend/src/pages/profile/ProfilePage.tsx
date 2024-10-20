@@ -1,7 +1,8 @@
 import React from "react";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
-import { Col, Divider, Form, Input, Row, Avatar } from "antd";
+import { Avatar, Col, Divider, Form, Input, Row } from "antd";
+import profileData from "../../json/Perfil.json";
 import "./profilePage.css";
 
 interface RegisterForm {
