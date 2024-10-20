@@ -61,7 +61,7 @@ export const LoginPage = () => {
   return (
     <div className="container">
       <div className="banner">
-        <img className="logoLogin" src={LogoLogin} />
+        <img alt="logo" className="logoLogin" src={LogoLogin} />
       </div>
       <div className="loginPagecontainer">
       <div className="login-container">
