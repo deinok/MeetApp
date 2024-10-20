@@ -2,5 +2,8 @@
   "menu": "Menu",
   "profile": "Profile",
   "language": "Language",
-  "logout": "Log out"
+  "logout": "Logout",
+  "copyright": "© 2024 MeetApp. All rights reserved.",
+  "offers_section": "Offers",
+  "stats_section": "Statistics"
 }

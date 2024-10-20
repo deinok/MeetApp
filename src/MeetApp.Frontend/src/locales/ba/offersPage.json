@@ -1,0 +1,11 @@
+{
+  "title": "Moje Ponude",
+  "available_until": "Dostupno do: {{expiration_date}}",
+  "offer_title": "Naslov",
+  "offer_desc": "Opis",
+  "expiration_date": "Datum isteka",
+  "add_offer": "Dodaj ponudu",
+  "publish_button": "Objavi",
+  "cancel_button": "Otkaži",
+  "date_format": "DD/MM/YYYY"
+}

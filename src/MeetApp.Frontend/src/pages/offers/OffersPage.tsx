@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Input, Divider, message, Modal, Tag } from "antd";
-import { useAuthUser } from "react-auth-kit";
 import {
   SearchOutlined,
   PlusOutlined,
@@ -22,14 +21,11 @@ interface Offer {
 }
 
 export const OffersPage = () => {
-  const { t } = useTranslation("mainpage");
-  const auth = useAuthUser();
+  const { t } = useTranslation("offerspage");
   const [offers, setOffers] = useState<Offer[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOffers, setFilteredOffers] = useState<Offer[]>([]);
   const [visible, setVisible] = useState(false);
-
-  const user = auth()?.user;
 
   const url = "https://localhost:5001/api/v1/offers";
 
@@ -111,7 +107,7 @@ export const OffersPage = () => {
       >
         {filteredOffers.length > 0 ? (
           filteredOffers.map((offer) => (
-            <div className="card-container">
+            <div className="card-container" key={offer.id}>
               <Tag color="#34638a" className="overlay-tag">
                 {offer.tag}
               </Tag>
@@ -136,9 +132,11 @@ export const OffersPage = () => {
                 />
                 <p>
                   {t("available_until", {
-                    expiration_date: dayjs(offer.expirationDate).format(t("date_format")),
+                    expiration_date: dayjs(offer.expirationDate).format(
+                      t("date_format")
+                    ),
                   })}
-                </p>  
+                </p>
               </Card>
             </div>
           ))
