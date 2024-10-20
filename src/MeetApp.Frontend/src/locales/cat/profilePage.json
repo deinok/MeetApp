@@ -1,0 +1,11 @@
+{
+  "title": "Perfil",
+  "email": "Correu electrònic",
+  "city": "Ciutat",
+  "profile_picture": "Foto de perfil",
+  "business_name": "Nom de l'empresa",
+  "business_address": "Adreça de l'empresa",
+  "business_category": "Categoria de l'empresa",
+  "cif": "CIF",
+  "google_maps_url": "URL de Google Maps"
+}

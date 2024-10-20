@@ -1,1 +1,11 @@
-{}
+{
+  "title": "Profile",
+  "email": "Email",
+  "city": "City",
+  "profile_picture": "Profile Picture",
+  "business_name": "Business Name",
+  "business_address": "Business Address",
+  "business_category": "Business Category",
+  "cif": "CIF",
+  "google_maps_url": "Google Maps URL"
+}

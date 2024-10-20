@@ -1,0 +1,11 @@
+{
+  "title": "Profil",
+  "email": "Email",
+  "city": "Grad",
+  "profile_picture": "Profilna Slika",
+  "business_name": "Naziv Poslovanja",
+  "business_address": "Poslovna Adresa",
+  "business_category": "Kategorija Poslovanja",
+  "cif": "CIF",
+  "google_maps_url": "Google Maps URL"
+}

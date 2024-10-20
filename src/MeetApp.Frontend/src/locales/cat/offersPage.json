@@ -1,0 +1,11 @@
+{
+  "title": "Les Meves Ofertes",
+  "available_until": "Disponible fins: {{expiration_date}}",
+  "offer_title": "Títol",
+  "offer_desc": "Descripció",
+  "expiration_date": "Data de caducitat",
+  "add_offer": "Afegir oferta",
+  "publish_button": "Publicar",
+  "cancel_button": "Cancel·lar",
+  "date_format": "DD/MM/YYYY"
+}
