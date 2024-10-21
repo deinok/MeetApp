@@ -1,6 +1,6 @@
 {
-  "title": "Moje Ponude",
-  "available_until": "Dostupno do: {{expiration_date}}",
+  "title": "Moje ponude",
+  "available_until": "Vrijedi do: {{expiration_date}}",
   "offer_title": "Naslov",
   "offer_desc": "Opis",
   "expiration_date": "Datum isteka",
