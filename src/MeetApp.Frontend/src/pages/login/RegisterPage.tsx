@@ -2,6 +2,7 @@ import "./RegisterPage.css";
 import React, { useState } from 'react';
 import { Form, Input, Button, Typography, Checkbox, CheckboxProps, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from "../../configs/GenetalApiType";
 
 const { Title } = Typography;
 
@@ -22,7 +23,7 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm<RegisterForm>();
   const [isCompany, setIsCompany] = useState(false);
-  const url = "https://localhost:5001/api/v1/users/registration";
+  const url = `>${BASE_URL}/api/v1/users/registration`;
 
   const handleSubmit = async (values: RegisterForm) => {
     try {
