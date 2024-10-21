@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, DatePicker, Button } from "antd";
+import { Form, Input, DatePicker, Button, DatePickerProps } from "antd";
 import dayjs from "dayjs";
 
 interface EditOfferFormProps {
@@ -15,6 +15,19 @@ interface EditOfferFormProps {
 }
 
 export const EditOfferForm: React.FC<EditOfferFormProps> = ({ offer, onSubmit, onCancel, t }) => {
+
+  const onChangeCalendar: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
+  const { TextArea } = Input;
+
+  const onChangeDesc = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    console.log("Change:", e.target.value);
+  };
+  
   return (
     <Form
       initialValues={{
@@ -25,44 +38,59 @@ export const EditOfferForm: React.FC<EditOfferFormProps> = ({ offer, onSubmit, o
       }}
       onFinish={onSubmit}
     >
-      <Form.Item
-        label={t("title")}
-        name="title"
-        rules={[{ required: true, message: t("Please input the title!") }]}
+<Form.Item
+        name="offer_title"
+        label={t("offer_title")}
+        rules={[{ required: true, message: t("Please enter the name") }]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item
-        label={t("description")}
-        name="description"
-        rules={[{ required: true, message: t("Please input the description!") }]}
+        name="offer_desc"
+        label={t("offer_desc")}
+        rules={[{ required: true, message: t("Please enter the details") }]}
       >
-        <Input />
+        <TextArea
+          showCount
+          maxLength={100}
+          onChange={onChangeDesc}
+          placeholder=""
+          style={{ height: 120, resize: "none" }}
+        />
       </Form.Item>
 
       <Form.Item
+        name="expiration_date"
         label={t("expiration_date")}
-        name="expirationDate"
-        rules={[{ required: true, message: t("Please input the expiration date!") }]}
+        rules={[{ required: true, message: t("Please enter the date") }]}
       >
-        <DatePicker />
+        <DatePicker
+          format="YYYY-MM-DD"
+          onChange={onChangeCalendar}
+          placeholder=""
+          style={{ width: "100%" }}
+        />
       </Form.Item>
 
       <Form.Item
-        label={t("tag")}
-        name="tag"
-        rules={[{ required: true, message: t("Please input the tag!") }]}
+        name="offer_tag"
+        label={t("Tag")}
+        rules={[{ required: true, message: t("Please enter or select a tag") }]}
       >
-        <Input />
+        <Input placeholder={t("Enter a tag")} />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          {t("save")}
+          {t("publish_button")}
         </Button>
-        <Button onClick={onCancel} style={{ marginLeft: 8 }}>
-          {t("cancel")}
+        <Button
+          type="default"
+          onClick={onCancel}
+          style={{ marginLeft: "8px" }}
+        >
+          {t("cancel_button")}
         </Button>
       </Form.Item>
     </Form>

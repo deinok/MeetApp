@@ -1,10 +1,11 @@
 import React from "react";
-import { Form, Input, Button, DatePicker, message } from "antd";
+import { Form, Input, Button, DatePicker, message, Select } from "antd";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs"; 
 
 import type { DatePickerProps } from "antd";
 import { useAuthUser } from "react-auth-kit";
+import { BASE_URL } from "../../../configs/GenetalApiType";
 
 interface AddActivityFormProps {
   onClose: () => void; 
@@ -16,7 +17,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({ onClose }) => 
   const user = auth();
   
 
-  const url = "https://localhost:5001/api/v1/offers";
+  const url = `${BASE_URL}/api/v1/offers`;
 
   const handleSubmit = async (values: any) => {
     const data = {

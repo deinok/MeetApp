@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { AddActivityForm } from "./components/AddactivityForm";
 import { EditOfferForm } from "./components/EditOfferForm";
 import "./offersPage.css";
+import { BASE_URL } from "../../configs/GenetalApiType";
 
 interface Offer {
   id: string;
@@ -32,7 +33,7 @@ export const OffersPage = () => {
   const [editVisible, setEditVisible] = useState(false);
   const [editingOffer, setEditingOffer] = useState<Offer | null>(null);
 
-  const url = "https://localhost:5001/api/v1/offers";
+  const url = `${BASE_URL}/api/v1/offers`;
 
   const fetchOffers = async () => {
     try {
