@@ -32,7 +32,10 @@ namespace MeetApp.Backend
                 {
                     corsPolicyBuilder.AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowAnyOrigin();
+                        .WithOrigins("http://localhost:5000")
+                        .WithOrigins("https://localhost:5001")
+                        .WithOrigins("http://localhost:5173")
+                        .WithOrigins("https://meet-app-udl.azurewebsites.net");
                 });
             });
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
