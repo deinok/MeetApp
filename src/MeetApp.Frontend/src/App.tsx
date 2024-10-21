@@ -2,7 +2,7 @@ import React from "react";
 import { RequireAuth } from "react-auth-kit";
 import { Route, Routes } from "react-router-dom";
 import { LoginPage } from "./pages/login/LoginPage";
-import { RegisterPage } from "./pages/login/ResgisterPage";
+import { RegisterPage } from "./pages/login/RegisterPage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
 import AppLayout from "./layout/MainLayout";
 import './i18n'; 
