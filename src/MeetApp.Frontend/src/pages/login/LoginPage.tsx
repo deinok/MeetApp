@@ -4,13 +4,14 @@ import React, { useState } from 'react';
 import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Typography, message } from 'antd';
+import { BASE_URL } from "../../configs/GenetalApiType";
 
 const { Title } = Typography;
 
 export const LoginPage = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
-  const url = "https://localhost:5001/api/v1/users/token";
+  const url = `${BASE_URL}/api/v1/users/token`;
 
   const [credentials, setCredentials] = useState({
     username: "",
