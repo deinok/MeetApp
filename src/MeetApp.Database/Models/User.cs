@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeetApp.Database.Models
 {
+    
 
     public class User : IdentityUser<Guid>
     {
