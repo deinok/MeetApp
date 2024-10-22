@@ -1,4 +1,4 @@
-// src/pages/OffersPage.tsx
+import PlaceHolderImg from '../../img/placeholder300x300.png';
 import React, { useEffect, useState } from "react";
 import { Button, Card, Input, Divider, message, Modal, Tag, Tooltip, Form } from "antd";
 import {
@@ -252,6 +252,7 @@ export const OffersPage = () => {
                         left: 10,
                         color: 'red',
                         fontSize: '24px',
+                        zIndex: 100
                       }}
                     />
                   ) : (
@@ -262,6 +263,7 @@ export const OffersPage = () => {
                         left: 10,
                         color: 'green',
                         fontSize: '24px',
+                        zIndex: 100
                       }}
                     />
                   )}
@@ -278,7 +280,7 @@ export const OffersPage = () => {
                   cover={
                     <img
                       alt={offer.title}
-                      src="https://via.placeholder.com/300"
+                      src={PlaceHolderImg}
                     />
                   }
                   actions={[

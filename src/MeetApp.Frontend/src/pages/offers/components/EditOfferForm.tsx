@@ -3,6 +3,8 @@ import React from "react";
 import { Form, Input, DatePicker, Button } from "antd";
 import dayjs from "dayjs";
 
+
+
 interface EditOfferFormProps {
   offer: {
     title: string;
@@ -15,8 +17,14 @@ interface EditOfferFormProps {
   t: (key: string) => string;
   form: any; 
 }
+const onChangeDesc = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  console.log("Change:", e.target.value);
+};
 
 export const EditOfferForm: React.FC<EditOfferFormProps> = ({ offer, onSubmit, onCancel, t, form }) => {
+  const { TextArea } = Input;
 
   const handleCancel = () => {
     form.resetFields();  
@@ -33,6 +41,7 @@ export const EditOfferForm: React.FC<EditOfferFormProps> = ({ offer, onSubmit, o
         tag: offer.tag
       }}
       onFinish={onSubmit}
+      layout="vertical"
     >
       <Form.Item
         label={t("title")}
@@ -47,7 +56,13 @@ export const EditOfferForm: React.FC<EditOfferFormProps> = ({ offer, onSubmit, o
         name="description"
         rules={[{ required: true, message: t("Please input the description!") }]}
       >
-        <Input />
+        <TextArea
+          showCount
+          maxLength={100}
+          onChange={onChangeDesc}
+          placeholder=""
+          style={{ height: 120, resize: "none" }}
+        />
       </Form.Item>
 
       <Form.Item
@@ -68,10 +83,10 @@ export const EditOfferForm: React.FC<EditOfferFormProps> = ({ offer, onSubmit, o
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          {t("save")}
+          {t("publish_button")}
         </Button>
         <Button onClick={handleCancel} style={{ marginLeft: 8 }}>
-          {t("cancel")}
+          {t("cancel_button")}
         </Button>
       </Form.Item>
     </Form>

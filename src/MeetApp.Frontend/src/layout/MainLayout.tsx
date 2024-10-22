@@ -42,7 +42,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     i18n.changeLanguage(lang);
   };
 
-  // Retrieve language from localStorage when the component mounts
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language");
     if (savedLanguage) {
