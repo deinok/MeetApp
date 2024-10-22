@@ -8,5 +8,6 @@
   "publish_button": "Publicar",
   "cancel_button": "Cancelar",
   "date_format": "DD/MM/YYYY",
-  "edit_offer": "Editar oferta"
+  "edit_offer": "Editar oferta", 
+  "search_placeholder": "Buscar"
 }

@@ -8,5 +8,6 @@
   "publish_button": "Objavi",
   "cancel_button": "Otkaži",
   "date_format": "DD/MM/YYYY",
-  "edit_offer": "Uredi ponudu"
+  "edit_offer": "Uredi ponudu",
+  "search_placeholder": "Pretraži"
 }
