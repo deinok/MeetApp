@@ -7,5 +7,6 @@
   "add_offer": "Dodaj ponudu",
   "publish_button": "Objavi",
   "cancel_button": "Otkaži",
-  "date_format": "DD/MM/YYYY"
+  "date_format": "DD/MM/YYYY",
+  "edit_offer": "Uredi ponudu"
 }
