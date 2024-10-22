@@ -1,5 +1,6 @@
+// src/pages/OffersPage.tsx
 import React, { useEffect, useState } from "react";
-import { Button, Card, Input, Divider, message, Modal, Tag, Tooltip } from "antd";
+import { Button, Card, Input, Divider, message, Modal, Tag, Tooltip, Form } from "antd";
 import {
   SearchOutlined,
   PlusOutlined,
@@ -32,6 +33,7 @@ export const OffersPage = () => {
   const [visible, setVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
   const [editingOffer, setEditingOffer] = useState<Offer | null>(null);
+  const [form] = Form.useForm();
 
   const url = `${BASE_URL}/api/v1/offers`;
 
@@ -69,6 +71,7 @@ export const OffersPage = () => {
   };
 
   const handleEditCancel = () => {
+    form.resetFields(); 
     setEditVisible(false);
     setEditingOffer(null);
   };
@@ -76,6 +79,12 @@ export const OffersPage = () => {
   const handleEditOffer = (offer: Offer) => {
     setEditingOffer(offer);
     setEditVisible(true);
+    form.setFieldsValue({
+      title: offer.title,
+      description: offer.description,
+      expirationDate: dayjs(offer.expirationDate),
+      tag: offer.tag,
+    });
   };
 
   const handleDeleteOffer = async (id: string) => {
@@ -166,7 +175,7 @@ export const OffersPage = () => {
 
       <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
         <Input
-          placeholder="Buscar por título o fecha"
+          placeholder={t("search_placeholder")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           prefix={<SearchOutlined />}
@@ -207,6 +216,7 @@ export const OffersPage = () => {
             onSubmit={submitEdit}
             onCancel={handleEditCancel}
             t={t}
+            form={form}
           />
         )}
       </Modal>
@@ -242,7 +252,6 @@ export const OffersPage = () => {
                         left: 10,
                         color: 'red',
                         fontSize: '24px',
-                        zIndex: 100
                       }}
                     />
                   ) : (
@@ -253,7 +262,6 @@ export const OffersPage = () => {
                         left: 10,
                         color: 'green',
                         fontSize: '24px',
-                        zIndex: 100
                       }}
                     />
                   )}
