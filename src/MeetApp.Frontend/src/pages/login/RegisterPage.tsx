@@ -23,7 +23,7 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm<RegisterForm>();
   const [isCompany, setIsCompany] = useState(false);
-  const url = `>${BASE_URL}/api/v1/users/registration`;
+  const url = `${BASE_URL}/api/v1/users/registration`;
 
   const handleSubmit = async (values: RegisterForm) => {
     try {
