@@ -12,7 +12,7 @@ interface AddActivityFormProps {
 }
 
 export const AddActivityForm: React.FC<AddActivityFormProps> = ({ onClose }) => {
-  const { t } = useTranslation("mainpage");
+  const { t } = useTranslation("offerspage");
   const auth = useAuthUser();
   const user = auth();
   
