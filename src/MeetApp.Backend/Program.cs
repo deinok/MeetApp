@@ -39,7 +39,8 @@ namespace MeetApp.Backend
                         .WithOrigins("https://meet-app-udl.azurewebsites.net");
                 });
             });
-            webApplicationBuilder.Services.AddAzureClients(azureClientFactoryBuilder => {
+            webApplicationBuilder.Services.AddAzureClients(azureClientFactoryBuilder =>
+            {
                 azureClientFactoryBuilder.AddTextTranslationClient(new Azure.AzureKeyCredential("9H6l2PugYKvRYiyyJZdgOBA6fcdallj6T1UOrA7TGDWx1AE5fY0xJQQJ99AJACi5YpzXJ3w3AAAbACOGtfM1"));
             });
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
