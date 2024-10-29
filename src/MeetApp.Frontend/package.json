@@ -1,15 +1,17 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "meetuppapp",
   "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
+    "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@microsoft/signalr": "^8.0.7",
     "antd": "^5.21.2",
     "dayjs": "^1.11.13",
     "i18next": "^23.16.0",
