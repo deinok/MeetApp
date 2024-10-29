@@ -1,3 +1,4 @@
+using Azure;
 using MeetApp.Backend.Hubs;
 using MeetApp.Database;
 using MeetApp.Database.Models;
@@ -42,7 +43,7 @@ namespace MeetApp.Backend
             });
             webApplicationBuilder.Services.AddAzureClients(azureClientFactoryBuilder =>
             {
-                azureClientFactoryBuilder.AddTextTranslationClient(new Azure.AzureKeyCredential("9H6l2PugYKvRYiyyJZdgOBA6fcdallj6T1UOrA7TGDWx1AE5fY0xJQQJ99AJACi5YpzXJ3w3AAAbACOGtfM1"));
+                azureClientFactoryBuilder.AddTextTranslationClient(new AzureKeyCredential("8ebt66gh4yJVIzAqARG02ZimwOgI4MY9AZdXGS5WaaDq85uENnzrJQQJ99AJAC5RqLJXJ3w3AAAbACOGa2xD"), "westeurope");
             });
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
             {
