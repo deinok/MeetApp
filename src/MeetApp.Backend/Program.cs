@@ -85,7 +85,5 @@ namespace MeetApp.Backend
 
             await webApplication.RunAsync();
         }
-
     }
-
 }
