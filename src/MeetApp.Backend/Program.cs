@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
@@ -38,6 +39,10 @@ namespace MeetApp.Backend
                         .WithOrigins("http://localhost:5173")
                         .WithOrigins("https://meet-app-udl.azurewebsites.net");
                 });
+            });
+            webApplicationBuilder.Services.AddAzureClients(azureClientFactoryBuilder =>
+            {
+                azureClientFactoryBuilder.AddTextTranslationClient(new Azure.AzureKeyCredential("9H6l2PugYKvRYiyyJZdgOBA6fcdallj6T1UOrA7TGDWx1AE5fY0xJQQJ99AJACi5YpzXJ3w3AAAbACOGtfM1"));
             });
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
             {
@@ -84,7 +89,5 @@ namespace MeetApp.Backend
 
             await webApplication.RunAsync();
         }
-
     }
-
 }

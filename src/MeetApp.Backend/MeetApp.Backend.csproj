@@ -5,7 +5,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Azure.AI.Translation.Text" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.Extensions.Azure" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
