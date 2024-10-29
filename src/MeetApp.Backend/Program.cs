@@ -1,3 +1,4 @@
+using MeetApp.Backend.Hubs;
 using MeetApp.Database;
 using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,6 +61,7 @@ namespace MeetApp.Backend
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<AppDbContext>();
+            webApplicationBuilder.Services.AddSignalR();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
             webApplication.UseSwagger();
@@ -71,6 +73,7 @@ namespace MeetApp.Backend
             webApplication.UseAuthentication();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
+            webApplication.MapHub<ChatHub>("/hubs/chat-hub");
             webApplication.MapFallbackToFile("index.html");
 
             {
