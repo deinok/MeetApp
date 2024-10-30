@@ -1,8 +1,7 @@
-// src/App.js
 import React from "react";
 import { RequireAuth } from "react-auth-kit";
 import { Route, Routes } from "react-router-dom";
-import { isMobile } from "react-device-detect";
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import { LoginPage } from "./pages/login/LoginPage";
 import { RegisterPage } from "./pages/login/RegisterPage";
 import AppLayout from "./layout/MainLayout";
@@ -15,6 +14,8 @@ import StatsPage from "./pages/stats/statsPage";
 const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
 function App() {
+  console.log("isMobile", isMobile);
+  console.log("ios", isBrowser);
   return (
     <Routes>
       <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
