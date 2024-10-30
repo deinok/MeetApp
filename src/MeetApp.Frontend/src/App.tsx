@@ -14,8 +14,6 @@ import StatsPage from "./pages/stats/statsPage";
 const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
 function App() {
-  console.log("isMobile", isMobile);
-  console.log("ios", isBrowser);
   return (
     <Routes>
       <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
