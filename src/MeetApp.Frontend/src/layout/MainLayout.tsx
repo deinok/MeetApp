@@ -1,19 +1,16 @@
 import "./MainLayoutStyles.css";
 import LogoLogin from "../img/logoWithWhiteLetters.png";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Layout,
   Dropdown,
   Avatar,
   Divider,
-  Radio,
-  RadioChangeEvent,
 } from "antd";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
-import ReactCountryFlag from "react-country-flag";
+import { LanguageSelector } from "../components/LanguageSelector";
 
 const { Header, Content, Footer } = Layout;
 
@@ -26,29 +23,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const auth = useAuthUser();
   const signOut = useSignOut();
   const navigate = useNavigate();
-  const [language, setLanguage] = useState("es");
-
   const user = auth()?.user;
 
   const handleLogout = () => {
     signOut();
     navigate("/login");
   };
-
-  const handleLanguageChange = (e: RadioChangeEvent) => {
-    const lang = e.target.value;
-    setLanguage(lang);
-    localStorage.setItem("language", lang);
-    i18n.changeLanguage(lang);
-  };
-
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem("language");
-    if (savedLanguage) {
-      setLanguage(savedLanguage);
-      i18n.changeLanguage(savedLanguage);
-    }
-  }, []);
 
   const handleLogoClick = () => {
     navigate("/");
@@ -64,23 +44,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       label: (
         <div>
           <span>{t("language")}: </span>
-          <Radio.Group value={language} onChange={handleLanguageChange}>
-            <Radio.Button value="es">
-              <ReactCountryFlag countryCode="ES" svg />
-            </Radio.Button>
-            <Radio.Button value="en">
-              <ReactCountryFlag countryCode="US" svg />
-            </Radio.Button>
-            <Radio.Button value="ba">
-              <ReactCountryFlag countryCode="BA" svg />
-            </Radio.Button>
-          </Radio.Group>
-          {/* <Switch
-            checked={language === "en"}
-            onChange={handleLanguageChange}
-            checkedChildren="EN"
-            unCheckedChildren="ES"
-          /> */}
+          <LanguageSelector />
         </div>
       ),
     },

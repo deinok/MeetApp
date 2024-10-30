@@ -1,0 +1,12 @@
+{
+  "title": "Login",
+  "login_success": "Login successful!",
+  "login_error": "Error logging in",
+  "invalid_credentials": "Invalid credentials",
+  "register_link": "Don't have an account? Register here",
+  "password_required": "Please enter the password!",
+  "user_required": "Please enter the username!",
+  "user_label": "Username",
+  "password_label": "Password",
+  "login_button": "Login"
+}
