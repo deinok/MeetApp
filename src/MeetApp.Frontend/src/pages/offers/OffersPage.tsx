@@ -1,6 +1,16 @@
-import PlaceHolderImg from '../../img/placeholder300x300.png';
+import PlaceHolderImg from "../../img/placeholder300x300.png";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Input, Divider, message, Modal, Tag, Tooltip, Form } from "antd";
+import {
+  Button,
+  Card,
+  Input,
+  Divider,
+  message,
+  Modal,
+  Tag,
+  Tooltip,
+  Form,
+} from "antd";
 import {
   SearchOutlined,
   PlusOutlined,
@@ -8,6 +18,7 @@ import {
   DeleteOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
@@ -71,7 +82,7 @@ export const OffersPage = () => {
   };
 
   const handleEditCancel = () => {
-    form.resetFields(); 
+    form.resetFields();
     setEditVisible(false);
     setEditingOffer(null);
   };
@@ -98,7 +109,9 @@ export const OffersPage = () => {
           });
           if (response.ok) {
             message.success(t("Offer deleted successfully"));
-            setOffers((prevOffers) => prevOffers.filter((offer) => offer.id !== id));
+            setOffers((prevOffers) =>
+              prevOffers.filter((offer) => offer.id !== id)
+            );
             setFilteredOffers((prevFiltered) =>
               prevFiltered.filter((offer) => offer.id !== id)
             );
@@ -164,7 +177,7 @@ export const OffersPage = () => {
   };
 
   const isExpired = (expirationDate: string) => {
-    return dayjs(expirationDate).isBefore(dayjs(), 'day');
+    return dayjs(expirationDate).isBefore(dayjs(), "day");
   };
 
   return (
@@ -235,35 +248,37 @@ export const OffersPage = () => {
             const expired = isExpired(offer.expirationDate);
             return (
               <div
-                className={`card-container ${expired ? 'expired' : 'valid'}`}
+                className={`card-container ${expired ? "expired" : "valid"}`}
                 key={offer.id}
                 style={{
-                  filter: expired ? 'grayscale(100%)' : 'none',
-                  backgroundColor: expired ? '#f0f0f0' : '#fff',
-                  position: 'relative',
+                  filter: expired ? "grayscale(100%)" : "none",
+                  backgroundColor: expired ? "#f0f0f0" : "#fff",
+                  position: "relative",
                 }}
               >
-                <Tooltip title={expired ? t("Offer expired") : t("Offer valid")}>
+                <Tooltip
+                  title={expired ? t("Offer expired") : t("Offer valid")}
+                >
                   {expired ? (
                     <CloseCircleOutlined
                       style={{
-                        position: 'absolute',
+                        position: "absolute",
                         top: 10,
                         left: 10,
-                        color: 'red',
-                        fontSize: '24px',
-                        zIndex: 100
+                        color: "red",
+                        fontSize: "24px",
+                        zIndex: 100,
                       }}
                     />
                   ) : (
                     <CheckCircleOutlined
                       style={{
-                        position: 'absolute',
+                        position: "absolute",
                         top: 10,
                         left: 10,
-                        color: 'green',
-                        fontSize: '24px',
-                        zIndex: 100
+                        color: "green",
+                        fontSize: "24px",
+                        zIndex: 100,
                       }}
                     />
                   )}
@@ -276,15 +291,12 @@ export const OffersPage = () => {
                 <Card
                   className="offer-card"
                   key={offer.id}
-                  style={{ width: 300 }}
-                  cover={
-                    <img
-                      alt={offer.title}
-                      src={PlaceHolderImg}
-                    />
-                  }
+                  cover={<img alt={offer.title} src={PlaceHolderImg} />}
                   actions={[
-                    <EditOutlined key="edit" onClick={() => handleEditOffer(offer)} />,
+                    <EditOutlined
+                      key="edit"
+                      onClick={() => handleEditOffer(offer)}
+                    />,
                     <DeleteOutlined
                       key="delete"
                       className="delete-button"
@@ -296,7 +308,8 @@ export const OffersPage = () => {
                     title={offer.title}
                     description={offer.description}
                   />
-                  <p>
+                  <p style={{ marginTop: "40px", marginBottom: "-10px" }}>
+                    <ClockCircleOutlined style={{ marginRight: "10px" }} />
                     {t("available_until", {
                       expiration_date: dayjs(offer.expirationDate).format(
                         t("date_format")
