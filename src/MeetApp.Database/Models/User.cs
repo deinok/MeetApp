@@ -34,8 +34,12 @@ namespace MeetApp.Database.Models
         }
         /* BUSSINES FIELDS */
 
+        [InverseProperty(nameof(Activity.Owner))]
+        public virtual ICollection<Activity> OwnedActivities { get; set; } = [];
+
         [InverseProperty(nameof(Offer.Bussines))]
         public virtual ICollection<Offer> Offers { get; set; } = [];
+
 
     }
 
