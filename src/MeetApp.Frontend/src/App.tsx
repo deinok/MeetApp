@@ -10,13 +10,14 @@ import NoPermissionPage from "./pages/noPermissionPage/NoPermissionPage";
 import MainPage from "./pages/main/MainPage";
 import { OffersPage } from "./pages/offers/OffersPage";
 import StatsPage from "./pages/stats/statsPage";
+import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
 
 const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
+      <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       
       <Route
