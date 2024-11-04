@@ -1,4 +1,6 @@
 .offer-card {
+  width: 300px;
+  
   .delete-button:hover {
     color: red !important;
   }

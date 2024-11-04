@@ -9,6 +9,7 @@ export const LanguageSelector: React.FC = () => {
   const [language, setLanguage] = useState(initialLanguage);
 
   const handleLanguageChange = (e: RadioChangeEvent) => {
+    window.location.reload();
     const lang = e.target.value;
     setLanguage(lang);
     localStorage.setItem("language", lang);
@@ -17,7 +18,6 @@ export const LanguageSelector: React.FC = () => {
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language");
-    console.log("He actualitzat", savedLanguage);
     if (savedLanguage) {
       setLanguage(savedLanguage);
       i18n.changeLanguage(savedLanguage);
