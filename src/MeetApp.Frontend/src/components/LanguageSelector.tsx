@@ -2,10 +2,11 @@ import { RadioChangeEvent, Radio } from "antd";
 import React, { useState, useEffect } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { useTranslation } from "react-i18next";
+import { initialLanguage } from "../i18n";
 
 export const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();
-  const [language, setLanguage] = useState(localStorage.getItem("language") ?? window.navigator.language.split('-')[0] ?? 'es');
+  const [language, setLanguage] = useState(initialLanguage);
 
   const handleLanguageChange = (e: RadioChangeEvent) => {
     const lang = e.target.value;
