@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,7 +35,10 @@ namespace MeetApp.Database.Models
 
         [ForeignKey(nameof(OwnerId))]
         [InverseProperty(nameof(User.OwnedActivities))]
-        public virtual User? Owner { get; set; }
+        public virtual User Owner { get; set; }
+
+        [InverseProperty(nameof(ActivityMessage.Activity))]
+        public virtual ICollection<ActivityMessage> ActivityMessages { get; set; } = [];
 
     }
 

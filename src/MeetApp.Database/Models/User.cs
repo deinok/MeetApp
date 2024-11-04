@@ -34,6 +34,9 @@ namespace MeetApp.Database.Models
         }
         /* BUSSINES FIELDS */
 
+        [InverseProperty(nameof(ActivityMessage.User))]
+        public virtual ICollection<ActivityMessage> ActivityMessages { get; set; } = [];
+
         [InverseProperty(nameof(Activity.Owner))]
         public virtual ICollection<Activity> OwnedActivities { get; set; } = [];
 
