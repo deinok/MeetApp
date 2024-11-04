@@ -45,6 +45,17 @@
   border-radius: 50%;
 }
 
+.button-group {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.profile-button {
+  width: 50%;
+}
+
 /* Responsivo: Pantallas pequeñas */
 @media (max-width: 768px) {
   .profile-col {

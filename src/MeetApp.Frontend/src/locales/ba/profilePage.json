@@ -7,5 +7,9 @@
   "business_address": "Adresa poduzeća",
   "business_category": "Vrsta poduzeća",
   "cif": "PDV broj",
-  "google_maps_url": "Google Maps URL"
+  "google_maps_url": "Google Maps URL",
+  "edit_button": "Uredi",
+  "delete_button": "Izbriši",
+  "save_button": "Sačuvaj",
+  "cancel_button": "Otkaži"
 }

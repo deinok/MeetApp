@@ -7,5 +7,9 @@
   "business_address": "Dirección del negocio",
   "business_category": "Categoría del negocio",
   "cif": "CIF",
-  "google_maps_url": "URL de Google Maps"
+  "google_maps_url": "URL de Google Maps",
+  "edit_button": "Editar",
+  "delete_button": "Eliminar",
+  "save_button": "Guardar",
+  "cancel_button": "Cancelar"
 }
