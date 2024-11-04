@@ -48,12 +48,13 @@ const resources = {
   }
 };
 
+export const initialLanguage = localStorage.getItem("language") ?? window.navigator.language.split('-')[0] ?? 'es';
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem("language") ?? window.navigator.language.split('-')[0] ?? 'es' , // Idioma por defecto
+    lng: initialLanguage , // Idioma por defecto
     fallbackLng: 'es',
     ns: ['layout', 'mainpage', 'profilepage', 'statspage', 'offerspage', 'loginpage'], // Definimos los namespaces a usar
     defaultNS: 'mainpage', // Namespace por defecto, en este caso 'mainpage'
