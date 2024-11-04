@@ -35,13 +35,13 @@ const StatsPage: React.FC = () => {
       <Divider>
         <h1>{t("title")}</h1>
       </Divider>
-      <div style={{width: "100%", height: "50vh"}}>
+      <div style={{width: "100%", height: "60vh"}}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
           margin={{
             top: 5,
-            right: 0,
+            right: 40,
             left: 0,
             bottom: 5,
           }}
