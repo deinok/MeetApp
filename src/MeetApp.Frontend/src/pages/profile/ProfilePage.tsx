@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { useAuthUser } from "react-auth-kit";
+import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
-import { Col, Divider, Form, Input, Row, Avatar, Button } from "antd";
+import {
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Avatar,
+  Button,
+  Modal,
+  message,
+} from "antd";
 import "./profilePage.css";
-import { profile } from "console";
+import { BASE_URL } from "../../configs/GenetalApiType";
+import { useNavigate } from "react-router-dom";
 
+const url = `${BASE_URL}/api/v1/offers`;
 interface RegisterForm {
   email: string;
   password: string;
@@ -39,6 +51,8 @@ export const ProfilePage = () => {
   const [profilePicture, setProfilePicture] = useState<string>(
     user?.profilePicture
   );
+  const signOut = useSignOut();
+  const navigate = useNavigate();
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
@@ -62,8 +76,34 @@ export const ProfilePage = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleDelete = () => {
-    console.log("delete");
+  const handleLogout = () => {
+    signOut();
+    navigate("/login");
+  };
+
+  const handleDelete = async (id: string) => {
+    Modal.confirm({
+      title: t("account_delete_message"),
+      okText: t("accept_delete_account_button"), // Custom text for OK button
+      cancelText: t("cancel_delete_account_button"), // Custom text for Cancel button
+      onOk: async () => {
+        handleLogout();
+        // try {
+        //   const deleteUrl = `${url}/${id}`;
+        //   const response = await fetch(deleteUrl, {
+        //     method: "DELETE",
+        //   });
+        //   if (response.ok) {
+        //     handleLogout();
+        //   } else {
+        //     message.error(t("account_delete_fail"));
+        //   }
+        // } catch (error) {
+        //   console.error("Error deleting offer:", error);
+        //   message.error(t("account_delete_error"));
+        // }
+      },
+    });
   };
 
   const handleOnChangeProfilePicture = (
@@ -103,7 +143,9 @@ export const ProfilePage = () => {
                 className="profile-button"
                 color="danger"
                 variant={isEditing ? "outlined" : "solid"}
-                onClick={isEditing ? handleCancel : handleDelete}
+                onClick={
+                  isEditing ? handleCancel : () => handleDelete(user?.id)
+                }
               >
                 {isEditing ? t("cancel_button") : t("delete_button")}
               </Button>

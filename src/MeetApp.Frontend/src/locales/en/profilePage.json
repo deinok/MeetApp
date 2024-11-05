@@ -11,5 +11,10 @@
   "edit_button": "Edit",
   "delete_button": "Delete",
   "save_button": "Save",
-  "cancel_button": "Cancel"
+  "cancel_button": "Cancel",
+  "account_delete_message": "Are you sure you want to delete your account?",
+  "account_delete_fail": "Failed to delete the account",
+  "account_delete_error": "Error deleting the account",
+  "accept_delete_account_button": "Yes",
+  "cancel_delete_account_button": "Cancel"
 }

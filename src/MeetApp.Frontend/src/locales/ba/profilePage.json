@@ -11,5 +11,10 @@
   "edit_button": "Uredi",
   "delete_button": "Izbriši",
   "save_button": "Sačuvaj",
-  "cancel_button": "Otkaži"
+  "cancel_button": "Otkaži",
+  "account_delete_message": "Jeste li sigurni da želite izbrisati svoj račun?",
+  "account_delete_fail": "Nije moguće izbrisati račun",
+  "account_delete_error": "Greška pri brisanju računa",
+  "accept_delete_account_button": "Da",
+  "cancel_delete_account_button": "Otkaži"
 }
