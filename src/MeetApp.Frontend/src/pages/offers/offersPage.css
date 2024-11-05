@@ -1,23 +1,64 @@
+.offers-container {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px; */
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  place-items: center;
+}
+
 .offer-card {
   width: 300px;
-  
+  transition: transform 0.3s ease;
+
   .delete-button:hover {
     color: red !important;
   }
 }
+
+.offer-card:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
 .card-container {
-    position: relative; /* Necesario para que el botón se posicione relativo a esta tarjeta */
-    width: 300px; /* Ajusta según el tamaño de tu Card */
-    margin: 20px;
-  }
-  
-  .overlay-tag {
-    position: absolute;
-    top: 10px;      /* Ajusta para sobresalir hacia arriba */
-    right: 2px;    /* Ajusta para sobresalir hacia la derecha */
-    z-index: 1;      /* Asegura que el botón esté encima de la tarjeta */
-    padding: 1px 5px;
-    border-radius: 50px;
-    width: 50px;
-    text-align: center;
-  }
+  position: relative; /* Necesario para que el botón se posicione relativo a esta tarjeta */
+  width: 300px; /* Ajusta según el tamaño de tu Card */
+  margin: 20px;
+}
+
+.card-container.expired {
+  filter: grayscale(100%);
+}
+
+.overlay-tag {
+  position: absolute;
+  top: 10px; /* Ajusta para sobresalir hacia arriba */
+  right: 2px; /* Ajusta para sobresalir hacia la derecha */
+  z-index: 1; /* Asegura que el botón esté encima de la tarjeta */
+  padding: 1px 5px;
+  border-radius: 50px;
+  width: 50px;
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.offer-state-icon{
+  position: absolute;
+  top: 10;
+  left: 10;
+  font-size: 24px;
+  z-index: 100;
+}
+
+.offer-state-icon.expired-icon {
+  color: red;
+}
+
+.offer-state-icon.active-icon {
+  color: green;
+}
