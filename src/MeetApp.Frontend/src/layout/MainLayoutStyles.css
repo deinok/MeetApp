@@ -46,8 +46,8 @@
 }
 
 .custom-divider {
-    background-color: #dbdfe0;
-    height: 32px;
+  background-color: #dbdfe0;
+  height: 32px;
 }
 
 .headers-links {
@@ -71,11 +71,24 @@ a {
 
 .app-content {
   flex-grow: 1;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   background: #e7ecedd4;
   width: 100%;
   box-sizing: border-box;
   overflow: auto;
+}
+
+.ant-btn-color-primary {
+  background-color: #34638a !important;
+  border-color: #34638a !important;
+  margin: 0;
+}
+
+.ant-btn-color-primary.ant-btn-link {
+  color: #34638a;
+  background-color: transparent !important;
+  border-color: transparent !important;
 }
 
 .app-footer {
@@ -89,7 +102,8 @@ a {
   bottom: 0;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100%;
