@@ -3,6 +3,7 @@ using System;
 using MeetApp.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MeetApp.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241104190237_ActivityMessages")]
+    partial class ActivityMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,15 +162,18 @@ namespace MeetApp.Database.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("BussinesAddress")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte?>("BussinesCategory")
+                    b.Property<byte>("BussinesCategory")
                         .HasColumnType("smallint");
 
                     b.Property<string>("BussinesName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CIF")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("City")
@@ -185,6 +191,7 @@ namespace MeetApp.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("GoogleMapsUrl")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")

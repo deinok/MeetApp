@@ -3,6 +3,7 @@ using System;
 using MeetApp.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MeetApp.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241104183742_Activities")]
+    partial class Activities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,35 +60,6 @@ namespace MeetApp.Database.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Activities");
-                });
-
-            modelBuilder.Entity("MeetApp.Database.Models.ActivityMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ActivityId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)");
-
-                    b.Property<DateTimeOffset>("Timestamp")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActivityId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ActivityMessages");
                 });
 
             modelBuilder.Entity("MeetApp.Database.Models.Offer", b =>
@@ -159,15 +133,18 @@ namespace MeetApp.Database.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("BussinesAddress")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte?>("BussinesCategory")
+                    b.Property<byte>("BussinesCategory")
                         .HasColumnType("smallint");
 
                     b.Property<string>("BussinesName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CIF")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("City")
@@ -185,6 +162,7 @@ namespace MeetApp.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("GoogleMapsUrl")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
@@ -361,25 +339,6 @@ namespace MeetApp.Database.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("MeetApp.Database.Models.ActivityMessage", b =>
-                {
-                    b.HasOne("MeetApp.Database.Models.Activity", "Activity")
-                        .WithMany("ActivityMessages")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MeetApp.Database.Models.User", "User")
-                        .WithMany("ActivityMessages")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MeetApp.Database.Models.Offer", b =>
                 {
                     b.HasOne("MeetApp.Database.Models.User", "Bussines")
@@ -442,11 +401,6 @@ namespace MeetApp.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MeetApp.Database.Models.Activity", b =>
-                {
-                    b.Navigation("ActivityMessages");
-                });
-
             modelBuilder.Entity("MeetApp.Database.Models.Offer", b =>
                 {
                     b.Navigation("Activities");
@@ -454,8 +408,6 @@ namespace MeetApp.Database.Migrations
 
             modelBuilder.Entity("MeetApp.Database.Models.User", b =>
                 {
-                    b.Navigation("ActivityMessages");
-
                     b.Navigation("Offers");
 
                     b.Navigation("OwnedActivities");

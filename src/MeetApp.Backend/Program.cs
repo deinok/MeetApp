@@ -1,9 +1,12 @@
+using Azure;
+using MeetApp.Backend.Hubs;
 using MeetApp.Database;
 using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
@@ -38,6 +41,10 @@ namespace MeetApp.Backend
                         .WithOrigins("https://meet-app-udl.azurewebsites.net");
                 });
             });
+            webApplicationBuilder.Services.AddAzureClients(azureClientFactoryBuilder =>
+            {
+                azureClientFactoryBuilder.AddTextTranslationClient(new AzureKeyCredential("8ebt66gh4yJVIzAqARG02ZimwOgI4MY9AZdXGS5WaaDq85uENnzrJQQJ99AJAC5RqLJXJ3w3AAAbACOGa2xD"), "westeurope");
+            });
             webApplicationBuilder.Services.AddDbContextPool<AppDbContext>(dbContextOptionsBuilder =>
             {
                 dbContextOptionsBuilder.EnableDetailedErrors();
@@ -60,6 +67,7 @@ namespace MeetApp.Backend
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<AppDbContext>();
+            webApplicationBuilder.Services.AddSignalR();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
             webApplication.UseSwagger();
@@ -71,6 +79,7 @@ namespace MeetApp.Backend
             webApplication.UseAuthentication();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
+            webApplication.MapHub<ChatHub>("/hubs/chat-hub");
             webApplication.MapFallbackToFile("index.html");
 
             {
@@ -81,7 +90,5 @@ namespace MeetApp.Backend
 
             await webApplication.RunAsync();
         }
-
     }
-
 }

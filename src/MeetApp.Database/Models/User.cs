@@ -20,11 +20,11 @@ namespace MeetApp.Database.Models
         }
 
         /* BUSSINES FIELDS */
-        public string BussinesName { get; set; }
-        public string BussinesAddress { get; set; }
-        public BussinesCategoryType BussinesCategory { get; set; }
-        public string CIF { get; set; }
-        public string GoogleMapsUrl { get; set; }
+        public string? BussinesName { get; set; }
+        public string? BussinesAddress { get; set; }
+        public BussinesCategoryType? BussinesCategory { get; set; }
+        public string? CIF { get; set; }
+        public string? GoogleMapsUrl { get; set; }
 
         public enum BussinesCategoryType : byte
         {
@@ -32,10 +32,18 @@ namespace MeetApp.Database.Models
             FoodAndDrink = 1,
             Cinema = 2,
         }
+
         /* BUSSINES FIELDS */
+
+        [InverseProperty(nameof(ActivityMessage.User))]
+        public virtual ICollection<ActivityMessage> ActivityMessages { get; set; } = [];
+
+        [InverseProperty(nameof(Activity.Owner))]
+        public virtual ICollection<Activity> OwnedActivities { get; set; } = [];
 
         [InverseProperty(nameof(Offer.Bussines))]
         public virtual ICollection<Offer> Offers { get; set; } = [];
+
 
     }
 

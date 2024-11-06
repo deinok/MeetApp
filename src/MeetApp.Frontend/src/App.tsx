@@ -1,22 +1,25 @@
 import React from "react";
 import { RequireAuth } from "react-auth-kit";
 import { Route, Routes } from "react-router-dom";
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import { LoginPage } from "./pages/login/LoginPage";
 import { RegisterPage } from "./pages/login/RegisterPage";
-import { ProfilePage } from "./pages/profile/ProfilePage";
 import AppLayout from "./layout/MainLayout";
 import './i18n'; 
 import NoPermissionPage from "./pages/noPermissionPage/NoPermissionPage";
 import MainPage from "./pages/main/MainPage";
 import { OffersPage } from "./pages/offers/OffersPage";
 import StatsPage from "./pages/stats/statsPage";
+import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
+
+const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
 function App() {
-  
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      
       <Route
         path="/"
         element={
@@ -27,17 +30,9 @@ function App() {
           </RequireAuth>
         }
       />
+      
       <Route path="*" element={<NoPermissionPage />} />
-      <Route
-        path="/profile"
-        element={
-          <RequireAuth loginPath="/login">
-            <AppLayout>
-              <ProfilePage />
-            </AppLayout>
-          </RequireAuth>
-        }
-      />
+
       <Route
         path="/offers"
         element={
@@ -48,6 +43,7 @@ function App() {
           </RequireAuth>
         }
       />
+
       <Route
         path="/stats"
         element={

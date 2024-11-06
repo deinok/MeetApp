@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,6 +8,7 @@ namespace MeetApp.Database.Models
 
     public class Offer
     {
+
         [Key]
         public Guid Id { get; set; }
 
@@ -29,7 +31,10 @@ namespace MeetApp.Database.Models
         [ForeignKey(nameof(BusinessId))]
         [InverseProperty(nameof(User.Offers))]
         public virtual User Bussines { get; set; }
-    }
 
+        [InverseProperty(nameof(Activity.Offer))]
+        public virtual ICollection<Activity> Activities { get; set; } = [];
+
+    }
 
 }
