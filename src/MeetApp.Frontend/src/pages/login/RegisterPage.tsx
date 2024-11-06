@@ -8,6 +8,7 @@ import {
   Checkbox,
   CheckboxProps,
   message,
+  Select,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../configs/GenetalApiType";
@@ -26,6 +27,14 @@ interface RegisterForm {
   cif: string;
   googleMapsUrl: string;
 }
+
+const onChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
+
+const onSearch = (value: string) => {
+  console.log("search:", value);
+};
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -169,7 +178,23 @@ export const RegisterPage = () => {
                 },
               ]}
             >
-              <Input />
+              <Select
+                showSearch
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={[
+                  { value: "Undefined", label: "" },
+                  {
+                    value: "FoodAndDrink",
+                    label: "Restaurante",
+                  },
+                  {
+                    value: "Cinema",
+                    label: "Cine",
+                  },
+                ]}
+              />
             </Form.Item>
 
             <Form.Item
@@ -180,7 +205,7 @@ export const RegisterPage = () => {
                   required: isCompany,
                   message: "Por favor ingrese el CIF de la empresa!",
                 },
-                // { validator: validateNoWhitespace },
+                { validator: validateNoWhitespace },
               ]}
             >
               <Input />
@@ -194,7 +219,7 @@ export const RegisterPage = () => {
                   required: isCompany,
                   message: "Por favor ingrese la URL de Google Maps!",
                 },
-                // { validator: validateNoWhitespace },
+                { validator: validateNoWhitespace },
               ]}
             >
               <Input />
