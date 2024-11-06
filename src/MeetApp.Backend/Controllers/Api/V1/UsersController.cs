@@ -107,7 +107,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 Type = registrationRequest.UserType,
                 UserName = registrationRequest.Email,
             };
-            if(user.Type == Database.Models.User.UserType.Undefined) { return this.BadRequest(); }
+            if (user.Type == Database.Models.User.UserType.Undefined) { return this.BadRequest(); }
             var identityResult = await this.userManager.CreateAsync(user, registrationRequest.Password);
             if (identityResult.Succeeded) { return this.Ok(); }
             return this.BadRequest();
