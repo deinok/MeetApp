@@ -123,13 +123,6 @@ export const RegisterPage = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          label="userType"
-          name="userType"
-          rules={[{ required: true, message: 'Por favor ingrese el tipo de usuario!' }]}
-        >
-          <Input />
-        </Form.Item>
         <Form.Item>
           <Checkbox checked={isCompany} onChange={onCheckboxChange}>
             Soy una empresa
