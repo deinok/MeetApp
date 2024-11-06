@@ -1,6 +1,7 @@
 import "./MainMobileLayout.css";
 import React, { useEffect, useState } from "react";
-import { Avatar, Popover, TabBar, Space, Button } from "antd-mobile";
+
+import { Avatar, Popover, TabBar, Space, Button, Radio } from "antd-mobile";
 import { AppOutline, UnorderedListOutline, PieOutline } from "antd-mobile-icons";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +25,11 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
     navigate("/login");
   };
 
-  const handleLanguageChange = (value: string) => {
-    setLanguage(value);
-    localStorage.setItem("language", value);
-    i18n.changeLanguage(value);
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+    localStorage.setItem("language", lang);
+    i18n.changeLanguage(lang);
   };
 
   useEffect(() => {
@@ -41,43 +43,35 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
   return (
     <div className="mobile-layout">
       <div className="mobile-header">
-        <Popover.Menu
-          actions={[
-            { key: "profile", text: t("profile"), icon: <AppOutline />, onClick: () => navigate("/profile") },
-            {
-              key: "language",
-              text: t("language"),
-              icon: <ReactCountryFlag countryCode={language === "es" ? "ES" : language === "en" ? "US" : "BA"} svg />,
-              onClick: () => {}
-            },
-            { key: "logout", text: t("logout"), icon: <UnorderedListOutline />, onClick: handleLogout }
-          ]}
+        <Popover
+          content={
+            <div style={{ padding: "10px", display: "flex", flexDirection: "column" }}>
+              <Button onClick={() => navigate("/profile")}>{t("profile")}</Button>
+              <div style={{ marginTop: "10px" }}>
+                <span>{t("language")}: </span>
+                <Radio.Group value={language} onChange={(val) => handleLanguageChange(val as string)}>
+                  <Radio value="es">
+                    <ReactCountryFlag countryCode="ES" svg />
+                  </Radio>
+                  <Radio value="en">
+                    <ReactCountryFlag countryCode="US" svg />
+                  </Radio>
+                  <Radio value="ba">
+                    <ReactCountryFlag countryCode="BA" svg />
+                  </Radio>
+                </Radio.Group>
+              </div>
+              <Button onClick={handleLogout} style={{ marginTop: "10px" }}>
+                {t("logout")}
+              </Button>
+            </div>
+          }
           trigger="click"
         >
           <Avatar
             src="https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png"
             style={{ "--size": "48px", "--border-radius": "50%" }}
           />
-        </Popover.Menu>
-
-        <Popover
-          content={
-            <Space direction="vertical">
-              <Button onClick={() => handleLanguageChange("es")}>
-                <ReactCountryFlag countryCode="ES" svg /> 
-              </Button>
-              <Button onClick={() => handleLanguageChange("en")}>
-                <ReactCountryFlag countryCode="US" svg /> 
-              </Button>
-              <Button onClick={() => handleLanguageChange("ba")}>
-                <ReactCountryFlag countryCode="BA" svg /> 
-              </Button>
-            </Space>
-          }
-          trigger="click"
-          placement="bottomRight"
-        >
-          <Button>{t("language")}</Button>
         </Popover>
       </div>
 
