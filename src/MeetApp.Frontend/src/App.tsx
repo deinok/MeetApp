@@ -19,15 +19,17 @@ function App() {
     <Routes>
       <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
       
       <Route
         path="/"
         element={
-          <RequireAuth loginPath="/login">
+          // <RequireAuth loginPath="/login">
+          isMobile ? <MobileMainLayout><MainPage /></MobileMainLayout>:
             <AppLayout>
               <MainPage />
             </AppLayout>
-          </RequireAuth>
+          // </RequireAuth>
         }
       />
       
