@@ -113,6 +113,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             return this.BadRequest();
         }
 
+        [AllowAnonymous]
         [HttpGet("bussines-type")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<ICollection<string>>(StatusCodes.Status200OK)]
