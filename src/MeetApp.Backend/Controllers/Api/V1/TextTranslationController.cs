@@ -37,7 +37,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
         {
             var response = await this.textTranslationClient.TranslateAsync(textTranslationRequest.TargetLanguage, textTranslationRequest.Text, cancellationToken: cancellationToken);
             ;
-            return this.Ok(new TextTranslationResponse { 
+            return this.Ok(new TextTranslationResponse
+            {
                 Text = response.Value.First().Translations.First().Text,
             });
         }
