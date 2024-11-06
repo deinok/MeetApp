@@ -8,9 +8,11 @@ import {
   Checkbox,
   CheckboxProps,
   message,
+  Select,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../configs/GenetalApiType";
+import { get } from "http";
 
 const { Title } = Typography;
 
@@ -26,6 +28,24 @@ interface RegisterForm {
   cif: string;
   googleMapsUrl: string;
 }
+
+const getBusinessTypes = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/bussines-type`);
+    if (response.ok) {
+      const data: string[] = await response.json();
+      console.log(data);
+      const transformedData = data.map((item: string) => ({
+        value: item,
+        label: item,
+      }));
+      return transformedData;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+  return [];
+};
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -71,6 +91,14 @@ export const RegisterPage = () => {
       return Promise.reject(new Error());
     }
     return Promise.resolve();
+  };
+
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("search:", value);
   };
 
   return (
@@ -169,7 +197,14 @@ export const RegisterPage = () => {
                 },
               ]}
             >
-              <Input />
+              <Select
+                showSearch
+                placeholder="Select a person"
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={getBusinessTypes()}
+              />
             </Form.Item>
 
             <Form.Item
