@@ -17,17 +17,19 @@ const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
+      <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
       
       <Route
         path="/"
         element={
-          <RequireAuth loginPath="/login">
+          // <RequireAuth loginPath="/login">
+          isMobile ? <MobileMainLayout><MainPage /></MobileMainLayout>:
             <AppLayout>
               <MainPage />
             </AppLayout>
-          </RequireAuth>
+          // </RequireAuth>
         }
       />
       
