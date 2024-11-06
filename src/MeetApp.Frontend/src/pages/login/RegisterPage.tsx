@@ -29,6 +29,7 @@ interface RegisterForm {
   googleMapsUrl: string;
 }
 
+<<<<<<< HEAD
 const getBusinessTypes = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/bussines-type`);
@@ -45,6 +46,14 @@ const getBusinessTypes = async () => {
     console.error("Error:", error);
   }
   return [];
+=======
+const onChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
+
+const onSearch = (value: string) => {
+  console.log("search:", value);
+>>>>>>> 880494bc0837953353c999d67dcd0923e7881aa3
 };
 
 export const RegisterPage = () => {
@@ -199,11 +208,28 @@ export const RegisterPage = () => {
             >
               <Select
                 showSearch
+<<<<<<< HEAD
                 placeholder="Select a person"
                 optionFilterProp="label"
                 onChange={onChange}
                 onSearch={onSearch}
                 options={getBusinessTypes()}
+=======
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={[
+                  { value: "Undefined", label: "" },
+                  {
+                    value: "FoodAndDrink",
+                    label: "Restaurante",
+                  },
+                  {
+                    value: "Cinema",
+                    label: "Cine",
+                  },
+                ]}
+>>>>>>> 880494bc0837953353c999d67dcd0923e7881aa3
               />
             </Form.Item>
 
@@ -215,7 +241,7 @@ export const RegisterPage = () => {
                   required: isCompany,
                   message: "Por favor ingrese el CIF de la empresa!",
                 },
-                // { validator: validateNoWhitespace },
+                { validator: validateNoWhitespace },
               ]}
             >
               <Input />
@@ -229,7 +255,7 @@ export const RegisterPage = () => {
                   required: isCompany,
                   message: "Por favor ingrese la URL de Google Maps!",
                 },
-                // { validator: validateNoWhitespace },
+                { validator: validateNoWhitespace },
               ]}
             >
               <Input />
