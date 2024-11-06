@@ -48,7 +48,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetAsync(CancellationToken cancellationToken = default)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -95,21 +95,37 @@ namespace MeetApp.Backend.Controllers.Api.V1
         {
             var user = new User
             {
-                Email = registrationRequest.Email,
-                UserName = registrationRequest.Email,
-                Type = registrationRequest.UserType,
-                RegisterDateTime = DateTimeOffset.UtcNow,
-                City = registrationRequest.City,
-                ProfilePicture = registrationRequest.ProfilePicture,
-                BussinesName = registrationRequest.BussinesName,
                 BussinesAddress = registrationRequest.BussinesAddress,
                 BussinesCategory = registrationRequest.BussinesCategory,
+                BussinesName = registrationRequest.BussinesName,
                 CIF = registrationRequest.CIF,
+                City = registrationRequest.City,
+                Email = registrationRequest.Email,
                 GoogleMapsUrl = registrationRequest.GoogleMapsUrl,
+                ProfilePicture = registrationRequest.ProfilePicture,
+                RegisterDateTime = DateTimeOffset.UtcNow,
+                Type = registrationRequest.UserType,
+                UserName = registrationRequest.Email,
             };
+            if(user.Type == Database.Models.User.UserType.Undefined) { return this.BadRequest(); }
             var identityResult = await this.userManager.CreateAsync(user, registrationRequest.Password);
             if (identityResult.Succeeded) { return this.Ok(); }
             return this.BadRequest();
+        }
+
+        [HttpGet("bussines-type")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<string>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetBussinesTypeAsync(CancellationToken cancellationToken = default)
+        {
+            await Task.CompletedTask;
+            if (!this.ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return Ok(Enum.GetNames<Database.Models.User.BussinesCategoryType>());
         }
 
         [AllowAnonymous]
@@ -271,7 +287,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             /* BUSSINES FIELDS */
             public string? BussinesName { get; set; }
             public string? BussinesAddress { get; set; }
-            public User.BussinesCategoryType BussinesCategory { get; set; }
+            public User.BussinesCategoryType? BussinesCategory { get; set; }
             public string? CIF { get; set; }
             public string? GoogleMapsUrl { get; set; }
             /* BUSSINES FIELDS */
