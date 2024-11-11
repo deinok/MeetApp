@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid #03a2ff; /* Línea divisoria */
+  border-right: 1px solid #34638a; /* Línea divisoria */
   padding: 10px;
 }
 
@@ -23,10 +23,10 @@
 }
 
 .info-fields {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
 }
 
 .input-field {
@@ -45,11 +45,22 @@
   border-radius: 50%;
 }
 
+.button-group {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.profile-button {
+  width: 50%;
+}
+
 /* Responsivo: Pantallas pequeñas */
 @media (max-width: 768px) {
   .profile-col {
     border-right: none; /* Elimina la línea divisoria */
-    border-bottom: 1px solid #03a2ff; /* Línea divisoria entre filas en pantallas pequeñas */
+    border-bottom: 1px solid #34638a; /* Línea divisoria entre filas en pantallas pequeñas */
     margin-bottom: 10px; /* Espacio entre las columnas */
   }
 

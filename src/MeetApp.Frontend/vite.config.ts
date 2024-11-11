@@ -1,16 +1,14 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      injectRegister: "auto",
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
-      devOptions: {
-        enabled: true,
-      },
       manifest: {
         name: "MeetApp",
         short_name: "MeetApp",
@@ -40,6 +38,9 @@ export default defineConfig({
           },
         ],
       },
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "service-worker.js"
     }),
   ],
   build: {

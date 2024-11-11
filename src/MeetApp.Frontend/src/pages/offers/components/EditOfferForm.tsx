@@ -3,8 +3,6 @@ import React from "react";
 import { Form, Input, DatePicker, Button } from "antd";
 import dayjs from "dayjs";
 
-
-
 interface EditOfferFormProps {
   offer: {
     title: string;
