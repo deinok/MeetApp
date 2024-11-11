@@ -35,15 +35,14 @@ const StatsPage: React.FC = () => {
       <Divider>
         <h1>{t("title")}</h1>
       </Divider>
-      <ResponsiveContainer width="100%" height="80%">
+      <div style={{width: "100%", height: "60vh"}}>
+      <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          width={500}
-          height={300}
           data={data}
           margin={{
             top: 5,
-            right: 30,
-            left: 20,
+            right: 40,
+            left: 0,
             bottom: 5,
           }}
         >
@@ -61,6 +60,7 @@ const StatsPage: React.FC = () => {
           />
         </LineChart>
       </ResponsiveContainer>
+      </div>
     </>
   );
 };

@@ -1,6 +1,16 @@
-import PlaceHolderImg from '../../img/placeholder300x300.png';
+import PlaceHolderImg from "../../img/placeholder300x300.png";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Input, Divider, message, Modal, Tag, Tooltip, Form } from "antd";
+import {
+  Button,
+  Card,
+  Input,
+  Divider,
+  message,
+  Modal,
+  Tag,
+  Tooltip,
+  Form,
+} from "antd";
 import {
   SearchOutlined,
   PlusOutlined,
@@ -8,6 +18,7 @@ import {
   DeleteOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
@@ -71,7 +82,7 @@ export const OffersPage = () => {
   };
 
   const handleEditCancel = () => {
-    form.resetFields(); 
+    form.resetFields();
     setEditVisible(false);
     setEditingOffer(null);
   };
@@ -89,7 +100,7 @@ export const OffersPage = () => {
 
   const handleDeleteOffer = async (id: string) => {
     Modal.confirm({
-      title: t("Are you sure you want to delete this offer?"),
+      title: t("offer_delete_message"),
       onOk: async () => {
         try {
           const deleteUrl = `${url}/${id}`;
@@ -97,17 +108,19 @@ export const OffersPage = () => {
             method: "DELETE",
           });
           if (response.ok) {
-            message.success(t("Offer deleted successfully"));
-            setOffers((prevOffers) => prevOffers.filter((offer) => offer.id !== id));
+            message.success(t("offer_delete_success"));
+            setOffers((prevOffers) =>
+              prevOffers.filter((offer) => offer.id !== id)
+            );
             setFilteredOffers((prevFiltered) =>
               prevFiltered.filter((offer) => offer.id !== id)
             );
           } else {
-            message.error(t("Failed to delete offer"));
+            message.error(t("offer_delete_fail"));
           }
         } catch (error) {
           console.error("Error deleting offer:", error);
-          message.error(t("An error occurred while deleting the offer"));
+          message.error(t("offer_delete_error"));
         }
       },
     });
@@ -164,7 +177,7 @@ export const OffersPage = () => {
   };
 
   const isExpired = (expirationDate: string) => {
-    return dayjs(expirationDate).isBefore(dayjs(), 'day');
+    return dayjs(expirationDate).isBefore(dayjs(), "day");
   };
 
   return (
@@ -185,7 +198,6 @@ export const OffersPage = () => {
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setVisible(true)}
-          style={{ margin: 0 }}
         />
       </div>
 
@@ -221,70 +233,24 @@ export const OffersPage = () => {
         )}
       </Modal>
 
-      <div
-        style={{
-          marginTop: "40px",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          gap: "16px",
-          placeItems: "center",
-        }}
-      >
+      <div className="offers-container">
         {filteredOffers.length > 0 ? (
           filteredOffers.map((offer) => {
             const expired = isExpired(offer.expirationDate);
             return (
               <div
-                className={`card-container ${expired ? 'expired' : 'valid'}`}
+                className={`card-container ${expired ? "expired" : "valid"}`}
                 key={offer.id}
-                style={{
-                  filter: expired ? 'grayscale(100%)' : 'none',
-                  backgroundColor: expired ? '#f0f0f0' : '#fff',
-                  position: 'relative',
-                }}
               >
-                <Tooltip title={expired ? t("Offer expired") : t("Offer valid")}>
-                  {expired ? (
-                    <CloseCircleOutlined
-                      style={{
-                        position: 'absolute',
-                        top: 10,
-                        left: 10,
-                        color: 'red',
-                        fontSize: '24px',
-                        zIndex: 100
-                      }}
-                    />
-                  ) : (
-                    <CheckCircleOutlined
-                      style={{
-                        position: 'absolute',
-                        top: 10,
-                        left: 10,
-                        color: 'green',
-                        fontSize: '24px',
-                        zIndex: 100
-                      }}
-                    />
-                  )}
-                </Tooltip>
-
-                <Tag color="#34638a" className="overlay-tag">
-                  {offer.tag}
-                </Tag>
-
                 <Card
                   className="offer-card"
                   key={offer.id}
-                  style={{ width: 300 }}
-                  cover={
-                    <img
-                      alt={offer.title}
-                      src={PlaceHolderImg}
-                    />
-                  }
+                  cover={<img alt={offer.title} src={PlaceHolderImg} />}
                   actions={[
-                    <EditOutlined key="edit" onClick={() => handleEditOffer(offer)} />,
+                    <EditOutlined
+                      key="edit"
+                      onClick={() => handleEditOffer(offer)}
+                    />,
                     <DeleteOutlined
                       key="delete"
                       className="delete-button"
@@ -292,11 +258,44 @@ export const OffersPage = () => {
                     />,
                   ]}
                 >
+                  <Tooltip
+                    title={expired ? t("offer_expired") : t("offer_valid")}
+                  >
+                    {expired ? (
+                      <CloseCircleOutlined
+                        className="offer-state-icon expired-icon"
+                        style={{
+                          position: "absolute",
+                          top: 10,
+                          left: 10,
+                          color: "red",
+                          fontSize: "24px",
+                          zIndex: 100,
+                        }}
+                      />
+                    ) : (
+                      <CheckCircleOutlined
+                        className="offer-state-icon valid-icon"
+                        style={{
+                          position: "absolute",
+                          top: 10,
+                          left: 10,
+                          color: "green",
+                          fontSize: "24px",
+                          zIndex: 100,
+                        }}
+                      />
+                    )}
+                  </Tooltip>
+                  <Tag color="#34638a" className="overlay-tag">
+                    {offer.tag}
+                  </Tag>
                   <Card.Meta
                     title={offer.title}
                     description={offer.description}
                   />
-                  <p>
+                  <p style={{ marginTop: "40px", marginBottom: "-10px" }}>
+                    <ClockCircleOutlined style={{ marginRight: "10px" }} />
                     {t("available_until", {
                       expiration_date: dayjs(offer.expirationDate).format(
                         t("date_format")

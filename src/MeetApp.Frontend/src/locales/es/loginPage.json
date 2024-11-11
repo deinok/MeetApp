@@ -1,0 +1,12 @@
+{
+  "title": "Iniciar sesión",
+  "login_success": "Sesión iniciada con éxito!",
+  "login_error": "Error al iniciar sesión",
+  "invalid_credentials": "Credenciales inválidas",
+  "register_link": "¿No tienes cuenta? Regístrate aquí",
+  "password_required": "Por favor, introduce la contraseña!",
+  "user_required": "Por favor, introduce el usuario!",
+  "user_label": "Usuario",
+  "password_label": "Contraseña",
+  "login_button": "Iniciar sesión"
+}
