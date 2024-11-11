@@ -10,7 +10,7 @@
     justify-content: flex-end;
     align-items: center;
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #F2F6FF;
     border-bottom: 1px solid #e0e0e0;
   }
   
@@ -22,7 +22,7 @@
     flex: 1;
     padding: 16px;
     overflow-y: auto;
-    background-color: #ffffff;
+    background-color: #F2F6FF;
   }
 .tabbar-container {
     margin: 0 16px 16px; 

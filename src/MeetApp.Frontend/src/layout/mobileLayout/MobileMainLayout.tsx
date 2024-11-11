@@ -70,7 +70,7 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
         >
           <Avatar
             src="https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png"
-            style={{ "--size": "48px", "--border-radius": "50%" }}
+            style={{ "--size": "60px", "--border-radius": "30%" }}
           />
         </Popover>
       </div>
@@ -79,11 +79,11 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
 
       <div className="tabbar-container">
         <TabBar onChange={(key) => navigate(key)}>
-          <TabBar.Item key="/home" icon={<AppOutline />} title={t("home")} />
-          <TabBar.Item key="/offers" icon={<UnorderedListOutline />} title={t("offers")} />
+          <TabBar.Item key="/" icon={<AppOutline />} title="Home" />
+          <TabBar.Item key="/activities" icon={<UnorderedListOutline />} title="Activities" />
           <TabBar.Item key="/stats" icon={<PieOutline />} title={t("stats")} />
         </TabBar>
-      </div>
+      </div>  
     </div>
   );
 };
