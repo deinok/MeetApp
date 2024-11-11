@@ -1,7 +1,7 @@
 import React from "react";
 import { RequireAuth } from "react-auth-kit";
 import { Route, Routes } from "react-router-dom";
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { ProfilePage } from "./pages/profile/ProfilePage";
 import { LoginPage } from "./pages/login/LoginPage";
 import { RegisterPage } from "./pages/login/RegisterPage";
 import AppLayout from "./layout/MainLayout";
@@ -10,15 +10,15 @@ import NoPermissionPage from "./pages/noPermissionPage/NoPermissionPage";
 import MainPage from "./pages/main/MainPage";
 import { OffersPage } from "./pages/offers/OffersPage";
 import StatsPage from "./pages/stats/statsPage";
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
-import { ProfilePage } from "./pages/profile/ProfilePage";
-
-const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
+import MobileLoginPage from "./pages/mobile/login/mobileLoginPage";
+import MobileMainPage from "./pages/mobile/main/mobileMainPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
+      <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
       
@@ -26,7 +26,7 @@ function App() {
         path="/"
         element={
           // <RequireAuth loginPath="/login">
-          isMobile ? <MobileMainLayout><MainPage /></MobileMainLayout>:
+          isMobile ? <MobileMainLayout><MobileMainPage /></MobileMainLayout>:
             <AppLayout>
               <MainPage />
             </AppLayout>
