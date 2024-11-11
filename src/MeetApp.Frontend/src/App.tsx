@@ -11,6 +11,7 @@ import MainPage from "./pages/main/MainPage";
 import { OffersPage } from "./pages/offers/OffersPage";
 import StatsPage from "./pages/stats/statsPage";
 import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
+import { ProfilePage } from "./pages/profile/ProfilePage";
 
 const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
@@ -34,7 +35,16 @@ function App() {
       />
       
       <Route path="*" element={<NoPermissionPage />} />
-
+      <Route
+        path="/profile"
+        element={
+          <RequireAuth loginPath="/login">
+            <AppLayout>
+              <ProfilePage />
+            </AppLayout>
+          </RequireAuth>
+        }
+      />
       <Route
         path="/offers"
         element={

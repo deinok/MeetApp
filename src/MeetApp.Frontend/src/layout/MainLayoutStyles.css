@@ -54,8 +54,11 @@
   display: flex;
   gap: 30px;
   align-items: center;
-  color: white;
   margin-left: 2em;
+  a {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .link-button {
