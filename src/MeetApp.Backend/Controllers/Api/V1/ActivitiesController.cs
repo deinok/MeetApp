@@ -1,20 +1,16 @@
 ﻿using MeetApp.Database;
-using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using static MeetApp.Backend.Controllers.Api.V1.OffersController;
 using Activity = MeetApp.Database.Models.Activity;
 
 namespace MeetApp.Backend.Controllers.Api.V1
@@ -48,12 +44,12 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<ActivityReadResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAllByDateAsync([FromRoute][Required] DateTime date, CancellationToken cancellationToken=default)
+        public async Task<IActionResult> GetAllByDateAsync([FromRoute][Required] DateTime date, CancellationToken cancellationToken = default)
         {
             var activities = await appDbContext.Activities
-                .Where(x=>x.DateTime.Date == date.Date)
+                .Where(x => x.DateTime.Date == date.Date)
                 .ToListAsync(cancellationToken);
-            if(activities is null)
+            if (activities is null)
             {
                 return this.NotFound();
             }
@@ -65,18 +61,18 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<ICollection<ActivityCreateRequest>>(StatusCodes.Status200OK)]
         [ProducesResponseType<ICollection<ActivityCreateRequest>>(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAsync([FromBody][Required] ActivityCreateRequest activityCreateRequest, CancellationToken cancellationToken=default)
+        public async Task<IActionResult> CreateAsync([FromBody][Required] ActivityCreateRequest activityCreateRequest, CancellationToken cancellationToken = default)
         {
-           var activity= new Activity
-           {
-               OfferId = activityCreateRequest.OfferId,
-               OwnerId = activityCreateRequest.OwnerId,
-               Title = activityCreateRequest.Title,
-               Description = activityCreateRequest.Description,
-               DateTime = activityCreateRequest.DateTime,
-               PeopleLimit = activityCreateRequest.PeopleLimit
-           };
-           this.appDbContext.Activities.Add(activity);
+            var activity = new Activity
+            {
+                OfferId = activityCreateRequest.OfferId,
+                OwnerId = activityCreateRequest.OwnerId,
+                Title = activityCreateRequest.Title,
+                Description = activityCreateRequest.Description,
+                DateTime = activityCreateRequest.DateTime,
+                PeopleLimit = activityCreateRequest.PeopleLimit
+            };
+            this.appDbContext.Activities.Add(activity);
             _ = await this.appDbContext.SaveChangesAsync(cancellationToken);
             return this.Ok(new ActivityCreateRequest
             {
@@ -164,15 +160,15 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public Guid? OfferId { get; set; }
 
             public Guid OwnerId { get; set; }
-            
+
             public required string Title { get; set; }
-            
+
             public required string Description { get; set; }
-            
+
             public DateTimeOffset DateTime { get; set; }
-            
+
             public uint? PeopleLimit { get; set; }
-            
+
         }
         public record ActivityCreateRequest
         {
