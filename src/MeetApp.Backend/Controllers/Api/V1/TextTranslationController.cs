@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,30 +15,24 @@ namespace MeetApp.Backend.Controllers.Api.V1
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("/api/v1/text-translation")]
-    public class TextTranslationController : ControllerBase
+    public class TextTranslationController(
+        TextTranslationClient textTranslationClient
+    ) : ControllerBase
     {
 
-        private readonly TextTranslationClient textTranslationClient;
-
-        public TextTranslationController(
-            TextTranslationClient textTranslationClient
-        )
-        {
-            this.textTranslationClient = textTranslationClient;
-        }
+        private readonly TextTranslationClient textTranslationClient = textTranslationClient;
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<TextTranslationResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<TextTranslationResponse>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ReadAsync([FromBody] TextTranslationRequest textTranslationRequest, CancellationToken cancellationToken = default)
         {
             var response = await this.textTranslationClient.TranslateAsync(textTranslationRequest.TargetLanguage, textTranslationRequest.Text, cancellationToken: cancellationToken);
-            ;
             return this.Ok(new TextTranslationResponse
             {
-                Text = response.Value.First().Translations.First().Text,
+                Text = response.Value[0].Translations[0].Text,
             });
         }
 

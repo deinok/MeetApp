@@ -21,6 +21,7 @@ function App() {
       <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
+      <Route path="/activities" element={isMobile ? <MobileMainLayout><ActivitiesMobilePage /> </MobileMainLayout>: <NoPermissionPage /> } />
       
       <Route
         path="/"
