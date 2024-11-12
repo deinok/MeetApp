@@ -4,7 +4,7 @@
 		<!--<ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>-->
 		<LangVersion>12</LangVersion>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<NoWarn>CS8601;CS8604</NoWarn>
+		<NoWarn>CS8601;CS8604;NU1903</NoWarn>
 		<Nullable>enable</Nullable>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<RepositoryType>git</RepositoryType>

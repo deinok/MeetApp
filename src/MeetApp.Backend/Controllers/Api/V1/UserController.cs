@@ -25,21 +25,16 @@ namespace MeetApp.Backend.Controllers.Api.V1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
+    [Route("/api/v1/user")]
     [Route("/api/v1/users")]
-    public class UsersController : ControllerBase
+    public class UserController(
+        IConfiguration configuration,
+        UserManager<User> userManager
+    ) : ControllerBase
     {
 
-        private readonly IConfiguration configuration;
-        private readonly UserManager<User> userManager;
-
-        public UsersController(
-            IConfiguration configuration,
-            UserManager<User> userManager
-        )
-        {
-            this.configuration = configuration;
-            this.userManager = userManager;
-        }
+        private readonly IConfiguration configuration = configuration;
+        private readonly UserManager<User> userManager = userManager;
 
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]

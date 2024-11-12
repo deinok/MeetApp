@@ -1,4 +1,5 @@
 ﻿using MeetApp.Database;
+using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,23 +12,21 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Activity = MeetApp.Database.Models.Activity;
 
 namespace MeetApp.Backend.Controllers.Api.V1
 {
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
+    [Route("/api/v1/activity")]
     [Route("/api/v1/activities")]
-    public class ActivitiesController : ControllerBase
+    public class ActivityController(
+        AppDbContext appDbContext
+    ) : ControllerBase
     {
-        private readonly AppDbContext appDbContext;
-        public ActivitiesController(
-            AppDbContext appDbContext
-            )
-        {
-            this.appDbContext = appDbContext;
-        }
+
+        private readonly AppDbContext appDbContext = appDbContext;
 
         [AllowAnonymous]
         [HttpGet]
@@ -39,6 +38,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             var activities = await this.Read().ToListAsync(cancellationToken);
             return this.Ok(activities);
         }
+
         [AllowAnonymous]
         [HttpGet("{date}")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -55,6 +55,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             }
             return this.Ok(activities);
         }
+
         [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.Json)]
         [HttpPost]
