@@ -11,8 +11,12 @@ import MainPage from "./pages/main/MainPage";
 import { OffersPage } from "./pages/offers/OffersPage";
 import StatsPage from "./pages/stats/statsPage";
 import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
-import { ProfilePage } from "./pages/profile/ProfilePage";
+
 import MobileMainPage from "./pages/mobile/mobileMainPage";
+
+import { ProfilePage } from "./pages/profile/ProfilePage";
+import ActivitiesMobilePage from "./pages/mobile/activitiesPage/ActivitiesMobilePage";
+
 
 const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
@@ -22,6 +26,7 @@ function App() {
       <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
+      <Route path="/activities" element={isMobile ? <MobileMainLayout><ActivitiesMobilePage /> </MobileMainLayout>: <NoPermissionPage /> } />
       
       <Route
         path="/"
