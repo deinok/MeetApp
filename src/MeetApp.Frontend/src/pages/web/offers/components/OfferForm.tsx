@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import type { DatePickerProps } from "antd";
 import { useAuthUser } from "react-auth-kit";
-import { BASE_URL } from "../../../configs/GenetalApiType";
+import { BASE_URL } from "../../../../configs/GeneralApiType";
 
 interface OfferFormProps {
   offer?: Offer;
