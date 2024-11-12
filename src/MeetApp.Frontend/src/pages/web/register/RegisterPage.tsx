@@ -11,7 +11,7 @@ import {
   Select,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../configs/GenetalApiType";
+import { BASE_URL } from "../../../configs/GeneralApiType";
 import { get } from "http";
 
 const { Title } = Typography;
@@ -45,7 +45,7 @@ const getBusinessTypes = async () => {
     console.error("Error:", error);
   }
   return [];
-}
+};
 
 const onChange = (value: string) => {
   console.log(`selected ${value}`);

@@ -1,17 +1,17 @@
 import React from "react";
 import { RequireAuth } from "react-auth-kit";
 import { Route, Routes } from "react-router-dom";
-import { ProfilePage } from "./pages/profile/ProfilePage";
-import { LoginPage } from "./pages/login/LoginPage";
-import { RegisterPage } from "./pages/login/RegisterPage";
-import AppLayout from "./layout/MainLayout";
+import { ProfilePage } from "./pages/web/profile/ProfilePage";
+import { LoginPage } from "./pages/web/login/LoginPage";
+import { RegisterPage } from "./pages/web/register/RegisterPage";
+import AppLayout from "./pages/web/layout/MainLayout";
 import './i18n'; 
-import NoPermissionPage from "./pages/noPermissionPage/NoPermissionPage";
-import MainPage from "./pages/main/MainPage";
-import { OffersPage } from "./pages/offers/OffersPage";
-import StatsPage from "./pages/stats/statsPage";
+import NoPermissionPage from "./pages/web/noPermissionPage/NoPermissionPage";
+import MainPage from "./pages/web/main/MainPage";
+import { OffersPage } from "./pages/web/offers/OffersPage";
+import StatsPage from "./pages/web/stats/statsPage";
 import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
-import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
+import MobileMainLayout from "./pages/mobile/layout/MobileMainLayout";
 import MobileLoginPage from "./pages/mobile/login/mobileLoginPage";
 import MobileMainPage from "./pages/mobile/main/mobileMainPage";
 
@@ -26,7 +26,7 @@ function App() {
         path="/"
         element={
           // <RequireAuth loginPath="/login">
-          isMobile ? <MobileMainLayout><MobileMainPage /></MobileMainLayout>:
+          isMobile ? <MobileMainLayout> <MobileMainPage /> </MobileMainLayout>:
             <AppLayout>
               <MainPage />
             </AppLayout>

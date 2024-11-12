@@ -10,10 +10,9 @@ import {
   Avatar,
   Button,
   Modal,
-  message,
 } from "antd";
 import "./profilePage.css";
-import { BASE_URL } from "../../configs/GenetalApiType";
+import { BASE_URL } from "../../../configs/GeneralApiType";
 import { useNavigate } from "react-router-dom";
 
 const url = `${BASE_URL}/api/v1/offers`;

@@ -41,22 +41,72 @@
 
 // export default LoginPage;
 
-
 // src/LoginPage.jsx
-import React from 'react';
-import { Button, Form, Input, Toast } from 'antd-mobile';
+import "./mobileLoginPageStyles.css";
+import React, { useState } from "react";
+import { Button, Form, Input, Toast } from "antd-mobile";
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
-import './mobileLoginPageStyles.css';
+import { useTranslation } from "react-i18next";
+import { useSignIn } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../../configs/GeneralApiType";
 
 const LoginPage = () => {
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+  const url = `${BASE_URL}/api/v1/users/token`;
+  const { t } = useTranslation("loginpage");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   // Función para manejar el envío del formulario
-  const onFinish = (values: any) => {
-    const { email, password } = values;
-    if (email && password) {
-      // Simulación de autenticación
-      Toast.show({ icon: 'success', content: 'Inicio de sesión exitoso' });
-    } else {
-      Toast.show({ icon: 'fail', content: 'Por favor, completa todos los campos' });
+  // const handleSubmit = (values: any) => {
+  //   const { email, password } = values;
+  //   if (email && password) {
+  //     // Simulación de autenticación
+  //     Toast.show({ icon: "success", content: "Inicio de sesión exitoso" });
+  //   } else {
+  //     Toast.show({
+  //       icon: "fail",
+  //       content: "Por favor, completa todos los campos",
+  //     });
+  //   }
+  // };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          grant_type: "password",
+          username: username,
+          password: password,
+        }).toString(),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.access_token) {
+        signIn({
+          token: data.access_token,
+          expiresIn: data.expires_inm || 6000,
+          tokenType: data.token_type,
+          authState: { user: data.user },
+        });
+        Toast.show({ icon: "success", content: t("login_success") });
+        navigate("/");
+      } else {
+        throw new Error(data.error_description || t("invalid_credentials"));
+      }
+    } catch (error) {
+      Toast.show({
+        icon: "fail",
+        content: (error as Error).message || t("login_error"),
+      });
     }
   };
 
@@ -71,24 +121,40 @@ const LoginPage = () => {
       <Form
         layout="horizontal"
         mode="card"
-        onFinish={onFinish}
+        onFinish={handleSubmit}
         footer={
           <Button block type="submit" color="primary" size="large">
-            Entrar
+            {t("login_button")}
           </Button>
         }
       >
         <Form.Item
           name="email"
-          rules={[{ required: true, message: 'Por favor, ingresa tu correo' }]}
+          rules={[{ required: true, message: "Por favor, ingresa tu correo" }]}
         >
-          <Input placeholder="Correo electrónico" type="email" />
+          <Input
+            placeholder="Correo electrónico"
+            type="email"
+            name="username"
+            onChange={(value) => {
+              setUsername(value);
+            }}
+          />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Por favor, ingresa tu contraseña' }]}
+          rules={[
+            { required: true, message: "Por favor, ingresa tu contraseña" },
+          ]}
         >
-          <Input placeholder="Contraseña" type="password" />
+          <Input
+            placeholder="Contraseña"
+            type="password"
+            name="password"
+            onChange={(value) => {
+              setPassword(value);
+            }}
+          />
         </Form.Item>
       </Form>
     </div>

@@ -1,45 +1,46 @@
 import React from "react";
 import { Form, Input, Button, DatePicker, message } from "antd";
 import { useTranslation } from "react-i18next";
-import dayjs from "dayjs"; 
+import dayjs from "dayjs";
 
 import type { DatePickerProps } from "antd";
 import { useAuthUser } from "react-auth-kit";
-import { BASE_URL } from "../../../configs/GenetalApiType";
+import { BASE_URL } from "../../../../configs/GeneralApiType";
 
 interface AddActivityFormProps {
-  onClose: () => void; 
+  onClose: () => void;
 }
 
-export const AddActivityForm: React.FC<AddActivityFormProps> = ({ onClose }) => {
+export const AddActivityForm: React.FC<AddActivityFormProps> = ({
+  onClose,
+}) => {
   const { t } = useTranslation("offerspage");
   const auth = useAuthUser();
   const user = auth();
-  
 
   const url = `${BASE_URL}/api/v1/offers`;
 
   const handleSubmit = async (values: any) => {
     const data = {
-      bussinesId: user?.user.id, 
+      bussinesId: user?.user.id,
       title: values.offer_title,
       description: values.offer_desc,
       expirationDate: dayjs(values.expiration_date).format("YYYY-MM-DD"),
-      tag: values.offer_tag, 
+      tag: values.offer_tag,
     };
 
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data) 
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
         message.success(t("Offer successfully created"));
-        onClose(); 
+        onClose();
         window.location.reload();
       } else {
         message.error(t("Failed to create offer"));
@@ -111,11 +112,7 @@ export const AddActivityForm: React.FC<AddActivityFormProps> = ({ onClose }) => 
         <Button type="primary" htmlType="submit">
           {t("publish_button")}
         </Button>
-        <Button
-          type="default"
-          onClick={onClose}
-          style={{ marginLeft: "8px" }}
-        >
+        <Button type="default" onClick={onClose} style={{ marginLeft: "8px" }}>
           {t("cancel_button")}
         </Button>
       </Form.Item>
