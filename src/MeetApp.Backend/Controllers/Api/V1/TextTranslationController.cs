@@ -29,7 +29,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
         }
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpPost]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<TextTranslationResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<TextTranslationResponse>(StatusCodes.Status400BadRequest)]
