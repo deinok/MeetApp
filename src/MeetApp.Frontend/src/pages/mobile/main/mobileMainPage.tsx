@@ -1,42 +1,49 @@
 import React from "react";
 import { Layout, Divider, Card, Steps } from "antd";
-import "./MobileMainPageStyles.css";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
+import { Swiper, Toast } from "antd-mobile";
+import  empreses from "./empresesColab.json";
 
-const { Content } = Layout;
-const { Step } = Steps;
 
-const MainPage: React.FC = () => {
+const MobileMainPage: React.FC = () => {
   const { t } = useTranslation("mainpage");
   const user = useAuthUser()()?.user;
-  return (
-    <>
-      <Divider>
-        <h1>{t("title", { name: user?.bussinesName })}</h1>
-      </Divider>
-      <div className="main-content">
-        <Card
-          className="steps-card"
-          title="Steps to Get Started"
-          bordered={false}
-        >
-          <Steps direction="vertical" current={5}>
-            <Step
-              title="Step 1"
-              description="BackEnd & FrontEnd Architecture"
-            />
-            <Step title="Step 2" description="DB implementation" />
-            <Step title="Step 3" description="BackEnd Implementation" />
-            <Step title="Step 4" description="FrontEnd Implementation" />
-            <Step title="Step 5" description="Connecting BackEnd & FrontEnd" />
-            <Step title="Step 6" description="Getting ready presentation" />
-            <Step title="Step 7" description="Future implementations" />
-          </Steps>
+  const empresesjson = empreses; 
+  // #5942F4
+  const items = empresesjson.map((empresa, index) => (
+    <Swiper.Item key={index}>
+      <div className="card">
+        <Card title={empresa.name} style={{color: "white", backgroundColor: "#5942F4"}}>
+          {empresa.description}
         </Card>
       </div>
+    </Swiper.Item>
+  ));
+  return (
+    <>
+     <div>
+        <h1>Hello, {user}</h1>
+        <h3>Have a nice day</h3>
+     </div>
+    <div>
+    <Swiper
+          loop
+          autoplay
+        >
+          {items}
+        </Swiper>
+    </div>
+    <div>
+      <h1>Progress</h1>
+      <Steps current={1}>
+        <Steps.Step title="Finished" description="This is a description." />
+        <Steps.Step title="In Progress" description="This is a description." />
+        <Steps.Step title="Waiting" description="This is a description." />
+      </Steps>
+    </div>
     </>
   );
 };
 
-export default MainPage;
+export default MobileMainPage;

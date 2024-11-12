@@ -14,6 +14,7 @@ import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detec
 import MobileMainLayout from "./pages/mobile/layout/MobileMainLayout";
 import MobileLoginPage from "./pages/mobile/login/mobileLoginPage";
 import MobileMainPage from "./pages/mobile/main/mobileMainPage";
+import MobileActivitiesPage from "./pages/mobile/activities/mobileActivitiesPage";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
       <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      <Route path="/activities" element={isMobile ? <MobileMainLayout><ActivitiesMobilePage /> </MobileMainLayout>: <NoPermissionPage /> } />
+      <Route path="/activities" element={isMobile ? <MobileMainLayout><MobileActivitiesPage /> </MobileMainLayout>: <NoPermissionPage /> } />
       
       <Route
         path="/"
