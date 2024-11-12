@@ -12,6 +12,7 @@ import { OffersPage } from "./pages/offers/OffersPage";
 import StatsPage from "./pages/stats/statsPage";
 import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
 import { ProfilePage } from "./pages/profile/ProfilePage";
+import MobileMainPage from "./pages/mobile/mobileMainPage";
 
 const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
 
@@ -26,7 +27,7 @@ function App() {
         path="/"
         element={
           // <RequireAuth loginPath="/login">
-          isMobile ? <MobileMainLayout><MainPage /></MobileMainLayout>:
+          isMobile ? <MobileMainLayout><MobileMainPage /></MobileMainLayout>:
             <AppLayout>
               <MainPage />
             </AppLayout>

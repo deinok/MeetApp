@@ -79,7 +79,7 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
 
       <div className="tabbar-container">
         <TabBar onChange={(key) => navigate(key)}>
-          <TabBar.Item key="/home" icon={<AppOutline />} title={t("home")} />
+          <TabBar.Item key="/" icon={<AppOutline />} title={t("home")} />
           <TabBar.Item key="/offers" icon={<UnorderedListOutline />} title={t("offers")} />
           <TabBar.Item key="/stats" icon={<PieOutline />} title={t("stats")} />
         </TabBar>
