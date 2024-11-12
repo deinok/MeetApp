@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import activities from "./activites.json";
 import { Card, Modal } from "antd-mobile";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const ActivitiesMobilePage: React.FC = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -13,7 +13,13 @@ const ActivitiesMobilePage: React.FC = () => {
         setIsModalVisible(true);
     };
 
-    
+    const handleCardKeyDown = (event: React.KeyboardEvent, activityName: string) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleCardClick(activityName);
+        }
+    };
+
     const handleConfirmJoin = () => {
         setIsModalVisible(false);
         navigate("/chat"); 
@@ -25,7 +31,14 @@ const ActivitiesMobilePage: React.FC = () => {
 
     const empresesjson = activities;
     const items = empresesjson.map((activity, index) => (
-        <div className="card" key={index} onClick={() => handleCardClick(activity.name)}>
+        <div
+            className="card"
+            key={index}
+            onClick={() => handleCardClick(activity.name)}
+            onKeyDown={(event) => handleCardKeyDown(event, activity.name)}
+            tabIndex={0} 
+            role="button" 
+        >
             <Card title={activity.name} style={{ color: "white", backgroundColor: "#5942F4" }}>
                 {activity.description}
             </Card>
