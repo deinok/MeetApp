@@ -1,4 +1,6 @@
-import "./loginStyles.css";
+import { isDesktop } from 'react-device-detect';
+if (isDesktop) import ("./loginStyles.css");
+
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
 import React, { useState } from "react";
 import { useSignIn } from "react-auth-kit";
