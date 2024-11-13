@@ -16,6 +16,8 @@ body {
 .container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .logoLogin {
   width: 35em;
@@ -31,18 +33,19 @@ body {
 }
 .loginPagecontainer {
   width: 50%;
-  height: 100vh;
+  height: auto;
   align-content: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-
 .login-container {
   background-color: #ffffff;
+  padding: 35px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 95%;
+  width: 100%;
+  max-width: 450px;
   text-align: center;
 }
 .ant-form-item-label > label {

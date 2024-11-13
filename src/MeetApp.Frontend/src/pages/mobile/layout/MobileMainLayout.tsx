@@ -1,4 +1,5 @@
-import "./MainMobileLayout.css";
+import { isMobile } from 'react-device-detect';
+if (isMobile) import ("./MainMobileLayout.css");
 import React, { useEffect, useState } from "react";
 
 import { Avatar, Popover, TabBar, Space, Button, Radio } from "antd-mobile";

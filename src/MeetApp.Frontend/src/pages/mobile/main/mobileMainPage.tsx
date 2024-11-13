@@ -1,3 +1,6 @@
+import { isMobile } from 'react-device-detect';
+if (isMobile) import ("./mobileMainPageStyles.css");
+
 import React from "react";
 import { Layout, Divider, Card, Steps } from "antd";
 import { useAuthUser } from "react-auth-kit";

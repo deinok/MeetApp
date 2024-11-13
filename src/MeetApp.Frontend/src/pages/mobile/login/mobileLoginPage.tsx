@@ -42,7 +42,9 @@
 // export default LoginPage;
 
 // src/LoginPage.jsx
-import "./mobileLoginPageStyles.css";
+import { isMobile } from 'react-device-detect';
+if (isMobile) import ("./mobileLoginPageStyles.css");
+
 import React, { useState } from "react";
 import { Button, Form, Input, Toast } from "antd-mobile";
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
