@@ -12,7 +12,7 @@ const ChatPageMobile = () => {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl(BASE_CHAT_HUB_URL) 
+      .withUrl(BASE_CHAT_HUB_URL, {withCredentials: false}) 
       .withAutomaticReconnect()
       .build();
 
