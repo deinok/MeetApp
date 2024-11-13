@@ -1,5 +1,5 @@
 import { isDesktop } from 'react-device-detect';
-if (isDesktop) import ("./OffersPage.css");
+if (isDesktop) import ("./offersPage.css");
 
 import PlaceHolderImg from "../../../img/placeholder300x300.png";
 import React, { useEffect, useState } from "react";
