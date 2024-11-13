@@ -16,7 +16,7 @@ interface MobileMainLayoutProps {
 
 const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
   const { t } = useTranslation("layout");
-  const auth = useAuthUser();
+  const user = useAuthUser()()?.user;
   const signOut = useSignOut();
   const navigate = useNavigate();
   const [language, setLanguage] = useState("es");
@@ -70,7 +70,7 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
           trigger="click"
         >
           <Avatar
-            src="https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png"
+            src={user?.profilePicture}
             style={{ "--size": "48px", "--border-radius": "50%" }}
           />
         </Popover>

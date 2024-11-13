@@ -26,7 +26,7 @@ const MobileMainPage: React.FC = () => {
   return (
     <>
      <div>
-        <h1>Hello, {user.email}</h1>
+        <h1>Hello, {user.name}</h1>
         <h3>Have a nice day</h3>
      </div>
     <div>

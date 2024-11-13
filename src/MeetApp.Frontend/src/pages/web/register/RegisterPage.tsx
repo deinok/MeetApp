@@ -1,5 +1,5 @@
-import { isDesktop } from 'react-device-detect';
-if (isDesktop) import ("./RegisterPage.css");
+import { isDesktop } from "react-device-detect";
+if (isDesktop) import("./RegisterPage.css");
 
 import React, { useState } from "react";
 import {
@@ -15,10 +15,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import { get } from "http";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 
 interface RegisterForm {
+  name: string;
   email: string;
   password: string;
   userType: string;
@@ -62,9 +64,11 @@ export const RegisterPage = () => {
   const [form] = Form.useForm<RegisterForm>();
   const [isCompany, setIsCompany] = useState(false);
   const url = `${BASE_URL}/api/v1/users/registration`;
+  const { t } = useTranslation("registerpage");
 
   const handleSubmit = async (values: RegisterForm) => {
     try {
+      values.userType = isCompany ? "Bussines" : "Student";
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -116,7 +120,17 @@ export const RegisterPage = () => {
       <Title level={2}>Registro</Title>
       <Form form={form} onFinish={handleSubmit} layout="vertical">
         <Form.Item
-          label="Email"
+          label={t("name")}
+          name="name"
+          rules={[
+            { required: true, message: "Por favor ingrese su nombre!" },
+            { validator: validateNoWhitespace },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label={t("email")}
           name="email"
           rules={[
             { required: true, message: "Por favor ingrese su email!" },
@@ -128,7 +142,7 @@ export const RegisterPage = () => {
         </Form.Item>
 
         <Form.Item
-          label="Contraseña"
+          label={t("password")}
           name="password"
           rules={[
             { required: true, message: "Por favor ingrese su contraseña!" },
@@ -139,7 +153,7 @@ export const RegisterPage = () => {
         </Form.Item>
 
         <Form.Item
-          label="Ciudad"
+          label={t("city")}
           name="city"
           rules={[
             { required: true, message: "Por favor ingrese su ciudad!" },
@@ -150,7 +164,7 @@ export const RegisterPage = () => {
         </Form.Item>
 
         <Form.Item
-          label="Foto de Perfil (URL)"
+          label={t("profile_picture")}
           name="profilePicture"
           rules={[
             {
@@ -258,7 +272,7 @@ export const RegisterPage = () => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
-            Registrarse
+            {t("register_button")}
           </Button>
         </Form.Item>
       </Form>
