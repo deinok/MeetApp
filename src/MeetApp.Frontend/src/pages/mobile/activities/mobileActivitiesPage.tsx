@@ -1,3 +1,6 @@
+import { isMobile } from 'react-device-detect';
+if (isMobile) import ("./mobileActivitiesPageStyles.css");
+
 import React, { useState } from "react";
 import activities from "./activites.json";
 import { Card, Modal } from "antd-mobile";
