@@ -19,18 +19,14 @@ namespace MeetApp.Backend.Controllers.Api.V1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [ApiExplorerSettings(GroupName = "v1")]
+    [Route("/api/v1/offer")]
     [Route("/api/v1/offers")]
-    public class OffersController : ControllerBase
+    public class OfferController(
+        AppDbContext appDbContext
+    ) : ControllerBase
     {
 
-        private readonly AppDbContext appDbContext;
-
-        public OffersController(
-            AppDbContext appDbContext
-        )
-        {
-            this.appDbContext = appDbContext;
-        }
+        private readonly AppDbContext appDbContext = appDbContext;
 
         [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.Json)]
