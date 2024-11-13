@@ -1,4 +1,6 @@
-import "./MainLayoutStyles.css";
+import { isDesktop } from 'react-device-detect';
+if (isDesktop) import ("./MainLayoutStyles.css");
+
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
 import React from "react";
 import { Layout, Dropdown, Avatar, Divider } from "antd";

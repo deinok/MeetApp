@@ -1,3 +1,6 @@
+import { isDesktop } from 'react-device-detect';
+if (isDesktop) import ("./profilePage.css");
+
 import React, { useState } from "react";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
@@ -11,7 +14,6 @@ import {
   Button,
   Modal,
 } from "antd";
-import "./profilePage.css";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import { useNavigate } from "react-router-dom";
 

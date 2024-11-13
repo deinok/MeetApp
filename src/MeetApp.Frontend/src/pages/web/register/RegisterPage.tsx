@@ -1,4 +1,6 @@
-import "./RegisterPage.css";
+import { isDesktop } from 'react-device-detect';
+if (isDesktop) import ("./RegisterPage.css");
+
 import React, { useState } from "react";
 import {
   Form,

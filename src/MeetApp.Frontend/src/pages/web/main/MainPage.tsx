@@ -1,6 +1,8 @@
+import { isDesktop } from 'react-device-detect';
+if (isDesktop) import ("./MainPageStyles.css");
+
 import React from "react";
 import { Layout, Divider, Card, Steps } from "antd";
-import "./MainPageStyles.css";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
 
