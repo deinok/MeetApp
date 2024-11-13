@@ -15,6 +15,7 @@ import MobileMainLayout from "./pages/mobile/layout/MobileMainLayout";
 import MobileLoginPage from "./pages/mobile/login/mobileLoginPage";
 import MobileMainPage from "./pages/mobile/main/mobileMainPage";
 import MobileActivitiesPage from "./pages/mobile/activities/mobileActivitiesPage";
+import ChatPageMobile from "./pages/mobile/chatPage/chatPageMobile";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
 
       <Route path="/activities" element={isMobile ? <MobileMainLayout><MobileActivitiesPage /> </MobileMainLayout>: <NoPermissionPage /> } />
+      <Route path="/chat" element={isMobile ? <MobileMainLayout><ChatPageMobile /> </MobileMainLayout>: <NoPermissionPage /> } />
       
       <Route
         path="/"
