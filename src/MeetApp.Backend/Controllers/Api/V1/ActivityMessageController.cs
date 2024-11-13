@@ -30,7 +30,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<ICollection<ActivityMessageReadResponse>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ReadAsync(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAsync(CancellationToken cancellationToken = default)
         {
             var result = await this.Read()
                 .ToListAsync(cancellationToken);
@@ -42,10 +42,23 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<ICollection<ActivityMessageReadResponse>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ReadAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             var result = await this.Read()
                 .Where(x => x.Id == id)
+                .ToListAsync(cancellationToken);
+            return this.Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("by-activity/{activityId}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<ActivityMessageReadResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetByActivityIdAsync([FromRoute] Guid activityId, CancellationToken cancellationToken = default)
+        {
+            var result = await this.Read()
+                .Where(x => x.ActivityId == activityId)
                 .ToListAsync(cancellationToken);
             return this.Ok(result);
         }
