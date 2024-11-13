@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr';
 // import { MessageBox, MessageList, Input } from 'react-chat-elements';
-import 'react-chat-elements/dist/main.css';
+// import 'react-chat-elements/dist/main.css';
 import { BASE_CHAT_HUB_URL } from '../../../configs/GeneralApiType';
 
 const ChatPageMobile = () => {
