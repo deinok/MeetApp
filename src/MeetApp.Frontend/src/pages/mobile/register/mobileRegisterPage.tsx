@@ -6,6 +6,8 @@ import { Button, Input, Form, Toast } from "antd-mobile";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BASE_URL } from "../../../configs/GeneralApiType";
+import LogoLogin from "../../../img/logoWithWhiteLetters.png";
+
 
 interface RegisterForm {
   name: string;
@@ -71,6 +73,9 @@ const MobileRegisterPage: React.FC = () => {
 
   return (
     <div className="register-container" style={{ padding: "16px" }}>
+      <div className="logo">
+        <img src={LogoLogin} alt="Logo" />
+      </div>
       <h2>{t("title")}</h2>
       <Form
         form={form}
@@ -84,7 +89,7 @@ const MobileRegisterPage: React.FC = () => {
       >
         <Form.Item
           name="name"
-          rules={[{ required: true, message: "Please enter your username" }]}
+          rules={[{ required: true, message: "Please enter your name" }]}
           className="form-item"
         >
           <Input className="form-input" placeholder={t("name")} />

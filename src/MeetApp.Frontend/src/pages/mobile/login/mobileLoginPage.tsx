@@ -1,7 +1,6 @@
 // src/LoginPage.jsx
 import { isMobile } from "react-device-detect";
 if (isMobile) import("./mobileLoginPageStyles.css");
-
 import React, { useState } from "react";
 import { Button, Divider, Form, Input, Toast } from "antd-mobile";
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
@@ -35,7 +34,7 @@ const LoginPage = () => {
 
       const data = await response.json();
 
-      if (response.ok && data.access_token) {
+      if (response.ok && data.access_token && data.user.userType == "Student") {
         signIn({
           token: data.access_token,
           expiresIn: data.expires_inm || 6000,
@@ -57,7 +56,6 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      {/* Logo en la parte superior */}
       <div className="logo">
         <img src={LogoLogin} alt="Logo" />
       </div>
@@ -90,6 +88,7 @@ const LoginPage = () => {
             onChange={(value) => {
               setUsername(value);
             }}
+            className="form-input"
           />
         </Form.Item>
         <Form.Item
@@ -105,6 +104,7 @@ const LoginPage = () => {
             onChange={(value) => {
               setPassword(value);
             }}
+            className="form-input"
           />
         </Form.Item>
       </Form>
