@@ -1,16 +1,11 @@
 import "./MainLayoutStyles.css";
-import LogoLogin from "../img/logoWithWhiteLetters.png";
+import LogoLogin from "../../../img/logoWithWhiteLetters.png";
 import React from "react";
-import {
-  Layout,
-  Dropdown,
-  Avatar,
-  Divider,
-} from "antd";
+import { Layout, Dropdown, Avatar, Divider } from "antd";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "../components/LanguageSelector";
+import { LanguageSelector } from "../../../components/LanguageSelector";
 
 const { Header, Content, Footer } = Layout;
 

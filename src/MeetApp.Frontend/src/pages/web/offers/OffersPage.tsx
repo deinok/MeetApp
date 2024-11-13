@@ -1,4 +1,4 @@
-import PlaceHolderImg from "../../img/placeholder300x300.png";
+import PlaceHolderImg from "../../../img/placeholder300x300.png";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -25,7 +25,7 @@ import dayjs from "dayjs";
 import { AddActivityForm } from "./components/AddactivityForm";
 import { EditOfferForm } from "./components/EditOfferForm";
 import "./offersPage.css";
-import { BASE_URL } from "../../configs/GenetalApiType";
+import { BASE_URL } from "../../../configs/GeneralApiType";
 
 interface Offer {
   id: string;

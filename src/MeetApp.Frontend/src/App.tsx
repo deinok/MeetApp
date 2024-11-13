@@ -1,42 +1,43 @@
 import React from "react";
 import { RequireAuth } from "react-auth-kit";
 import { Route, Routes } from "react-router-dom";
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
-import { LoginPage } from "./pages/login/LoginPage";
-import { RegisterPage } from "./pages/login/RegisterPage";
-import AppLayout from "./layout/MainLayout";
+import { ProfilePage } from "./pages/web/profile/ProfilePage";
+import { LoginPage } from "./pages/web/login/LoginPage";
+import { RegisterPage } from "./pages/web/register/RegisterPage";
+import AppLayout from "./pages/web/layout/MainLayout";
 import './i18n'; 
-import NoPermissionPage from "./pages/noPermissionPage/NoPermissionPage";
-import MainPage from "./pages/main/MainPage";
-import { OffersPage } from "./pages/offers/OffersPage";
-import StatsPage from "./pages/stats/statsPage";
-import MobileMainLayout from "./layout/mobileLayout/MobileMainLayout";
-
-import MobileMainPage from "./pages/mobile/mobileMainPage";
-
-import { ProfilePage } from "./pages/profile/ProfilePage";
-import ActivitiesMobilePage from "./pages/mobile/activitiesPage/ActivitiesMobilePage";
-
-
-const MobileLoginPage = () => <h1>Bienvenido a la versión móvil</h1>;
+import NoPermissionPage from "./pages/web/noPermissionPage/NoPermissionPage";
+import MainPage from "./pages/web/main/MainPage";
+import { OffersPage } from "./pages/web/offers/OffersPage";
+import StatsPage from "./pages/web/stats/statsPage";
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import MobileMainLayout from "./pages/mobile/layout/MobileMainLayout";
+import MobileLoginPage from "./pages/mobile/login/mobileLoginPage";
+import MobileMainPage from "./pages/mobile/main/mobileMainPage";
+import MobileActivitiesPage from "./pages/mobile/activities/mobileActivitiesPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={isMobile ? <MobileMainLayout><MobileLoginPage /></MobileMainLayout> : <LoginPage />} />
+      <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      <Route path="/activities" element={isMobile ? <MobileMainLayout><ActivitiesMobilePage /> </MobileMainLayout>: <NoPermissionPage /> } />
+      <Route path="/activities" element={isMobile ? <MobileMainLayout><MobileActivitiesPage /> </MobileMainLayout>: <NoPermissionPage /> } />
       
       <Route
         path="/"
         element={
-          // <RequireAuth loginPath="/login">
-          isMobile ? <MobileMainLayout><MobileMainPage /></MobileMainLayout>:
+          <RequireAuth loginPath="/login">
+            {isMobile ? 
+            <MobileMainLayout> 
+              <MobileMainPage /> 
+            </MobileMainLayout>
+            :
             <AppLayout>
               <MainPage />
             </AppLayout>
-          // </RequireAuth>
+            }
+          </RequireAuth>
         }
       />
       
