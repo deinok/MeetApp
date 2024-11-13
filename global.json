@@ -2,6 +2,6 @@
 	"$schema": "https://json.schemastore.org/global",
 	"sdk": {
 		"rollForward": "latestMajor",
-		"version": "9.0.0"
+		"version": "9.0.100"
 	}
 }
