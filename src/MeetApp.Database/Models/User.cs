@@ -7,6 +7,7 @@ namespace MeetApp.Database.Models
 {
     public class User : IdentityUser<Guid>
     {
+        public string? Name { get; set; }
         public UserType Type { get; set; }
         public DateTimeOffset RegisterDateTime { get; set; }
         public string? City { get; set; }
