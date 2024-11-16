@@ -8,5 +8,7 @@
   "user_required": "Por favor, introduce el usuario!",
   "user_label": "Usuario",
   "password_label": "Contraseña",
-  "login_button": "Iniciar sesión"
+  "login_button": "Iniciar sesión",
+  "register_button": "Registrarse",
+  "or": "o"
 }

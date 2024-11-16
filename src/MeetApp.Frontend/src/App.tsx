@@ -13,6 +13,7 @@ import StatsPage from "./pages/web/stats/statsPage";
 import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import MobileMainLayout from "./pages/mobile/layout/MobileMainLayout";
 import MobileLoginPage from "./pages/mobile/login/mobileLoginPage";
+import MobileRegisterPage from "./pages/mobile/register/mobileRegisterPage";
 import MobileMainPage from "./pages/mobile/main/mobileMainPage";
 import MobileActivitiesPage from "./pages/mobile/activities/mobileActivitiesPage";
 import ChatPageMobile from "./pages/mobile/chatPage/chatPageMobile";
@@ -21,7 +22,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={isMobile ? <MobileLoginPage /> : <LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/register" element={isMobile ? <MobileRegisterPage /> : <RegisterPage />} />
 
       <Route path="/activities" element={isMobile ? <MobileMainLayout><MobileActivitiesPage /> </MobileMainLayout>: <NoPermissionPage /> } />
       <Route path="/chat" element={isMobile ? <MobileMainLayout><ChatPageMobile /> </MobileMainLayout>: <NoPermissionPage /> } />

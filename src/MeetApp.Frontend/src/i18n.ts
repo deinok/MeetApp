@@ -19,6 +19,7 @@ import profilepageBA from './locales/ba/profilePage.json';
 import statspageES from './locales/es/statsPage.json';
 import statspageEN from './locales/en/statsPage.json';
 import statspageBA from './locales/ba/statsPage.json';
+import registerpageES from './locales/es/registerPage.json';
  
 
 const resources = {
@@ -36,7 +37,8 @@ const resources = {
     mainpage: mainpageES,
     profilepage: profilepageES,
     statspage: statspageES,
-    offerspage: offerspageES
+    offerspage: offerspageES,
+    registerpage: registerpageES
   },
   ba: {
     layout: layoutBA,
@@ -56,7 +58,7 @@ i18n
     resources,
     lng: initialLanguage , // Idioma por defecto
     fallbackLng: 'es',
-    ns: ['layout', 'mainpage', 'profilepage', 'statspage', 'offerspage', 'loginpage'], // Definimos los namespaces a usar
+    ns: ['layout', 'mainpage', 'profilepage', 'statspage', 'offerspage', 'loginpage', 'registerpage'], // Definimos los namespaces a usar
     defaultNS: 'mainpage', // Namespace por defecto, en este caso 'mainpage'
     interpolation: {
       escapeValue: false
