@@ -53,31 +53,20 @@ namespace MeetApp.Backend.Controllers.Api.V1
             return Ok(userIds);
         }
 
-        private async Task<UserResponse> GetAsync(Guid id, CancellationToken cancellationToken = default)
+        [AllowAnonymous]
+        [HttpGet("bussines-type")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<string>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetBussinesTypeAsync(CancellationToken cancellationToken = default)
         {
-            if (!ModelState.IsValid)
+            await Task.CompletedTask;
+            if (!this.ModelState.IsValid)
             {
-                throw new NotImplementedException();
+                return BadRequest();
             }
-            var userId = id.ToString();
-            var user = await userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                throw new NotImplementedException();
-            }
-            return new UserResponse
-            {
-                Email = user.Email,
-                Id = user.Id,
-                UserType = user.Type,
-                BussinesAddress = user.BussinesAddress,
-                BussinesCategory = user.BussinesCategory,
-                BussinesName = user.BussinesName,
-                CIF = user.CIF,
-                City = user.City,
-                GoogleMapsUrl = user.GoogleMapsUrl,
-                ProfilePicture = user.ProfilePicture,
-            };
+            return Ok(Enum.GetNames<User.BussinesCategoryType>());
         }
 
         [AllowAnonymous]
@@ -97,6 +86,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 City = registrationRequest.City,
                 Email = registrationRequest.Email,
                 GoogleMapsUrl = registrationRequest.GoogleMapsUrl,
+                Name = registrationRequest.Name,
                 ProfilePicture = registrationRequest.ProfilePicture,
                 RegisterDateTime = DateTimeOffset.UtcNow,
                 Type = registrationRequest.UserType,
@@ -106,22 +96,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
             var identityResult = await this.userManager.CreateAsync(user, registrationRequest.Password);
             if (identityResult.Succeeded) { return this.Ok(); }
             return this.BadRequest();
-        }
-
-        [AllowAnonymous]
-        [HttpGet("bussines-type")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType<ICollection<string>>(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetBussinesTypeAsync(CancellationToken cancellationToken = default)
-        {
-            await Task.CompletedTask;
-            if (!this.ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            return Ok(Enum.GetNames<Database.Models.User.BussinesCategoryType>());
         }
 
         [AllowAnonymous]
@@ -185,9 +159,39 @@ namespace MeetApp.Backend.Controllers.Api.V1
             });
         }
 
+        private async Task<UserResponse> GetAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new NotImplementedException();
+            }
+            var userId = id.ToString();
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new NotImplementedException();
+            }
+            return new UserResponse
+            {
+                Email = user.Email,
+                Id = user.Id,
+                Name = user.Name,
+                UserType = user.Type,
+                BussinesAddress = user.BussinesAddress,
+                BussinesCategory = user.BussinesCategory,
+                BussinesName = user.BussinesName,
+                CIF = user.CIF,
+                City = user.City,
+                GoogleMapsUrl = user.GoogleMapsUrl,
+                ProfilePicture = user.ProfilePicture,
+            };
+        }
+
+
         public record RegistrationRequest
         {
             public required string Email { get; init; }
+            public required string? Name { get; init; }
             public required string Password { get; init; }
             public required User.UserType UserType { get; init; }
             public required string City { get; init; }
@@ -275,6 +279,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
 
             [Required]
             public required Guid Id { get; init; }
+
+            public required string? Name { get; init; }
 
             public required User.UserType UserType { get; init; }
             public required string City { get; init; }

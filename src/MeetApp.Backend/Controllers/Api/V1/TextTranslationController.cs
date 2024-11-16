@@ -27,7 +27,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType<TextTranslationResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<TextTranslationResponse>(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ReadAsync([FromBody] TextTranslationRequest textTranslationRequest, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> PostAsync([FromBody] TextTranslationRequest textTranslationRequest, CancellationToken cancellationToken = default)
         {
             var response = await this.textTranslationClient.TranslateAsync(textTranslationRequest.TargetLanguage, textTranslationRequest.Text, cancellationToken: cancellationToken);
             return this.Ok(new TextTranslationResponse
