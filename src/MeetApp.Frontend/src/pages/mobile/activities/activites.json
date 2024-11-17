@@ -1,22 +1,26 @@
 [
-    { 
-    "name": "Empreses Colab",
-    "description": "Empreses Colab és una plataforma que permet a les empreses col·laborar amb els estudiants de la Universitat de Barcelona en projectes de recerca i innovació.",
-    "image": "https://www.ub.edu/web/ub/ca/menu_eines/noticies/2019/07/Imatge_UB.jpg"
-},
-{
-    "name": "Empreses Colab111",
-    "description": "Empreses Colab és una plataforma que permet a les empreses col·laborar amb els estudiants de la Universitat de Barcelona en projectes de recerca i innovació.",
-    "image": "https://www.ub.edu/web/ub/ca/menu_eines/noticies/2019/07/Imatge_UB.jpg"
-},
-{
-    "name": "Empreses Colab222",
-    "description": "Empreses Colab és una plataforma que permet a les empreses col·laborar amb els estudiants de la Universitat de Barcelona en projectes de recerca i innovació.",
-    "image": "https://www.ub.edu/web/ub/ca/menu_eines/noticies/2019/07/Imatge_UB.jpg"
-},
-{
-    "name": "Empreses Colab333",
-    "description": "Empreses Colab és una plataforma que permet a les empreses col·laborar amb els estudiants de la Universitat de Barcelona en projectes de recerca i innovació.",
-    "image": "https://www.ub.edu/web/ub/ca/menu_eines/noticies/2019/07/Imatge_UB.jpg"
-}
+  {
+    "offerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "ownerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "title": "Sample Activity 1",
+    "description": "This is a sample activity description.",
+    "dateTime": "2024-11-17T19:11:50.453Z",
+    "peopleLimit": 5
+  },
+  {
+    "offerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "ownerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "title": "Sample Activity 2",
+    "description": "This is a sample activity description.",
+    "dateTime": "2024-11-18T20:11:50.453Z",
+    "peopleLimit": 2
+  },
+  {
+    "offerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "ownerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "title": "Sample Activity 3",
+    "description": "This is a sample activity description.",
+    "dateTime": "2024-11-19T13:45:50.453Z",
+    "peopleLimit": 3
+  }
 ]

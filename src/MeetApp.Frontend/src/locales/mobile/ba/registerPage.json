@@ -1,0 +1,15 @@
+{
+  "title": "Kreirajte svoj račun",
+  "name": "Ime",
+  "email": "Email",
+  "password": "Lozinka",
+  "city": "Grad",
+  "profile_picture": "Profilna slika (URL)",
+  "register_button": "Registrujte se",
+  "name_required": "Molimo unesite svoje ime!",
+  "email_required": "Molimo unesite svoj email!",
+  "password_required": "Molimo unesite svoju lozinku!",
+  "city_required": "Molimo unesite svoj grad!",
+  "email_invalid": "Molimo unesite važeći email!",
+  "picture_required": "Molimo unesite važeći URL!"
+}

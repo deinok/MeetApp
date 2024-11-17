@@ -1,0 +1,16 @@
+{
+  "title": "Profile",
+  "name": "Name",
+  "email": "Email",
+  "city": "City",
+  "profile_picture": "Profile Picture",
+  "edit_button": "Edit",
+  "delete_button": "Delete",
+  "save_button": "Save",
+  "cancel_button": "Cancel",
+  "account_delete_message": "Are you sure you want to delete your account?",
+  "account_delete_fail": "Failed to delete account",
+  "account_delete_error": "Error deleting account",
+  "accept_delete_account_button": "Yes",
+  "cancel_delete_account_button": "Cancel"
+}

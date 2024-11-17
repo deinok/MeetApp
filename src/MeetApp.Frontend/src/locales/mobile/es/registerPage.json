@@ -1,0 +1,15 @@
+{
+  "title": "Crea tu cuenta",
+  "name": "Nombre",
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "city": "Ciudad",
+  "profile_picture": "Foto de perfil (URL)",
+  "register_button": "Registrarse",
+  "name_required": "Por favor, introduce tu nombre!",
+  "email_required": "Por favor, introduce tu correo electrónico!",
+  "password_required": "Por favor, introduce tu contraseña!",
+  "city_required": "Por favor, introduce tu ciudad!",
+  "email_invalid": "Por favor, introduce un correo electrónico válido!",
+  "picture_required": "Por favor, introduce una URL válida!"
+}

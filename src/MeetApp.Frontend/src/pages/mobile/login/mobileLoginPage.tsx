@@ -59,7 +59,7 @@ const LoginPage = () => {
       <div className="logo">
         <img src={LogoLogin} alt="Logo" />
       </div>
-      <h2>Iniciar sesión</h2>
+      <h2>{t("title")}</h2>
 
       <Form
         layout="horizontal"
@@ -71,7 +71,11 @@ const LoginPage = () => {
               {t("login_button")}
             </Button>
             <Divider> {t("or")} </Divider>
-            <Button onClick={() => navigate("/register")} block style={{height: "50px"}}>
+            <Button
+              onClick={() => navigate("/register")}
+              block
+              style={{ height: "50px" }}
+            >
               {t("register_button")}
             </Button>
           </>
@@ -79,10 +83,10 @@ const LoginPage = () => {
       >
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Por favor, ingresa tu correo" }]}
+          rules={[{ required: true, message: t("email_required") }]}
         >
           <Input
-            placeholder="Correo electrónico"
+            placeholder={t("email")}
             type="email"
             name="username"
             onChange={(value) => {
@@ -93,12 +97,10 @@ const LoginPage = () => {
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[
-            { required: true, message: "Por favor, ingresa tu contraseña" },
-          ]}
+          rules={[{ required: true, message: t("password_required") }]}
         >
           <Input
-            placeholder="Contraseña"
+            placeholder={t("password")}
             type="password"
             name="password"
             onChange={(value) => {

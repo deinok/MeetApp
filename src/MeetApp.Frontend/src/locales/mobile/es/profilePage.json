@@ -1,0 +1,16 @@
+{
+  "title": "Perfil",
+  "name": "Nombre",
+  "email": "Correo electrónico",
+  "city": "Ciudad",
+  "profile_picture": "Foto de perfil",
+  "edit_button": "Editar",
+  "delete_button": "Eliminar",
+  "save_button": "Guardar",
+  "cancel_button": "Cancelar",
+  "account_delete_message": "¿Estás seguro de que quieres eliminar tu cuenta?",
+  "account_delete_fail": "No se ha podido eliminar la cuenta",
+  "account_delete_error": "Error al eliminar la cuenta",
+  "accept_delete_account_button": "Sí",
+  "cancel_delete_account_button": "Cancelar"
+}
