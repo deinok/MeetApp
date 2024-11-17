@@ -81,7 +81,7 @@ const ActivitiesMobilePage: React.FC = () => {
           <div className="card-content">
             <p>{activity.description}</p>
           </div>
-          <div className="card-footer" onClick={(e) => e.stopPropagation()}>
+          <div className="card-footer">
             <div className="date-container">
               <div className="location">
                 <EnvironmentOutline />

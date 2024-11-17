@@ -55,7 +55,7 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
     <div className="mobile-layout">
       <div className="mobile-header">
         {(location.pathname !== "/" && (
-          <div className="back-button" onClick={() => navigate(-1)}>
+          <div className="back-button" onClick={() => navigate(-1)} onKeyDown={() => {}}>
             <ArrowLeftOutlined />
           </div>
         )) || <img src={LogoLogin} alt="Logo" className="logo" />}
