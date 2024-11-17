@@ -1,0 +1,15 @@
+{
+  "title": "Create your account",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "city": "City",
+  "profile_picture": "Profile picture (URL)",
+  "register_button": "Register",
+  "name_required": "Please enter your name!",
+  "email_required": "Please enter your email!",
+  "password_required": "Please enter your password!",
+  "city_required": "Please enter your city!",
+  "email_invalid": "Please enter a valid email!",
+  "picture_required": "Please enter a valid URL!"
+}

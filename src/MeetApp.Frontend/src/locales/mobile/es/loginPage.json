@@ -1,0 +1,13 @@
+{
+  "title": "Iniciar sesión",
+  "login_success": "Sesión iniciada con éxito!",
+  "login_error": "Error al iniciar sesión",
+  "invalid_credentials": "Credenciales inválidas",
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "password_required": "Por favor, introduce tu contraseña!",
+  "email_required": "Por favor, introduce tu correo electrónico!",
+  "login_button": "Iniciar sesión",
+  "register_button": "Registrarse",
+  "or": "o"
+}

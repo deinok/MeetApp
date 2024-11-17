@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
 
-
 interface RegisterForm {
   name: string;
   email: string;
@@ -89,21 +88,21 @@ const MobileRegisterPage: React.FC = () => {
       >
         <Form.Item
           name="name"
-          rules={[{ required: true, message: "Please enter your name" }]}
+          rules={[{ required: true, message: t("name_required") }]}
           className="form-item"
         >
           <Input className="form-input" placeholder={t("name")} />
         </Form.Item>
         <Form.Item
           name="email"
-          rules={[{ required: true, message: "Please enter your email" }]}
+          rules={[{ required: true, message: t("email_required") }]}
           className="form-item"
         >
           <Input className="form-input" placeholder={t("email")} />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: "Please enter your password" }]}
+          rules={[{ required: true, message: t("password_required") }]}
           className="form-item"
         >
           <Input
@@ -116,7 +115,7 @@ const MobileRegisterPage: React.FC = () => {
         <Form.Item
           name="city"
           rules={[
-            { required: true, message: "Por favor ingrese su ciudad!" },
+            { required: true, message: t("city_required") },
             { validator: validateNoWhitespace },
           ]}
         >
@@ -128,7 +127,7 @@ const MobileRegisterPage: React.FC = () => {
           rules={[
             {
               required: true,
-              message: "Por favor ingrese la URL de su foto de perfil!",
+              message: t("picture_required"),
             },
           ]}
           className="form-item"

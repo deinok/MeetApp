@@ -1,0 +1,16 @@
+{
+  "title": "Profil",
+  "name": "Ime",
+  "email": "Email",
+  "city": "Grad",
+  "profile_picture": "Profilna slika",
+  "edit_button": "Uredi",
+  "delete_button": "Izbriši",
+  "save_button": "Sačuvaj",
+  "cancel_button": "Otkaži",
+  "account_delete_message": "Jeste li sigurni da želite izbrisati svoj račun?",
+  "account_delete_fail": "Brisanje računa nije uspjelo",
+  "account_delete_error": "Greška pri brisanju računa",
+  "accept_delete_account_button": "Da",
+  "cancel_delete_account_button": "Otkaži"
+}

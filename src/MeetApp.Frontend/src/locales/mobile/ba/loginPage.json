@@ -1,0 +1,13 @@
+{
+  "title": "Prijava",
+  "login_success": "Prijava uspješna!",
+  "login_error": "Greška pri prijavi",
+  "invalid_credentials": "Neispravni podaci",
+  "email": "Email",
+  "password": "Lozinka",
+  "password_required": "Molimo unesite vašu lozinku!",
+  "email_required": "Molimo unesite vaš email!",
+  "login_button": "Prijava",
+  "register_button": "Registracija",
+  "or": "ili"
+}
