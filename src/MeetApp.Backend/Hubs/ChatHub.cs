@@ -7,7 +7,7 @@ namespace MeetApp.Backend.Hubs
 {
 
     public class ChatHub(
-        AppDbContext appDbContext    
+        AppDbContext appDbContext
     ) : Hub<ChatHub.IClient>
     {
 
