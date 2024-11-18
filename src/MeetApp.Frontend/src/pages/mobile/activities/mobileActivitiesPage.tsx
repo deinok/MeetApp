@@ -20,6 +20,7 @@ import message from "antd/es/message";
 import { useAuthUser } from "react-auth-kit";
 
 interface Activity {
+  id: string,
   offerId: string;
   ownerId: string;
   title: string;
@@ -76,9 +77,9 @@ const ActivitiesMobilePage: React.FC = () => {
 
       if (response.ok) {
         const createdActivity: Activity = await response.json();
-        setActivities((prevActivities) => [...prevActivities, createdActivity]); // Agregar la nueva actividad al estado
+        setActivities((prevActivities) => [...prevActivities, createdActivity]); 
         message.success("Activity created successfully");
-        setIsFormModalVisible(false); // Cierra el modal después de crear la actividad
+        setIsFormModalVisible(false); 
       } else {
         message.error("Error creating activity");
       }
@@ -110,15 +111,14 @@ const ActivitiesMobilePage: React.FC = () => {
   };
 
 
-  const handlerOpenModal = () => {
+  const handlerOpenModal = (id: string) => {
     setIsModalVisible(true);
+    setSelectedActivity(id)
   };
   
-  //passar activityId: string com a paràmetre
-  const handleConfirmJoin = () => {
+  const handleConfirmJoin = (id: string) => {
     setIsModalVisible(false);
-    // navigate(`/chat/${activityId}`);
-    navigate("/chat");
+    navigate(`/chat/${id}`);
   };
 
   const handleCancel = () => {
@@ -130,13 +130,14 @@ const ActivitiesMobilePage: React.FC = () => {
     const time = dayjs(datetime).format("HH:mm"); // Get time
     return { date, time };
   };
+  console.log(selectedActivity, "selectedActivity id here");
 
-  const items = activities.map((activity, index) => { // Mapear activities directamente
+  const items = activities.map((activity, index) => {
     const { date, time } = processDateTime(activity.dateTime);
     return (
       <div
         className="card"
-        key={index}
+        key={activity.id}
         // onClick={() => handleCardClick(activity.name)}
         // onKeyDown={(event) => handleCardKeyDown(event, activity.name)}
         tabIndex={0}
@@ -178,7 +179,7 @@ const ActivitiesMobilePage: React.FC = () => {
             <Button
               color="primary"
               onClick={() => {
-                handlerOpenModal();
+                handlerOpenModal(activity.id);
               }}
             >
               {t("join_button")}
@@ -208,7 +209,7 @@ const ActivitiesMobilePage: React.FC = () => {
           onClose={handleCancel}
           actions={[
             { key: "no", text: "No", onClick: handleCancel },
-            { key: "yes", text: "Sí", onClick: handleConfirmJoin },
+            { key: "yes", text: "Sí", onClick: () => handleConfirmJoin(selectedActivity!) },
           ]}
         />
       )}
