@@ -109,12 +109,15 @@ const ActivitiesMobilePage: React.FC = () => {
     }
   };
 
+
   const handlerOpenModal = () => {
     setIsModalVisible(true);
   };
-
+  
+  //passar activityId: string com a paràmetre
   const handleConfirmJoin = () => {
     setIsModalVisible(false);
+    // navigate(`/chat/${activityId}`);
     navigate("/chat");
   };
 

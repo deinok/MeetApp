@@ -48,6 +48,7 @@ function App() {
           )
         }
       />
+      {/* <Route path="/chat/:activityId"/> New path when ActivityId Implemented*/ }
       <Route
         path="/chat"
         element={
