@@ -83,17 +83,17 @@ const ActivitiesMobilePage: React.FC = () => {
           </div>
           <div className="card-footer">
             <div className="date-container">
-              <div className="location">
+              <div>
                 <EnvironmentOutline />
                 <span>{t("location")}:</span>
               </div>
-              <div className="date">
+              <div>
                 <CalendarOutline />
                 <span>
                   {t("date")}: {date}
                 </span>
               </div>
-              <div className="time">
+              <div>
                 <ClockCircleOutline />
                 <span>
                   {t("time")}: {time}

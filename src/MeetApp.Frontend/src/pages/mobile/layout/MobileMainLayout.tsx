@@ -1,18 +1,28 @@
 import { isMobile } from "react-device-detect";
 if (isMobile) import("./MainMobileLayout.css");
 import React, { useEffect, useState } from "react";
-import { Avatar, Popover, TabBar, Button, Radio } from "antd-mobile";
+import { Avatar, Popover, TabBar, Button, Radio, Toast } from "antd-mobile";
 import {
   UnorderedListOutline,
   MessageOutline,
+  ScanningOutline,
+  HandPayCircleOutline,
+  TransportQRcodeOutline,
+  UserOutline,
+  GlobalOutline,
 } from "antd-mobile-icons";
-import { ArrowLeftOutlined, HomeOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  HomeOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ReactCountryFlag from "react-country-flag";
 import i18n from "../../../i18n";
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
+import { Action } from "antd-mobile/es/components/popover";
 
 interface MobileMainLayoutProps {
   children: React.ReactNode;
@@ -26,6 +36,7 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
   const location = useLocation();
   const [activeKey, setActiveKey] = useState(location.pathname);
   const [language, setLanguage] = useState("es");
+  const [visible, setVisible] = useState(false);
 
   const handleLogout = () => {
     signOut();
@@ -51,28 +62,78 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
     setActiveKey(location.pathname);
   }, [location]);
 
+  const languageSelector = (
+    <div className="languages">
+      <Radio.Group
+        value={language}
+        onChange={(val) => handleLanguageChange(val as string)}
+      >
+        <Radio value="es">
+          <ReactCountryFlag countryCode="ES" svg />
+        </Radio>
+        <Radio value="en">
+          <ReactCountryFlag countryCode="US" svg />
+        </Radio>
+        <Radio value="ba">
+          <ReactCountryFlag countryCode="BA" svg />
+        </Radio>
+      </Radio.Group>
+    </div>
+  );
+
+  const actions: Action[] = [
+    {
+      key: "profile",
+      icon: <UserOutline />,
+      text: t("profile"),
+      onClick: () => navigate("/profile"),
+    },
+    { key: "language", icon: <GlobalOutline />, text: languageSelector },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      text: t("logout"),
+      onClick: handleLogout,
+    },
+  ];
+
   return (
     <div className="mobile-layout">
       <div className="mobile-header">
         {(location.pathname !== "/" && (
-          <div className="back-button" onClick={() => navigate(-1)} onKeyDown={() => {}}>
+          <div
+            className="back-button"
+            onClick={() => navigate(-1)}
+            onKeyDown={() => {}}
+          >
             <ArrowLeftOutlined />
           </div>
         )) || <img src={LogoLogin} alt="Logo" className="logo" />}
+        <Popover.Menu
+          actions={actions}
+          trigger="click"
+          className="user-popover"
+        >
+          <Avatar
+            src={user?.profilePicture}
+            style={{ "--size": "48px", "--border-radius": "50%" }}
+          />
+        </Popover.Menu>
 
-        <Popover
+        {/* <Popover
+          trigger="click"
           content={
-            <div className="user-popover"
-              style={{
-                padding: "5px",
-                display: "flex",
-                flexDirection: "column",
-              }}
+            <div
+              className="user-popover"
             >
-              <Button onClick={() => navigate("/profile")}>
+              <Button
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
                 {t("profile")}
               </Button>
-              <div className= "languages">
+              <div className="languages">
                 <Radio.Group
                   value={language}
                   onChange={(val) => handleLanguageChange(val as string)}
@@ -93,13 +154,12 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
               </Button>
             </div>
           }
-          trigger="click"
         >
           <Avatar
             src={user?.profilePicture}
             style={{ "--size": "48px", "--border-radius": "50%" }}
           />
-        </Popover>
+        </Popover> */}
       </div>
 
       <div className="mobile-content">{children}</div>
@@ -112,7 +172,11 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
             navigate(key); // Navigate to the selected tab
           }}
         >
-          <TabBar.Item key="/" icon={<HomeOutlined />} title={t("home_section")} />
+          <TabBar.Item
+            key="/"
+            icon={<HomeOutlined />}
+            title={t("home_section")}
+          />
           <TabBar.Item
             key="/activities"
             icon={<UnorderedListOutline />}
