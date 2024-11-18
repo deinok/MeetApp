@@ -18,12 +18,14 @@ import {
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { Divider } from "antd";
+import { useAuthUser } from "react-auth-kit";
 
 const ActivitiesMobilePage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
   const navigate = useNavigate();
   const { t } = useTranslation("activitiespage");
+  const user = useAuthUser()()?.user;
 
   const handleCardClick = (activityName: string) => {
     setSelectedActivity(activityName);
@@ -52,6 +54,7 @@ const ActivitiesMobilePage: React.FC = () => {
   const processDateTime = (datetime: string) => {
     const date = dayjs(datetime).format("DD/MM/YYYY"); // Get date
     const time = dayjs(datetime).format("HH:mm"); // Get time
+    console.log(user.id);
     return { date, time };
   };
 
@@ -83,31 +86,51 @@ const ActivitiesMobilePage: React.FC = () => {
           </div>
           <div className="card-footer">
             <div className="date-container">
-              <div>
-                <EnvironmentOutline />
-                <span>{t("location")}:</span>
-              </div>
+              {activity.offerId && (
+                <div>
+                  <EnvironmentOutline />
+                  <span></span>
+                </div>
+              )}
               <div>
                 <CalendarOutline />
-                <span>
-                  {t("date")}: {date}
-                </span>
+                <span>{date}</span>
               </div>
               <div>
                 <ClockCircleOutline />
-                <span>
-                  {t("time")}: {time}
-                </span>
+                <span>{time}</span>
               </div>
             </div>
-            <Button
-              color="primary"
-              onClick={() => {
-                // Toast.show("点击了底部按钮");
-              }}
-            >
-              {t("join_button")}
-            </Button>
+            <div className="buttons-container">
+              {/* {user.id == activity.ownerId && (
+                <>
+                  <Button
+                    color="danger"
+                    onClick={() => {
+                      // Toast.show("点击了底部按钮");
+                    }}
+                  >
+                    {t("delete_button")}
+                  </Button>
+                  <Button
+                    color="danger"
+                    onClick={() => {
+                      // Toast.show("点击了底部按钮");
+                    }}
+                  >
+                    {t("edit_button")}
+                  </Button>
+                </>
+              )} */}
+              <Button
+                color="primary"
+                onClick={() => {
+                  // Toast.show("点击了底部按钮");
+                }}
+              >
+                {t("join_button")}
+              </Button>
+            </div>
           </div>
         </Card>
       </div>
