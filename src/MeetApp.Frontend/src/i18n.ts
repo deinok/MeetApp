@@ -4,22 +4,22 @@ import { isMobile } from "react-device-detect";
 
 import layoutEN from "./locales/web/en/layout.json";
 import layoutES from "./locales/web/es/layout.json";
-import layoutBA from "./locales/web/ba/layout.json";
+import layoutBS from "./locales/web/bs/layout.json";
 import loginpageEN from "./locales/web/en/loginPage.json";
 import loginpageES from "./locales/web/es/loginPage.json";
-import loginpageBA from "./locales/web/ba/loginPage.json";
+import loginpageBS from "./locales/web/bs/loginPage.json";
 import mainpageEN from "./locales/web/en/mainPage.json";
 import mainpageES from "./locales/web/es/mainPage.json";
-import mainpageBA from "./locales/web/ba/mainPage.json";
+import mainpageBS from "./locales/web/bs/mainPage.json";
 import offerspageEN from "./locales/web/en/offersPage.json";
 import offerspageES from "./locales/web/es/offersPage.json";
-import offerspageBA from "./locales/web/ba/offersPage.json";
+import offerspageBS from "./locales/web/bs/offersPage.json";
 import profilepageEN from "./locales/web/en/profilePage.json";
 import profilepageES from "./locales/web/es/profilePage.json";
-import profilepageBA from "./locales/web/ba/profilePage.json";
+import profilepageBS from "./locales/web/bs/profilePage.json";
 import statspageES from "./locales/web/es/statsPage.json";
 import statspageEN from "./locales/web/en/statsPage.json";
-import statspageBA from "./locales/web/ba/statsPage.json";
+import statspageBS from "./locales/web/bs/statsPage.json";
 import registerpageES from "./locales/web/es/registerPage.json";
 
 // Mobile
@@ -37,12 +37,12 @@ import mobileRegisterEN from "./locales/mobile/en/registerPage.json";
 import mobileProfileEN from "./locales/mobile/en/profilePage.json";
 import mobileMainEN from "./locales/mobile/en/mainPage.json";
 
-import mobileLayoutBA from "./locales/mobile/ba/layout.json";
-import mobileActivitiesBA from "./locales/mobile/ba/activitiesPage.json";
-import mobileLoginBA from "./locales/mobile/ba/loginPage.json";
-import mobileRegisterBA from "./locales/mobile/ba/registerPage.json";
-import mobileProfileBA from "./locales/mobile/ba/profilePage.json";
-import mobileMainBA from "./locales/mobile/ba/mainPage.json";
+import mobileLayoutBS from "./locales/mobile/bs/layout.json";
+import mobileActivitiesBS from "./locales/mobile/bs/activitiesPage.json";
+import mobileLoginBS from "./locales/mobile/bs/loginPage.json";
+import mobileRegisterBS from "./locales/mobile/bs/registerPage.json";
+import mobileProfileBS from "./locales/mobile/bs/profilePage.json";
+import mobileMainBS from "./locales/mobile/bs/mainPage.json";
 
 const webResources = {
   en: {
@@ -62,13 +62,13 @@ const webResources = {
     offerspage: offerspageES,
     registerpage: registerpageES,
   },
-  ba: {
-    layout: layoutBA,
-    loginpage: loginpageBA,
-    mainpage: mainpageBA,
-    profilepage: profilepageBA,
-    statspage: statspageBA,
-    offerspage: offerspageBA,
+  bs: {
+    layout: layoutBS,
+    loginpage: loginpageBS,
+    mainpage: mainpageBS,
+    profilepage: profilepageBS,
+    statspage: statspageBS,
+    offerspage: offerspageBS,
   },
 };
 
@@ -89,13 +89,13 @@ const mobileResources = {
     profilepage: mobileProfileEN,
     mainpage: mobileMainEN,
   },
-  ba: {
-    layout: mobileLayoutBA,
-    activitiespage: mobileActivitiesBA,
-    loginpage: mobileLoginBA,
-    registerpage: mobileRegisterBA,
-    profilepage: mobileProfileBA,
-    mainpage: mobileMainBA,
+  bs: {
+    layout: mobileLayoutBS,
+    activitiespage: mobileActivitiesBS,
+    loginpage: mobileLoginBS,
+    registerpage: mobileRegisterBS,
+    profilepage: mobileProfileBS,
+    mainpage: mobileMainBS,
   },
 };
 

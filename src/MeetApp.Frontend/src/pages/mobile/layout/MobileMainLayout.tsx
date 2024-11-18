@@ -74,7 +74,7 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
         <Radio value="en">
           <ReactCountryFlag countryCode="US" svg />
         </Radio>
-        <Radio value="ba">
+        <Radio value="bs">
           <ReactCountryFlag countryCode="BA" svg />
         </Radio>
       </Radio.Group>
