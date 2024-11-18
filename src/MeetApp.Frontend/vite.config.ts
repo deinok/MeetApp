@@ -6,9 +6,11 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      devOptions: {
+        enabled: true,
+      },
+      includeAssets: [],
       injectRegister: "auto",
-      registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       manifest: {
         name: "MeetApp",
         short_name: "MeetApp",
@@ -38,9 +40,12 @@ export default defineConfig({
           },
         ],
       },
-      strategies: "injectManifest",
-      srcDir: "src",
-      filename: "service-worker.js"
+      registerType: "autoUpdate",
+      strategies: "generateSW",
+      workbox: {
+        globPatterns: [],
+        runtimeCaching: [],
+      }
     }),
   ],
   build: {
