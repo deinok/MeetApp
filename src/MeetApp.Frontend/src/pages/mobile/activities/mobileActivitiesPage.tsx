@@ -119,7 +119,6 @@ const ActivitiesMobilePage: React.FC = () => {
   };
 
   const handleCancel = () => {
-    selectedActivity;
     setIsModalVisible(false);
   };
 
