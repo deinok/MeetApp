@@ -1,4 +1,3 @@
-// src/components/ChatPageMobile.tsx
 
 import React, { useEffect, useState } from 'react';
 import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr';
@@ -10,6 +9,7 @@ const ChatPageMobile: React.FC = () => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const [messages, setMessages] = useState<{ user: string; message: string; date: Date }[]>([]);
   const [inputMessage, setInputMessage] = useState("");
+  // const { activityId } = useParams<{ activityId: string }>();
   const auth = useAuthUser();
   const user = auth()?.user;
   const userId = user.id; 
@@ -49,10 +49,11 @@ const ChatPageMobile: React.FC = () => {
       connection?.stop();
     };
   }, [connection]);
+
   const sendMessage = async () => {
     if (connection && inputMessage.trim()) {
       try {
-        await connection.send("SendMessage", userId, inputMessage);
+        await connection.send("SendMessage", userId, activityId, inputMessage);
         setMessages((prevMessages) => [
           ...prevMessages,
           { user: userId, message: inputMessage, date: new Date() }
