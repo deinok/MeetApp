@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr';
 import { BASE_CHAT_HUB_URL } from '../../../configs/GeneralApiType';
