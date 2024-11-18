@@ -75,7 +75,7 @@ const ChatPageMobile: React.FC = () => {
           ...prevMessages,
           { user: userId, message: inputMessage, date: new Date() }
         ]); 
-        setInputMessage(inputMessage);
+        setInputMessage("");
       } catch (error) {
         console.error("Error al enviar mensaje:", error);
       }
