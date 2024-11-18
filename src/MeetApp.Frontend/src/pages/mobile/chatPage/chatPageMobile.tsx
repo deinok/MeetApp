@@ -1,19 +1,18 @@
-
 import React, { useEffect, useState } from 'react';
 import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr';
 import { BASE_CHAT_HUB_URL } from '../../../configs/GeneralApiType';
 import './chatPage.css';
 import { useAuthUser } from 'react-auth-kit';
+import { useParams } from 'react-router-dom';
 
 const ChatPageMobile: React.FC = () => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
-  const [messages, setMessages] = useState<{ user: string; message: string; date: Date }[]>([]);
+  const [messages, setMessages] = useState<{ user: string; message: string; date?: Date, activityId?: string }[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  // const { activityId } = useParams<{ activityId: string }>();
+  const { activityId } = useParams<{ activityId: string }>();
   const auth = useAuthUser();
   const user = auth()?.user;
   const userId = user.id; 
-  const activityId = "9cbb1e2a-5eab-4d56-bb7a-e3e0a5d1f472"; 
   
 
   useEffect(() => {
@@ -50,6 +49,24 @@ const ChatPageMobile: React.FC = () => {
     };
   }, [connection]);
 
+  useEffect(() => {
+    if (connection) {
+      connection.on("NotifySendMessage", (senderId: string, activityId: string, message: string) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { user: senderId,  activityId: activityId , message: message }
+        ]);
+        console.log(`Mensaje recibido de ${senderId}: ${message}`)
+
+      });
+    }
+  
+    return () => {
+      connection?.off("NotifySendMessage");
+    };
+  }, [connection]);
+  
+
   const sendMessage = async () => {
     if (connection && inputMessage.trim()) {
       try {
@@ -74,7 +91,7 @@ const ChatPageMobile: React.FC = () => {
           <div key={index} className={`message ${msg.user === userId ? 'sent' : 'received'}`}>
             <span className="user">{msg.user}:</span>
             <span className="text">{msg.message}</span>
-            <span className="date">{msg.date.toLocaleTimeString()}</span>
+            <span className="date">{msg.date?.toLocaleTimeString()}</span>
           </div>
         ))}
       </div>
@@ -94,7 +111,5 @@ const ChatPageMobile: React.FC = () => {
 };
 
 export default ChatPageMobile;
-function auth() {
-  throw new Error('Function not implemented.');
-}
+
 
