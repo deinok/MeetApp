@@ -49,7 +49,7 @@ function App() {
         }
       />
       <Route
-        path="/chat"
+        path="/chat/:activityId"
         element={
           isMobile ? (
             <MobileMainLayout>

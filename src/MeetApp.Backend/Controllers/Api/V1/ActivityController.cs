@@ -31,28 +31,24 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [AllowAnonymous]
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType<ICollection<ActivityReadResponse>>(StatusCodes.Status200OK)]
-        [ProducesResponseType<ICollection<ActivityReadResponse>>(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ReadAsync(CancellationToken cancellationToken = default)
+        [ProducesResponseType<ICollection<ActivityGetResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAsync(CancellationToken cancellationToken = default)
         {
-            var activities = await this.Read().ToListAsync(cancellationToken);
-            return this.Ok(activities);
+            var activity = await this.Read().ToListAsync(cancellationToken);
+            return this.Ok(activity);
         }
 
         [AllowAnonymous]
         [HttpGet("{date}")]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType<ActivityReadResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ActivityGetResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAllByDateAsync([FromRoute][Required] DateTime date, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByDate([FromRoute][Required] DateTime date, CancellationToken cancellationToken = default)
         {
-            var activities = await appDbContext.Activities
+            var activities = await this.Read()
                 .Where(x => x.DateTime.Date == date.Date)
                 .ToListAsync(cancellationToken);
-            if (activities is null)
-            {
-                return this.NotFound();
-            }
             return this.Ok(activities);
         }
 
@@ -129,19 +125,21 @@ namespace MeetApp.Backend.Controllers.Api.V1
             return Ok(activity);
         }
 
-        private IQueryable<ActivityReadResponse> Read()
+        private IQueryable<ActivityGetResponse> Read()
         {
             return this.appDbContext.Activities
-                .Select(x => new ActivityReadResponse()
+                .Select(x => new ActivityGetResponse()
                 {
                     DateTime = x.DateTime,
                     Description = x.Description,
-                    Title = x.Title,
+                    Id = x.Id,
                     OfferId = x.OfferId,
                     OwnerId = x.OwnerId,
-                    PeopleLimit = x.PeopleLimit
+                    PeopleLimit = x.PeopleLimit,
+                    Title = x.Title,
                 });
         }
+
         public record ActivityUpdateRequest
         {
             public Guid? OfferId { get; set; }
@@ -156,21 +154,26 @@ namespace MeetApp.Backend.Controllers.Api.V1
 
             public uint? PeopleLimit { get; set; }
         }
-        public record ActivityReadResponse
+
+        public record ActivityGetResponse
         {
-            public Guid? OfferId { get; set; }
 
-            public Guid OwnerId { get; set; }
+            public required DateTimeOffset DateTime { get; init; }
 
-            public required string Title { get; set; }
+            public required string Description { get; init; }
 
-            public required string Description { get; set; }
+            public required Guid Id { get; init; }
 
-            public DateTimeOffset DateTime { get; set; }
+            public required Guid? OfferId { get; init; }
 
-            public uint? PeopleLimit { get; set; }
+            public required Guid OwnerId { get; init; }
+
+            public required uint? PeopleLimit { get; init; }
+
+            public required string Title { get; init; }
 
         }
+
         public record ActivityCreateRequest
         {
             public Guid? OfferId { get; set; }
@@ -186,5 +189,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public uint? PeopleLimit { get; set; }
 
         }
+
     }
+
 }
