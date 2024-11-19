@@ -70,14 +70,16 @@ const ChatPageMobile: React.FC = () => {
       connection.on(
         "NotifySendMessage",
         async (senderId: string, activityId: string, message: string) => {
-          const messageToShow = autoTranslate
-            ? await translateMessage(message)
-            : message;
+          const messageToShow =
+            sessionStorage.getItem("autoTranslate") === "true"
+              ? await translateMessage(message)
+              : message;
           setMessages((prevMessages) => [
             ...prevMessages,
             { user: senderId, activityId: activityId, message: messageToShow },
           ]);
           console.log(`Mensaje recibido de ${senderId}: ${message}`);
+          console.log(sessionStorage.getItem("autoTranslate"));
         }
       );
     }
@@ -91,14 +93,16 @@ const ChatPageMobile: React.FC = () => {
     if (connection && inputMessage.trim()) {
       try {
         await connection.send("SendMessage", userId, activityId, inputMessage);
-        const messageToShow = autoTranslate
-          ? await translateMessage(inputMessage)
-          : inputMessage;
+        const messageToShow =
+          sessionStorage.getItem("autoTranslate") === "true"
+            ? await translateMessage(inputMessage)
+            : inputMessage;
         setMessages((prevMessages) => [
           ...prevMessages,
           { user: userId, message: messageToShow, date: new Date() },
         ]);
         setInputMessage("");
+        console.log(sessionStorage.getItem("autoTranslate"));
       } catch (error) {
         console.error("Error al enviar mensaje:", error);
       }
@@ -128,12 +132,22 @@ const ChatPageMobile: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("The switch state has changed to:", autoTranslate);
+    sessionStorage.setItem("autoTranslate", autoTranslate.toString());
+    // Add your logic here if needed
+  }, [autoTranslate]);
+
+  const handleSwitchChange = (checked: boolean) => {
+    setAutoTranslate(checked);
+  };
+
   return (
     <div className="chat-container">
       <h2>Chat en Tiempo Real</h2>
       <Switch
         checked={autoTranslate}
-        onChange={() => setAutoTranslate(!autoTranslate)}
+        onChange={handleSwitchChange}
         style={{ margin: "10px", alignSelf: "end" }}
         checkedText={<CheckOutline fontSize={18} />}
         uncheckedText={<CloseOutline fontSize={18} />}
