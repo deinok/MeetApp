@@ -1,7 +1,20 @@
 {
-    "search_placeholder": "Pretraži aktivnost",
-    "date": "Datum",
-    "time": "Vrijeme",
-    "location": "Lokacija",
-    "join_button": "Pridruži se"
+  "search_placeholder": "Pretraži aktivnost",
+  "date": "Datum",
+  "time": "Vrijeme",
+  "location": "Lokacija",
+  "join_button": "Pridruži se",
+  "yes": "Da",
+  "no": "Ne",
+  "join_activity_message": "Želite li se pridružiti {{name}}?",
+  "create_activity": "Objavi aktivnost",
+  "activity_title": "Naziv aktivnosti",
+  "activity_description": "Opis aktivnosti",
+  "activity_datetime": "Datum aktivnosti",
+  "activity_people": "Broj osoba",
+  "date_format": "DD/MM/YYYY",
+  "time_format": "HH:mm",
+  "create_button": "Objavi",
+  "confirm_date": "Potvrdi",
+  "cancel_date": "Otkaži"
 }

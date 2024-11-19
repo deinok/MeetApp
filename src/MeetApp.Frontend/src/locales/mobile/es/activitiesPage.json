@@ -1,7 +1,20 @@
 {
-    "search_placeholder": "Busca una actividad",
-    "date": "Fecha",
-    "time": "Hora",
-    "location": "Ubicación",
-    "join_button": "Unirse"   
+  "search_placeholder": "Busca una actividad",
+  "date": "Fecha",
+  "time": "Hora",
+  "location": "Ubicación",
+  "join_button": "Unirse",
+  "yes": "Sí",
+  "no": "No",
+  "join_activity_message": "¿Quieres unirte a {{name}}?",
+  "create_activity": "Publicar actividad",
+  "activity_title": "Nombre de la actividad",
+  "activity_description": "Descripción de la actividad",
+  "activity_datetime": "Fecha de la actividad",
+  "activity_people": "Número de personas",
+  "date_format": "DD/MM/YYYY",
+  "time_format": "HH:mm",
+  "create_button": "Publicar",
+  "confirm_date": "Confirmar",
+  "cancel_date": "Cancelar"
 }

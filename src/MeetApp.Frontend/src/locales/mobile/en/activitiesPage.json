@@ -1,7 +1,20 @@
 {
-    "search_placeholder": "Search for an activity",
-    "date": "Date",
-    "time": "Time",
-    "location": "Location",
-    "join_button": "Join"
+  "search_placeholder": "Search for an activity",
+  "date": "Date",
+  "time": "Time",
+  "location": "Location",
+  "join_button": "Join",
+  "yes": "Yes",
+  "no": "No",
+  "join_activity_message": "Do you want to join {{name}}?",
+  "create_activity": "Create activity",
+  "activity_title": "Activity name",
+  "activity_description": "Activity description",
+  "activity_datetime": "Activity date",
+  "activity_people": "Number of people",
+  "date_format": "MM/DD/YYYY",
+  "time_format": "HH:mm",
+  "create_button": "Create",
+  "confirm_date": "Confirm",
+  "cancel_date": "Cancel"
 }
