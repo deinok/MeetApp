@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { HubConnectionBuilder, HubConnection } from '@microsoft/signalr';
-import { BASE_CHAT_HUB_URL } from '../../../configs/GeneralApiType';
-import './chatPage.css';
-import { useAuthUser } from 'react-auth-kit';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { HubConnectionBuilder, HubConnection } from "@microsoft/signalr";
+import { BASE_CHAT_HUB_URL, BASE_URL } from "../../../configs/GeneralApiType";
+import "./chatPage.css";
+import { useAuthUser } from "react-auth-kit";
+import { useParams } from "react-router-dom";
+import { Button, Switch } from "antd-mobile";
+import { CheckOutline, CloseOutline, RightOutline } from "antd-mobile-icons";
+import { use } from "i18next";
+import dayjs from "dayjs";
 
 const ChatPageMobile: React.FC = () => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
-  const [messages, setMessages] = useState<{ user: string; message: string; date?: Date, activityId?: string }[]>([]);
+  const [messages, setMessages] = useState<
+    { user: string; message: string; date?: Date; activityId?: string }[]
+  >([]);
   const [inputMessage, setInputMessage] = useState("");
   const { activityId } = useParams<{ activityId: string }>();
-  const auth = useAuthUser();
-  const user = auth()?.user;
-  const userId = user.id; 
-  
+  const user = useAuthUser()()?.user;
+  const userId = user.id;
+  const translateUrl = `${BASE_URL}/api/v1/text-translation`;
+  const [autoTranslate, setAutoTranslate] = useState(false);
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
@@ -25,23 +31,33 @@ const ChatPageMobile: React.FC = () => {
 
   useEffect(() => {
     if (connection) {
-      connection.start()
+      connection
+        .start()
         .then(async () => {
           console.log("Conectado al hub de mensajes");
 
           await connection.invoke("JoinChat", userId, activityId);
 
-          connection.on("NotifyJoinChat", (joinedUserId: string, joinedActivityId: string) => {
-            if (joinedActivityId === activityId && joinedUserId !== userId) {
-              console.log(`El usuario ${joinedUserId} se ha unido al chat.`);
-              setMessages((prevMessages) => [
-                ...prevMessages,
-                { user: "System", message: `El usuario ${joinedUserId} se ha unido al chat.`, date: new Date() }
-              ]);
+          connection.on(
+            "NotifyJoinChat",
+            (joinedUserId: string, joinedActivityId: string) => {
+              if (joinedActivityId === activityId && joinedUserId !== userId) {
+                console.log(`El usuario ${joinedUserId} se ha unido al chat.`);
+                setMessages((prevMessages) => [
+                  ...prevMessages,
+                  {
+                    user: "System",
+                    message: `El usuario ${joinedUserId} se ha unido al chat.`,
+                    date: new Date(),
+                  },
+                ]);
+              }
             }
-          });
+          );
         })
-        .catch(error => console.error("Error al conectar con el hub:", error));
+        .catch((error) =>
+          console.error("Error al conectar con el hub:", error)
+        );
     }
 
     return () => {
@@ -51,30 +67,37 @@ const ChatPageMobile: React.FC = () => {
 
   useEffect(() => {
     if (connection) {
-      connection.on("NotifySendMessage", (senderId: string, activityId: string, message: string) => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { user: senderId,  activityId: activityId , message: message }
-        ]);
-        console.log(`Mensaje recibido de ${senderId}: ${message}`)
-
-      });
+      connection.on(
+        "NotifySendMessage",
+        async (senderId: string, activityId: string, message: string) => {
+          const messageToShow = autoTranslate
+            ? await translateMessage(message)
+            : message;
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { user: senderId, activityId: activityId, message: messageToShow },
+          ]);
+          console.log(`Mensaje recibido de ${senderId}: ${message}`);
+        }
+      );
     }
-  
+
     return () => {
       connection?.off("NotifySendMessage");
     };
   }, [connection]);
-  
 
   const sendMessage = async () => {
     if (connection && inputMessage.trim()) {
       try {
         await connection.send("SendMessage", userId, activityId, inputMessage);
+        const messageToShow = autoTranslate
+          ? await translateMessage(inputMessage)
+          : inputMessage;
         setMessages((prevMessages) => [
           ...prevMessages,
-          { user: userId, message: inputMessage, date: new Date() }
-        ]); 
+          { user: userId, message: messageToShow, date: new Date() },
+        ]);
         setInputMessage("");
       } catch (error) {
         console.error("Error al enviar mensaje:", error);
@@ -82,16 +105,53 @@ const ChatPageMobile: React.FC = () => {
     }
   };
 
+  const translateMessage = async (msg: string) => {
+    try {
+      const response = await fetch(translateUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: msg,
+          targetLanguage: localStorage.getItem("language") || "en",
+        }),
+      });
+
+      if (response.ok) {
+        return (await response.json()).text;
+      } else {
+        return msg;
+      }
+    } catch (error) {
+      return msg;
+    }
+  };
+
   return (
     <div className="chat-container">
       <h2>Chat en Tiempo Real</h2>
-
+      <Switch
+        checked={autoTranslate}
+        onChange={() => setAutoTranslate(!autoTranslate)}
+        style={{ margin: "10px", alignSelf: "end" }}
+        checkedText={<CheckOutline fontSize={18} />}
+        uncheckedText={<CloseOutline fontSize={18} />}
+      />
       <div className="messages-container">
         {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.user === userId ? 'sent' : 'received'}`}>
-            <span className="user">{msg.user}:</span>
-            <span className="text">{msg.message}</span>
-            <span className="date">{msg.date?.toLocaleTimeString()}</span>
+          <div
+            key={index}
+            className={`message ${msg.user === userId ? "sent" : "received"}`}
+          >
+            <p className="user">{msg.user}:</p>
+            <p className="text">{msg.message}</p>
+            <p className="date">
+              {msg.date?.toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
           </div>
         ))}
       </div>
@@ -102,14 +162,14 @@ const ChatPageMobile: React.FC = () => {
           placeholder="Escribe un mensaje..."
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()} 
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
-        <button onClick={sendMessage}>Enviar</button>
+        <Button color="primary" onClick={sendMessage}>
+          <RightOutline />
+        </Button>
       </div>
     </div>
   );
 };
 
 export default ChatPageMobile;
-
-

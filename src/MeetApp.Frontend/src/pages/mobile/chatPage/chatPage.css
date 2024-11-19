@@ -1,85 +1,83 @@
 /* src/components/ChatPageMobile.css */
 
 .chat-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-  }
-  
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+
   h2 {
     text-align: center;
     margin-bottom: 10px;
   }
-  
+
   .messages-container {
-    flex: 1;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-x: hidden;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
     background-color: #f9f9f9;
   }
-  
+
   .message {
     margin: 5px 0;
     padding: 5px 10px;
     border-radius: 8px;
     max-width: 80%;
   }
-  
+
   .sent {
     align-self: flex-end;
-    background-color: #007bff;
+    background-color: #437dad;
     color: white;
   }
-  
+
   .received {
     align-self: flex-start;
     background-color: #e1e1e1;
   }
-  
+
   .user {
     font-weight: bold;
     margin-right: 5px;
   }
-  
+
   .text {
     display: inline-block;
     margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
-  
+
   .date {
     font-size: 0.8em;
-    color: #555;
+    color: #ffffff;
   }
-  
+
   .input-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 5px;
+    margin-bottom: 20px;
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      width: 100%;
+    }
+
+    button {
+      padding: 5.5px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
-  
-  input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-  }
-  
-  button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+}
