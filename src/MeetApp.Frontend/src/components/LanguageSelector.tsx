@@ -32,7 +32,7 @@ export const LanguageSelector: React.FC = () => {
       <Radio.Button value="en">
         <ReactCountryFlag countryCode="US" svg />
       </Radio.Button>
-      <Radio.Button value="ba">
+      <Radio.Button value="bs">
         <ReactCountryFlag countryCode="BA" svg />
       </Radio.Button>
     </Radio.Group>

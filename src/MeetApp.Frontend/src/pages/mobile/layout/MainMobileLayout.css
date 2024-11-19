@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 .mobile-layout {
   display: flex;
   flex-direction: column;
@@ -32,6 +37,19 @@
   }
 }
 
+.adm-popover-menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 0px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.adm-plain-anchor {
+  padding-left: 0;
+}
+
 .back-button {
   display: flex;
   justify-content: center;
@@ -41,6 +59,7 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   background-color: #437dad;
   color: white;
+  cursor: pointer;
 }
 
 .mobile-header .adm-avatar {
@@ -70,7 +89,7 @@
 }
 
 .adm-tab-bar {
-  padding:0px;
+  padding: 0px;
 }
 
 .adm-tab-bar-item {
@@ -84,9 +103,6 @@
 }
 
 .user-popover {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
   background-color: #ffffff;
   border-radius: 8px;
   z-index: 1000;
@@ -100,19 +116,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border: 1.5px solid #e0e0e0;
-    padding: 10px;
-    border-radius: 4px;
 
-  
     span {
       margin-right: 10px;
     }
-  
+
     .adm-radio {
-      margin-right: 10px;
+      margin-right: 12px;
     }
   }
 }
@@ -138,4 +148,10 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
+.adm-button-default {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #ffffff !important;
+}
