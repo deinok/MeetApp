@@ -40,6 +40,15 @@ interface Activity {
   peopleLimit: number;
 }
 
+interface ActivityForm {
+  offerId: string;
+  ownerId: string;
+  title: string;
+  description: string;
+  dateTime: string;
+  peopleLimit: number;
+}
+
 const ActivitiesMobilePage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
@@ -50,13 +59,14 @@ const ActivitiesMobilePage: React.FC = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const navigate = useNavigate();
   const url = `${BASE_URL}/api/v1/activity`;
-  const userId = user.id;
 
   const dateFormatTemp = t("date_format");
   const timeFormatTemp = t("time_format");
   const dateFormat =
     dateFormatTemp != "date_format" ? dateFormatTemp : "YYYY-MM-DD";
   const timeFormat = timeFormatTemp != "time_format" ? timeFormatTemp : "HH:mm";
+
+  const [form] = Form.useForm<ActivityForm>();
 
   const fetchActivity = async () => {
     try {
@@ -76,10 +86,10 @@ const ActivitiesMobilePage: React.FC = () => {
     fetchActivity();
   }, []);
 
-  const handleCreateActivity = async () => {
+  const handleCreateActivity = async (values: ActivityForm) => {
     const activityData = {
-      ...newActivity,
-      ownerId: userId,
+      ...values,
+      ownerId: user.id,
     };
 
     try {
@@ -273,6 +283,7 @@ const ActivitiesMobilePage: React.FC = () => {
             content={
               <>
                 <Form
+                  form={form}
                   layout="horizontal"
                   mode="card"
                   onFinish={handleCreateActivity}
