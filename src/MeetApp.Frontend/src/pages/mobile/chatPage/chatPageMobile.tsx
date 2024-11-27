@@ -4,10 +4,11 @@ import { BASE_CHAT_HUB_URL, BASE_URL } from "../../../configs/GeneralApiType";
 import "./chatPage.css";
 import { useAuthUser } from "react-auth-kit";
 import { useParams } from "react-router-dom";
-import { Button, Switch } from "antd-mobile";
+import { Button, Modal, Switch } from "antd-mobile";
 import { CheckOutline, CloseOutline, RightOutline } from "antd-mobile-icons";
 import { use } from "i18next";
 import dayjs from "dayjs";
+import { QRCode } from "antd";
 
 const ChatPageMobile: React.FC = () => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
@@ -15,12 +16,19 @@ const ChatPageMobile: React.FC = () => {
     { user: string; message: string; date?: Date; activityId?: string }[]
   >([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { activityId } = useParams<{ activityId: string }>();
   const user = useAuthUser()()?.user;
   const userId = user.id;
   const translateUrl = `${BASE_URL}/api/v1/text-translation`;
   const [autoTranslate, setAutoTranslate] = useState(false);
 
+  const handleCardClick = () => {
+    setIsModalVisible(true);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
       .withUrl(BASE_CHAT_HUB_URL, { withCredentials: false })
@@ -143,8 +151,10 @@ const ChatPageMobile: React.FC = () => {
   };
 
   return (
+    
     <div className="chat-container">
       <h2>Chat en Tiempo Real</h2>
+
       <Switch
         checked={autoTranslate}
         onChange={handleSwitchChange}
@@ -152,6 +162,18 @@ const ChatPageMobile: React.FC = () => {
         checkedText={<CheckOutline fontSize={18} />}
         uncheckedText={<CloseOutline fontSize={18} />}
       />
+      <div
+        className="chat-profile"
+        onClick={handleCardClick}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            handleCardClick();
+          }
+        }}
+      >
+        <p>{activityId}</p>
+      </div>
       <div className="messages-container">
         {messages.map((msg, index) => (
           <div
@@ -182,6 +204,23 @@ const ChatPageMobile: React.FC = () => {
           <RightOutline />
         </Button>
       </div>
+      {isModalVisible && (
+        <Modal
+          visible={isModalVisible}
+          content={<div><strong>ActivityId:</strong> {activityId}<div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
+          <QRCode
+            size={250}
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            value={"https://meet-app-udl.azurewebsites.net/"}
+          />
+        </div></div>}
+          closeOnMaskClick={true}
+          onClose={handleCancel}
+          actions={[
+            { key: "cancel", text: "cancel", onClick: handleCancel },
+          ]}
+        />
+      )}
     </div>
   );
 };

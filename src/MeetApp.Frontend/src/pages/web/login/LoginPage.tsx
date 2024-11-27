@@ -1,6 +1,4 @@
 import { isDesktop } from 'react-device-detect';
-if (isDesktop) import ("./loginStyles.css");
-
 import LogoLogin from "../../../img/logoWithWhiteLetters.png";
 import React, { useState } from "react";
 import { useSignIn } from "react-auth-kit";
@@ -8,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, message } from "antd";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import { useTranslation } from "react-i18next";
-
 import { LanguageSelector } from "../../../components/LanguageSelector";
+
+if (isDesktop) import ("./LoginPage.css");
 
 const { Title } = Typography;
 
