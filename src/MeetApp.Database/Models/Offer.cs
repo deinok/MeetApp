@@ -25,6 +25,8 @@ namespace MeetApp.Database.Models
         [Required]
         public DateOnly ExpirationDate { get; set; }
 
+        public bool Paid { get; set; }
+
         [StringLength(16)]
         public string Tag { get; set; }
 

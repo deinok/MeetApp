@@ -93,6 +93,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                     Description = x.Description,
                     ExpirationDate = x.ExpirationDate,
                     Id = x.Id,
+                    Paid = x.Paid,
                     Tag = x.Tag,
                     Title = x.Title,
                 });
@@ -123,6 +124,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required string Description { get; init; }
             public required DateOnly ExpirationDate { get; init; }
             public required Guid Id { get; init; }
+            public required bool Paid { get; init; }
             public string? Tag { get; init; }
             public required string Title { get; init; }
         }
