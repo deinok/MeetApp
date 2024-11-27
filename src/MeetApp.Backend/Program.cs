@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -67,6 +68,10 @@ namespace MeetApp.Backend
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<AppDbContext>();
+            webApplicationBuilder.Services.AddScoped(serviceProvider =>
+            {
+                return new StripeClient(apiKey: "sk_test_51QPSb1AxVQbF9tzBokh6BaorRe4V11TdfS1z9wkM4HsG9Xd5Agc6LUXs4xfroufc6B3GwQm86Bt0U6tkY0aDs3GN00qzNDa1LP");
+            });
             webApplicationBuilder.Services.AddSignalR();
             webApplicationBuilder.Services.AddSwaggerGen();
             var webApplication = webApplicationBuilder.Build();
