@@ -22,10 +22,11 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ClockCircleOutlined,
+  CreditCardOutlined
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
-import { AddActivityForm } from "./components/AddactivityForm";
+import { AddActivityForm } from "./components/AddActivityForm";
 import { EditOfferForm } from "./components/EditOfferForm";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 
@@ -99,6 +100,8 @@ export const OffersPage = () => {
       tag: offer.tag,
     });
   };
+
+  const onCreditCardClick = (offerId: string) => {};
 
   const handleDeleteOffer = async (id: string) => {
     Modal.confirm({
@@ -253,6 +256,7 @@ export const OffersPage = () => {
                       key="edit"
                       onClick={() => handleEditOffer(offer)}
                     />,
+                    <CreditCardOutlined key="credit-card" onClick={()=> onCreditCardClick(offer.id) } />,
                     <DeleteOutlined
                       key="delete"
                       className="delete-button"
