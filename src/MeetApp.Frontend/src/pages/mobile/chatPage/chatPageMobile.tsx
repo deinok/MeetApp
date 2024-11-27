@@ -162,7 +162,16 @@ const ChatPageMobile: React.FC = () => {
         checkedText={<CheckOutline fontSize={18} />}
         uncheckedText={<CloseOutline fontSize={18} />}
       />
-      <div className="chat-profile" onClick={handleCardClick}>
+      <div
+        className="chat-profile"
+        onClick={handleCardClick}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            handleCardClick();
+          }
+        }}
+      >
         <p>{activityId}</p>
       </div>
       <div className="messages-container">
