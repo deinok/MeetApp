@@ -18,7 +18,6 @@ const MapComponent: React.FC = () => {
     { lat: 40.73061, lng: -73.935242 }, // Ejemplo: Nueva York
     { lat: 34.052235, lng: -118.243683 }, // Ejemplo: Los Ángeles
     { lat: 41.878113, lng: -87.629799 }, // Ejemplo: Chicago
-    location,
   ];
 
   useEffect(() => {
