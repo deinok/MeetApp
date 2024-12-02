@@ -4,17 +4,13 @@ import {
   APIProvider,
   Map,
   InfoWindow,
+  Pin,
 } from "@vis.gl/react-google-maps";
 
-import {
-  AddOutline,
-  AntOutline,
-  CalendarOutline,
-  ClockCircleOutline,
-  EnvironmentOutline,
-  RightOutline,
-  UserOutline,
-} from "antd-mobile-icons";
+import { ClockCircleOutline, EnvironmentOutline, UserOutline } from "antd-mobile-icons";
+import { isMobile } from "react-device-detect";
+import { Button } from "antd";
+isMobile && import("./MapWithMarkersStyles.css");
 
 interface MapWithMarkersProps {
   center: { lat: number; lng: number } | undefined;
@@ -30,8 +26,6 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
     height: "400px",
   };
 
-  const position = { lat: 40.73061, lng: -73.935242 };
-
   const [selectedLocation, setSelectedLocation] = useState<
     google.maps.LatLng | { lat: number; lng: number } | null
   >();
@@ -46,27 +40,46 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
         disableDefaultUI={true}
         style={mapContainerStyle}
       >
-        {locations &&
-          locations.map((location, index) => (
-            <AdvancedMarker key={index} position={location} />
-          ))}
         <AdvancedMarker
           position={center}
           title={"Mi casa"}
           onClick={() => setSelectedLocation(center)}
-        ></AdvancedMarker>
+        >
+          <Pin
+            background={"#0f9d58"}
+            borderColor={"#006425"}
+            glyphColor={"#60d98f"}
+          />
+        </AdvancedMarker>
+        {locations &&
+          locations.map((location, index) => (
+            <AdvancedMarker key={index} position={location} />
+          ))}
+
         {selectedLocation && (
           <InfoWindow
-            headerContent={<h3>McDonald's Copa d'Or</h3>}
+            headerContent={<h3>Title</h3>}
             position={selectedLocation} // Position the bubble at the marker's location
             onCloseClick={() => setSelectedLocation(null)} // Close the bubble when clicked
           >
-            <div>
-              <p>Lat: {selectedLocation.lat.toString()}</p>
-              <p>Lng: {selectedLocation.lng.toString()}</p>
+            <div className="activity-marker-window">
+              <p>
+                <UserOutline /> 
+                <span>0/5</span>
+              </p>
+              <p>
+                  <EnvironmentOutline />
+                  <span>Location</span>
+                </p>
               <p>
                 <ClockCircleOutline />
                 <span>9:00h</span>
+              </p>
+              <p>
+                Click to see more details...
+              </p>
+              <p>
+              <Button type="primary" className="activity-join-button">Join</Button>
               </p>
             </div>
           </InfoWindow>

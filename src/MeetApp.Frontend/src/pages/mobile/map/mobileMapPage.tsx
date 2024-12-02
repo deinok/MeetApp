@@ -29,7 +29,8 @@ const MapComponent: React.FC = () => {
         },
         (error) => {
           console.error("Error obtaining location", error);
-        }
+        },
+        { enableHighAccuracy: true, timeout: 5000, maximumAge:  0 }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
