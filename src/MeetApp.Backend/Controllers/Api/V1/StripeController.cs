@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Stripe;
 using Stripe.Checkout;
+using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +34,12 @@ namespace MeetApp.Backend.Controllers.Api.V1
         {
             var sessionService = new SessionService(this.stripeClient);
             var session = await sessionService.GetAsync(checkoutSessionId, cancellationToken: cancellationToken);
-            return this.Ok(checkoutSessionId + "   -   " + session.ClientReferenceId);
+            var offer = await this.appDbContext.Offers
+                .Where(x => x.Id == Guid.Parse(session.ClientReferenceId))
+                .SingleAsync(cancellationToken);
+            offer.Paid = true;
+            _ = await this.appDbContext.SaveChangesAsync(cancellationToken);
+            return this.Redirect("/offers");
         }
 
     }
