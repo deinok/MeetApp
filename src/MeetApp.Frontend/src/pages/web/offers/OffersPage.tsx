@@ -93,7 +93,7 @@ export const OffersPage = () => {
   };
 
   const handleValidateOffer = (offerId: string) => {
-      window.location.href = encodeURI(`https://buy.stripe.com/test_dR65lKc2j9ry3eM9AA?prefilled_email=${user.email}`);
+      window.location.href = encodeURI(`https://buy.stripe.com/test_dR65lKc2j9ry3eM9AA?client_reference_id=${offerId}&prefilled_email=${user.email}`);
   };
 
   const handleEditOffer = (offer: Offer) => {
