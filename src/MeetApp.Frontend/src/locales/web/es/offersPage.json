@@ -12,6 +12,7 @@
   "edit_offer": "Editar oferta",
   "search_placeholder": "Buscar",
   "offer_expired": "Oferta expirada",
+  "offer_invalid": "Oferta invalida",
   "offer_valid": "Oferta válida",
   "offer_delete_message": "¿Estás seguro de que quieres eliminar esta oferta?",
   "offer_delete_success": "Oferta eliminada",

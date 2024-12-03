@@ -47,10 +47,10 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-.offer-state-icon{
+.offer-state-icon {
   position: absolute;
-  top: 10;
-  left: 10;
+  top: 10px;
+  left: 10px;
   font-size: 24px;
   z-index: 100;
 }
