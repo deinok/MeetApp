@@ -36,8 +36,8 @@ interface Offer {
   title: string;
   description: string;
   expirationDate: string;
+  paid: boolean;
   tag: string;
-  valid: boolean;
 }
 
 export const OffersPage = () => {
@@ -92,7 +92,7 @@ export const OffersPage = () => {
     setEditingOffer(null);
   };
 
-  const handleValidateOffer = (offerId: string) => {
+  const handlePayOffer = (offerId: string) => {
       window.location.href = encodeURI(`https://buy.stripe.com/test_dR65lKc2j9ry3eM9AA?client_reference_id=${offerId}&prefilled_email=${user.email}`);
   };
 
@@ -260,7 +260,7 @@ export const OffersPage = () => {
                       key="edit"
                       onClick={() => handleEditOffer(offer)}
                     />,
-                    <CreditCardOutlined onClick={()=>handleValidateOffer(offer.id)} />,
+                    <CreditCardOutlined onClick={() => handlePayOffer(offer.id)} />,
                     <DeleteOutlined
                       key="delete"
                       className="delete-button"
@@ -268,11 +268,11 @@ export const OffersPage = () => {
                     />,
                   ]}
                 >
-                  <Tooltip title={expired ? t("offer_expired") : (offer.valid ? t("offer_valid") : t("offer_invalid"))}>
+                  <Tooltip title={expired ? t("offer_expired") : (offer.paid ? t("offer_paid") : t("offer_invalid"))}>
                     {expired ? (
                       <CloseCircleOutlined className="offer-state-icon" style={{ color: "black" }} />
                     ) : (
-                      offer.valid ? (
+                      offer.paid ? (
                         <CheckCircleOutlined className="offer-state-icon" style={{ color: "green" }} />
                       ) : (
                         <CloseCircleOutlined className="offer-state-icon" style={{ color: "red" }} />
