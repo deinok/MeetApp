@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using Stripe.Checkout;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,10 +29,9 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<IActionResult> CallbackAsync([FromQuery(Name = "checkout-session-id")] string checkoutSessionId, CancellationToken cancellationToken = default)
         {
-            await Task.CompletedTask;
-            //var productService = new ProductService(this.stripeClient);
-            //var products = await productService.ListAsync(cancellationToken: cancellationToken);
-            return this.Ok(checkoutSessionId);
+            var sessionService = new SessionService(this.stripeClient);
+            var session = await sessionService.GetAsync(checkoutSessionId, cancellationToken: cancellationToken);
+            return this.Ok(checkoutSessionId + "   -   " + session.ClientReferenceId);
         }
 
     }
