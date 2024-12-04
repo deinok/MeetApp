@@ -24,6 +24,7 @@ import MobileActivitiesPage from "./pages/mobile/activities/mobileActivitiesPage
 import ChatPageMobile from "./pages/mobile/chatPage/chatPageMobile";
 import MobileProfilePage from "./pages/mobile/profile/mobileProfilePage";
 import MobileMapPage from "./pages/mobile/map/mobileMapPage";
+isMobile && import("./MobileApp.css");
 
 function App() {
   if (isMobile) {

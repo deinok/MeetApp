@@ -55,11 +55,11 @@ body {
   justify-content: center;
   align-items: center;
   padding: 12px;
-  border-radius: 50%;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   background-color: #437dad;
   color: white;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .mobile-header .adm-avatar {
@@ -127,31 +127,3 @@ body {
   }
 }
 
-.adm-button-primary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: #34638a !important;
-  border-color: #34638a !important;
-  color: white;
-
-  svg {
-    vertical-align: middle !important;
-  }
-}
-
-.ant-btn-color-primary.ant-btn-link {
-  color: #34638a;
-  background-color: transparent !important;
-  border-color: transparent !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.adm-button-default {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: #ffffff !important;
-}

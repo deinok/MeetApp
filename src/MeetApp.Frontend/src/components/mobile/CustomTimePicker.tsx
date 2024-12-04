@@ -49,7 +49,7 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({
         }}
         confirmText="OK"
         cancelText="Cancel"
-        title="Select Date"
+        title="Select Time"
         mouseWheel={true}
         value={selectedTime ? selectedTime.split(":") : undefined}
       ></Picker>

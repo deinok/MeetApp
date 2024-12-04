@@ -1,0 +1,62 @@
+#root,
+body,
+html {
+  margin: 0;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+.adm-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+
+  svg {
+    vertical-align: middle !important;
+  }
+}
+
+.adm-button-primary {
+  background-color: #34638a !important;
+  border-color: #34638a !important;
+  color: white;
+}
+
+.adm-button-default {
+  background-color: #ffffff !important;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.form-input {
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+Form {
+  width: 100%;
+  border: none !important;
+  --border-inner: none !important;
+
+
+}

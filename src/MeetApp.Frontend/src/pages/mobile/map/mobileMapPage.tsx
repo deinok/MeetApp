@@ -62,7 +62,10 @@ const MapComponent: React.FC = () => {
           <div className="filter">
             {/* <span>Fecha:</span> */}
             <Button onClick={() => setDatePickerVisible(true)}>
-            <CalendarOutline /> <span className="value">{selectedDate}</span>
+              <div className="button-content">
+                <CalendarOutline className="icon"/>
+                <span className="value">{selectedDate}</span>
+              </div>
             </Button>
             <CustomDatePicker
               visible={datePickerVisible}
@@ -75,7 +78,8 @@ const MapComponent: React.FC = () => {
             {/* <span>Desde:</span> */}
             <Button onClick={() => setTimePickerVisible(true)}>
               <div className="button-content">
-              <ClockCircleOutline /> <span>{selectedTime} </span>
+                <ClockCircleOutline className="icon"/>
+                <span className="value">{selectedTime} </span>
               </div>
             </Button>
             <CustomTimePicker

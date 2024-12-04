@@ -13,7 +13,7 @@ import {
   UserOutline,
 } from "antd-mobile-icons";
 import { isMobile } from "react-device-detect";
-import { Button } from "antd";
+import { Button } from "antd-mobile";
 isMobile && import("./MapWithMarkersStyles.css");
 
 interface MapWithMarkersProps {
@@ -81,7 +81,7 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
               </p>
               <p>Click to see more details...</p>
               <p>
-                <Button type="primary" className="activity-join-button">
+                <Button color="primary" className="activity-join-button">
                   Join
                 </Button>
               </p>

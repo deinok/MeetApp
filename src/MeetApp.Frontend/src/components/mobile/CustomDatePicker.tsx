@@ -38,7 +38,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
         }}
         confirmText="OK"
         cancelText="Cancel"
-        title="Select Time"
+        title="Select Date"
         mouseWheel={true}
         value={dayjs(selectedTime, 'DD-MM-YYYY').toDate() ?? undefined}
       ></DatePicker>
