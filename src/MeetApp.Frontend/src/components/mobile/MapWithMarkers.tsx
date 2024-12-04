@@ -7,7 +7,11 @@ import {
   Pin,
 } from "@vis.gl/react-google-maps";
 
-import { ClockCircleOutline, EnvironmentOutline, UserOutline } from "antd-mobile-icons";
+import {
+  ClockCircleOutline,
+  EnvironmentOutline,
+  UserOutline,
+} from "antd-mobile-icons";
 import { isMobile } from "react-device-detect";
 import { Button } from "antd";
 isMobile && import("./MapWithMarkersStyles.css");
@@ -64,22 +68,22 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
           >
             <div className="activity-marker-window">
               <p>
-                <UserOutline /> 
+                <UserOutline />
                 <span>0/5</span>
               </p>
               <p>
-                  <EnvironmentOutline />
-                  <span>Location</span>
-                </p>
+                <EnvironmentOutline />
+                <span>Location</span>
+              </p>
               <p>
                 <ClockCircleOutline />
                 <span>9:00h</span>
               </p>
+              <p>Click to see more details...</p>
               <p>
-                Click to see more details...
-              </p>
-              <p>
-              <Button type="primary" className="activity-join-button">Join</Button>
+                <Button type="primary" className="activity-join-button">
+                  Join
+                </Button>
               </p>
             </div>
           </InfoWindow>

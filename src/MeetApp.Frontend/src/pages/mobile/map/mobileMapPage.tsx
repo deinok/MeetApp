@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { isMobile } from "react-device-detect";
 if (isMobile) import("./mobileMapPageStyles.css");
 
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
 import MapWithMarkers from "../../../components/mobile/MapWithMarkers";
+import CustomTimePicker from "../../../components/mobile/CustomTimePicker";
+import CustomDatePicker from "../../../components/mobile/CustomDatePicker";
+import { Button, DatePickerRef, PickerRef } from "antd-mobile";
+import dayjs from "dayjs";
+import {
+  AddOutline,
+  AntOutline,
+  CalendarOutline,
+  ClockCircleOutline,
+  EnvironmentOutline,
+  RightOutline,
+  UserOutline,
+} from "antd-mobile-icons";
 
 const MapComponent: React.FC = () => {
   const [location, setLocation] = useState<{ lat: number; lng: number }>();
@@ -12,6 +25,11 @@ const MapComponent: React.FC = () => {
   const user = useAuthUser()()?.user;
 
   const center = { lat: 40.73061, lng: -73.935242 }; // Coordenadas del centro del mapa.
+
+  const [timePickerVisible, setTimePickerVisible] = useState(false); // State to control the visibility of the Picker
+  const [datePickerVisible, setDatePickerVisible] = useState(false); // State to control the visibility of the Picker
+  const [selectedTime, setSelectedTime] = useState<string | null>(null); // State to store the selected time
+  const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to store the selected date
 
   // Lista de puntos a marcar.
   const locations = [
@@ -30,7 +48,7 @@ const MapComponent: React.FC = () => {
         (error) => {
           console.error("Error obtaining location", error);
         },
-        { enableHighAccuracy: true, timeout: 5000, maximumAge:  0 }
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -40,6 +58,37 @@ const MapComponent: React.FC = () => {
   return (
     <div className="map-conainer">
       <div>
+        <div className="map-filters">
+          <div className="filter">
+            {/* <span>Fecha:</span> */}
+            <Button onClick={() => setDatePickerVisible(true)}>
+            <CalendarOutline /> <span className="value">{selectedDate}</span>
+            </Button>
+            <CustomDatePicker
+              visible={datePickerVisible}
+              setVisibleHandler={setDatePickerVisible}
+              onChange={(value) => setSelectedDate(value)}
+              defaultValue={dayjs().format("DD-MM-YYYY")}
+            />
+          </div>
+          <div className="filter">
+            {/* <span>Desde:</span> */}
+            <Button onClick={() => setTimePickerVisible(true)}>
+              <div className="button-content">
+              <ClockCircleOutline /> <span>{selectedTime} </span>
+              </div>
+            </Button>
+            <CustomTimePicker
+              visible={timePickerVisible}
+              setVisibleHandler={setTimePickerVisible}
+              onChange={(value) => setSelectedTime(value)}
+              defaultValue={dayjs().format("HH:mm")}
+            />
+          </div>
+        </div>
+        {location && <MapWithMarkers center={location} locations={locations} />}
+      </div>
+      <div>
         {location ? (
           <p>
             Your location: Latitude: {location.lat}, Longitude: {location.lng}
@@ -47,10 +96,6 @@ const MapComponent: React.FC = () => {
         ) : (
           <p>Fetching location...</p>
         )}
-      </div>
-      <div>
-        <h1>Google Maps con Múltiples Marcadores</h1>
-        {location && <MapWithMarkers center={location} locations={locations} />}
       </div>
     </div>
   );
