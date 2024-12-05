@@ -7,6 +7,10 @@ html {
   overflow: hidden;
 }
 
+:root{
+  --adm-color-primary: #34638a;
+}
+
 body * {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -57,6 +61,4 @@ Form {
   width: 100%;
   border: none !important;
   --border-inner: none !important;
-
-
 }
