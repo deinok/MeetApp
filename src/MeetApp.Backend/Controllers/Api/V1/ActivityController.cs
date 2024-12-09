@@ -51,7 +51,36 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 .ToListAsync(cancellationToken);
             return this.Ok(activities);
         }
+        [AllowAnonymous]
+        [HttpGet("date")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<ActivityGetByDateResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ICollection<ActivityGetByDateResponse>>(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetByDateAsync(DateTime dateTimeFrom, CancellationToken cancellationToken = default)
+        {
+            var startDate = dateTimeFrom.ToUniversalTime();
+            var endDate = startDate.Date.AddHours(23).AddMinutes(59).AddSeconds(59).ToUniversalTime();
 
+            var results = await appDbContext.Offers.SelectMany(x => x.Activities)
+                .Where(activity => activity.DateTime >= startDate && activity.DateTime <= endDate && activity.OfferId.HasValue)
+                .Select(x => new ActivityGetByDateResponse
+                {
+                    Title = x.Title,
+                    Description = x.Description,
+                    DateTime = x.DateTime.ToString("o"),
+                    PeopleLimit = x.PeopleLimit,
+                    BusinessName = x.Offer != null ? x.Offer.Bussines.BussinesName : " "
+                }).ToListAsync(cancellationToken);
+            return Ok(results);
+        }
+        public record ActivityGetByDateResponse
+        {
+            public required string Title { get; init; }
+            public required string Description { get; init; }
+            public required string DateTime { get; init; }
+            public uint? PeopleLimit { get; init; }
+            public required string BusinessName { get; init; }
+        }
         [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.Json)]
         [HttpPost]
