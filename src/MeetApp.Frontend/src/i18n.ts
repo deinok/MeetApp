@@ -23,6 +23,7 @@ import statspageBS from "./locales/web/bs/statsPage.json";
 import registerpageES from "./locales/web/es/registerPage.json";
 
 // Mobile
+import mobileGlobalES from "./locales/mobile/es/global.json";
 import mobileLayoutES from "./locales/mobile/es/layout.json";
 import mobileActivitiesES from "./locales/mobile/es/activitiesPage.json";
 import mobileLoginES from "./locales/mobile/es/loginPage.json";
@@ -74,6 +75,7 @@ const webResources = {
 
 const mobileResources = {
   es: {
+    global: mobileGlobalES,
     layout: mobileLayoutES,
     activitiespage: mobileActivitiesES,
     loginpage: mobileLoginES,
@@ -110,6 +112,7 @@ if (isMobile) {
     lng: initialLanguage, // Idioma por defecto
     fallbackLng: "es",
     ns: [
+      "global",
       "layout",
       "mainpage",
       "profilepage",

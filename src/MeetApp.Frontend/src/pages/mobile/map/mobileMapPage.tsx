@@ -21,7 +21,7 @@ import {
 
 const MapComponent: React.FC = () => {
   const [location, setLocation] = useState<{ lat: number; lng: number }>();
-  const { t } = useTranslation("mappage");
+  const { t } = useTranslation(["mappage", "global"]);
   const user = useAuthUser()()?.user;
 
   const center = { lat: 40.73061, lng: -73.935242 }; // Coordenadas del centro del mapa.
@@ -71,7 +71,7 @@ const MapComponent: React.FC = () => {
               visible={datePickerVisible}
               setVisibleHandler={setDatePickerVisible}
               onChange={(value) => setSelectedDate(value)}
-              defaultValue={dayjs().format("DD-MM-YYYY")}
+              defaultValue={dayjs().format(t("global:date_format"))}
             />
           </div>
           <div className="filter">
