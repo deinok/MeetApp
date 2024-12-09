@@ -80,4 +80,11 @@
       padding-right: 10px;
     }
   }
+
+  .chat-profile{
+    height: 5em;
+    background-color: grey;
+    border-top: .5em;
+    border-radius: 2em 2em 0em 0em;
+  }
 }
