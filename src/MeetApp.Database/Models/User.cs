@@ -27,6 +27,10 @@ namespace MeetApp.Database.Models
         public string? CIF { get; set; }
         public string? GoogleMapsUrl { get; set; }
 
+        public decimal? Latitude { get; set; }
+
+        public decimal? Longitude { get; set; }
+
         public enum BussinesCategoryType : byte
         {
             Undefined = 0,
