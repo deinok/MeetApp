@@ -78,13 +78,13 @@ namespace MeetApp.Backend
             webApplication.UseSwagger();
             webApplication.UseSwaggerUI();
             webApplication.UseHttpsRedirection();
-            webApplication.UseStaticFiles();
             webApplication.UseRouting();
             webApplication.UseCors();
             webApplication.UseAuthentication();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
             webApplication.MapHub<ChatHub>("/hubs/chat-hub");
+            webApplication.MapStaticAssets();
             webApplication.MapFallbackToFile("index.html");
 
             {
