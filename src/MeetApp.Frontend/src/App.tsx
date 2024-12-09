@@ -23,101 +23,121 @@ import MobileMainPage from "./pages/mobile/main/mobileMainPage";
 import MobileActivitiesPage from "./pages/mobile/activities/mobileActivitiesPage";
 import ChatPageMobile from "./pages/mobile/chatPage/chatPageMobile";
 import MobileProfilePage from "./pages/mobile/profile/mobileProfilePage";
+import MobileMapPage from "./pages/mobile/map/mobileMapPage";
+isMobile && import("./MobileApp.css");
 
 function App() {
-  return (
-    <Routes>
-      <Route
-        path="/login"
-        element={isMobile ? <MobileLoginPage /> : <LoginPage />}
-      />
-      <Route
-        path="/register"
-        element={isMobile ? <MobileRegisterPage /> : <RegisterPage />}
-      />
+  if (isMobile) {
+    return (
+      <Routes>
+        <Route path="*" element={<NoPermissionPage />} />
+        <Route path="/login" element={<MobileLoginPage />} />
+        <Route path="/register" element={<MobileRegisterPage />} />
 
-      <Route
-        path="/activities"
-        element={
-          isMobile ? (
-            <MobileMainLayout>
-              <MobileActivitiesPage />{" "}
-            </MobileMainLayout>
-          ) : (
-            <NoPermissionPage />
-          )
-        }
-      />
-      <Route
-        path="/chat/:activityId"
-        element={
-          isMobile ? (
-            <MobileMainLayout>
-              <ChatPageMobile />{" "}
-            </MobileMainLayout>
-          ) : (
-            <NoPermissionPage />
-          )
-        }
-      />
-
-      <Route
-        path="/"
-        element={
-          <RequireAuth loginPath="/login">
-            {isMobile ? (
+        <Route
+          path="/"
+          element={
+            <RequireAuth loginPath="/login">
               <MobileMainLayout>
                 <MobileMainPage />
               </MobileMainLayout>
-            ) : (
-              <AppLayout>
-                <MainPage />
-              </AppLayout>
-            )}
-          </RequireAuth>
-        }
-      />
+            </RequireAuth>
+          }
+        />
 
-      <Route path="*" element={<NoPermissionPage />} />
-      <Route
-        path="/profile"
-        element={
-          <RequireAuth loginPath="/login">
-            {isMobile ? (
+        <Route
+          path="/activities"
+          element={
+            <MobileMainLayout>
+              <MobileActivitiesPage />
+            </MobileMainLayout>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth loginPath="/login">
               <MobileMainLayout>
                 <MobileProfilePage />
               </MobileMainLayout>
-            ) : (
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/map"
+          element={
+            <RequireAuth loginPath="/login">
+              <MobileMainLayout>
+                <MobileMapPage />
+              </MobileMainLayout>
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/chat/:activityId"
+          element={
+            <MobileMainLayout>
+              <ChatPageMobile />
+            </MobileMainLayout>
+          }
+        />
+      </Routes>
+    );
+  } else {
+    return (
+      <Routes>
+        <Route path="*" element={<NoPermissionPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
+        <Route
+          path="/"
+          element={
+            <RequireAuth loginPath="/login">
+              <AppLayout>
+                <MainPage />
+              </AppLayout>
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth loginPath="/login">
               <AppLayout>
                 <ProfilePage />
               </AppLayout>
-            )}
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/offers"
-        element={
-          <RequireAuth loginPath="/login">
-            <AppLayout>
-              <OffersPage />
-            </AppLayout>
-          </RequireAuth>
-        }
-      />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/offers"
+          element={
+            <RequireAuth loginPath="/login">
+              <AppLayout>
+                <OffersPage />
+              </AppLayout>
+            </RequireAuth>
+          }
+        />
 
-      <Route
-        path="/stats"
-        element={
-          <RequireAuth loginPath="/login">
-            <AppLayout>
-              <StatsPage />
-            </AppLayout>
-          </RequireAuth>
-        }
-      />
-    </Routes>
-  );
+        <Route
+          path="/stats"
+          element={
+            <RequireAuth loginPath="/login">
+              <AppLayout>
+                <StatsPage />
+              </AppLayout>
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    );
+  }
 }
 
 export default App;

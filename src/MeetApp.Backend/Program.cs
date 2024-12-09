@@ -18,7 +18,6 @@ namespace MeetApp.Backend
 
     public class Program
     {
-
         public static async Task Main(string[] args)
         {
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
@@ -32,10 +31,11 @@ namespace MeetApp.Backend
                 });
             webApplicationBuilder.Services.AddCors(corsOptions =>
             {
-                corsOptions.AddDefaultPolicy(corsPolicyBuilder =>
+                corsOptions.AddPolicy("AllowSpecificOrigins", corsPolicyBuilder =>
                 {
                     corsPolicyBuilder.AllowAnyHeader()
                         .AllowAnyMethod()
+                        .AllowCredentials()
                         .WithOrigins("http://localhost:5000")
                         .WithOrigins("https://localhost:5001")
                         .WithOrigins("http://localhost:5173")
@@ -78,13 +78,13 @@ namespace MeetApp.Backend
             webApplication.UseSwagger();
             webApplication.UseSwaggerUI();
             webApplication.UseHttpsRedirection();
+            webApplication.UseStaticFiles();
             webApplication.UseRouting();
-            webApplication.UseCors();
+            webApplication.UseCors("AllowSpecificOrigins");
             webApplication.UseAuthentication();
             webApplication.UseAuthorization();
             webApplication.MapControllers();
             webApplication.MapHub<ChatHub>("/hubs/chat-hub");
-            webApplication.MapStaticAssets();
             webApplication.MapFallbackToFile("index.html");
 
             {

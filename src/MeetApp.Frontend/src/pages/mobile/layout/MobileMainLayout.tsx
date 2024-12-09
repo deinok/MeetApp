@@ -10,6 +10,7 @@ import {
   TransportQRcodeOutline,
   UserOutline,
   GlobalOutline,
+  EnvironmentOutline,
 } from "antd-mobile-icons";
 import {
   ArrowLeftOutlined,
@@ -187,11 +188,11 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
             icon={<MessageOutline />}
             title={t("chats_section")}
           />
-          {/* <TabBar.Item
-            key="/profile"
-            icon={<UserOutline />}
-            title={t("profile")}
-          /> */}
+          <TabBar.Item
+            key="/map"
+            icon={<EnvironmentOutline />}
+            title={t("map_section")}
+          />
         </TabBar>
       </div>
     </div>

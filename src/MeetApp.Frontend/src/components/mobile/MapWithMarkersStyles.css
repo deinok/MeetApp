@@ -1,0 +1,13 @@
+.activity-marker-window {
+    p {
+        margin-bottom: 5px;
+    }
+    span {
+        margin-left: 5px;
+    }
+
+    .activity-join-button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
