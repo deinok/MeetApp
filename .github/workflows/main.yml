@@ -19,8 +19,9 @@ jobs:
     - run: "dotnet publish --configuration ${{ matrix.configuration }}"
     - uses: "actions/upload-artifact@v4"
       with:
+        if-no-files-found: "error"
         name: "${{ matrix.runs-on }}-${{ matrix.configuration }}"
-        path: "./src/MeetApp.Backend/bin/${{ matrix.configuration}}/net8.0/publish/"
+        path: "./src/MeetApp.Backend/bin/${{ matrix.configuration}}/net9.0/publish/"
     strategy:
       matrix:
         configuration: [
