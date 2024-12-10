@@ -317,14 +317,6 @@ const ActivitiesMobilePage: React.FC = () => {
                       },
                     ]}
                   >
-                    {/* <Input
-                      placeholder={t("activity_description")}
-                      name="description"
-                      // onChange={(value) => {
-                      //   setPassword(value);
-                      // }}
-                      className="form-input"
-                    /> */}
                     <TextArea
                       placeholder={t("activity_description")}
                       maxLength={100}
@@ -358,15 +350,6 @@ const ActivitiesMobilePage: React.FC = () => {
                           : ""
                       }
                     </DatePicker>
-                    {/* <Input
-                    type="datetime-local"
-                    placeholder={t("activity_datetime")}
-                    name="dateTime"
-                    // onChange={(value) => {
-                    //   setPassword(value);
-                    // }}
-                    className="form-input"
-                  /> */}
                   </Form.Item>
                   <Form.Item
                     name="peopleLimit"
@@ -389,43 +372,6 @@ const ActivitiesMobilePage: React.FC = () => {
                   </Form.Item>
                 </Form>
               </>
-
-              // <div>
-              //   <h3></h3>
-              //   <div className="input-group">
-              //     <Input
-              //       placeholder={t("activity_title")}
-              //       onChange={(value) => handleFormInputChange("title", value)}
-              //     />
-              //   </div>
-              //   <div className="input-group">
-              //     <Input
-              //       placeholder={t("activity_description")}
-              //       onChange={(value) =>
-              //         handleFormInputChange("description", value)
-              //       }
-              //     />
-              //   </div>
-              //   <div className="input-group">
-              //     <Input
-              //       type="datetime-local"
-              //       placeholder={t("activity_datetime")}
-              //       onChange={(value) => handleFormInputChange("dateTime", value)}
-              //     />
-              //   </div>
-              //   <div className="input-group">
-              //     <Input
-              //       type="number"
-              //       placeholder={t("activity_people_limit")}
-              //       onChange={(value) =>
-              //         handleFormInputChange("peopleLimit", Number(value))
-              //       }
-              //     />
-              //   </div>
-              //   <button className="submit-button" onClick={handleCreateActivity}>
-              //     {t("create_button")}
-              //   </button>
-              // </div>
             }
           />
         </div>
