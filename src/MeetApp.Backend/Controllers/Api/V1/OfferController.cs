@@ -84,6 +84,19 @@ namespace MeetApp.Backend.Controllers.Api.V1
             return this.Ok(result);
         }
 
+        [AllowAnonymous]
+        [HttpGet("business/{businessId}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetByBusinessId ([FromRoute] Guid businessId, CancellationToken cancellationToken = default)
+        {
+            var result = await this.Read()
+                .Where(offer=>offer.BussinesId == businessId)
+                .ToListAsync(cancellationToken);
+            return this.Ok(result);
+        }
+
         private IQueryable<OfferReadResponse> Read()
         {
             return this.appDbContext.Offers

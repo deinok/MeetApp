@@ -1,4 +1,5 @@
-﻿using MeetApp.Database.Models;
+﻿using MeetApp.Database;
+using MeetApp.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
         UserManager<User> userManager
     ) : ControllerBase
     {
-
         private readonly IConfiguration configuration = configuration;
         private readonly UserManager<User> userManager = userManager;
 
@@ -96,6 +96,71 @@ namespace MeetApp.Backend.Controllers.Api.V1
             var identityResult = await this.userManager.CreateAsync(user, registrationRequest.Password);
             if (identityResult.Succeeded) { return this.Ok(); }
             return this.BadRequest();
+        }
+        [AllowAnonymous]
+        [HttpPut("businessUpdate/{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> UpdateBusinessUser([FromForm][Required] BusinessUserUpdateRequest userUpdateRequest, [FromRoute] Guid id, CancellationToken cancellationToken=default)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+            if (user is null)
+            {
+                return NotFound();
+            }
+            user.BussinesName = userUpdateRequest.BusinessName;
+            user.Email = userUpdateRequest.Email;
+            user.City = userUpdateRequest.City;
+            user.ProfilePicture = userUpdateRequest.ProfilePictureUrl;
+            user.CIF = userUpdateRequest.CIF;
+            user.BussinesAddress = userUpdateRequest.BusinessAdress;
+            user.GoogleMapsUrl = userUpdateRequest.GoogleMapsUrl;
+            user.Longitude = userUpdateRequest.Longitude;
+            user.Latitude = userUpdateRequest.Latitude;
+            _ =await userManager.UpdateAsync(user);
+            return Ok(user);
+        }
+        public record BusinessUserUpdateRequest
+        {
+            public required string BusinessName { get; set; }
+            public required string Email { get; set; }
+            public required string City { get; set; }
+            public required string ProfilePictureUrl { get; set; }
+            public required string CIF { get; set; }
+            public required string BusinessAdress { get; set; }
+            public required string GoogleMapsUrl{ get; set; }
+            public required decimal Longitude { get; set; }
+            public required decimal Latitude { get; set; }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("userUpdate/{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> UpdateUser([FromForm][Required] UserUpdateRequest userUpdateRequest, [FromRoute] Guid id, CancellationToken cancellationToken = default)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+            if (user is null)
+            {
+                return NotFound();
+            }
+            user.Name = userUpdateRequest.Name;
+            user.Email = userUpdateRequest.Email;
+            user.City = userUpdateRequest.City;
+            user.ProfilePicture = userUpdateRequest.ProfilePictureUrl;
+            _ = await userManager.UpdateAsync(user);
+            return Ok(user);
+        }
+        public record UserUpdateRequest
+        {
+            public required string Email { get; set; }
+            public required string City { get; set; }
+            public required string ProfilePictureUrl { get; set; }
+            public required string Name { get; set; }
         }
 
         [AllowAnonymous]
