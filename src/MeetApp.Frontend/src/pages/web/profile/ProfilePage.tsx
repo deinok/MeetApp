@@ -1,5 +1,5 @@
-import { isDesktop } from 'react-device-detect';
-if (isDesktop) import ("./profilePage.css");
+import { isDesktop } from "react-device-detect";
+if (isDesktop) import("./profilePage.css");
 
 import React, { useState } from "react";
 import { useAuthUser, useSignOut } from "react-auth-kit";
@@ -13,11 +13,12 @@ import {
   Avatar,
   Button,
   Modal,
+  message,
 } from "antd";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import { useNavigate } from "react-router-dom";
 
-const url = `${BASE_URL}/api/v1/offers`;
+const url = `${BASE_URL}/api/v1/users/businessUpdate`;
 interface RegisterForm {
   email: string;
   password: string;
@@ -42,16 +43,20 @@ interface Profile {
   businessCategory: string;
   cif: string;
   googleMapsUrl: string;
+  latitude: number;
+  longitude: number;
 }
 
 export const ProfilePage = () => {
   const { t } = useTranslation("profilepage");
   const user = useAuthUser()()?.user;
-  const [form] = Form.useForm<RegisterForm>();
+  const [form] = Form.useForm<Profile>();
   const [isEditing, setIsEditing] = useState(false);
   const [profilePicture, setProfilePicture] = useState<string>(
     user?.profilePicture
   );
+  var locationCoordinates = { lat: user?.latitude, lng: user?.longitude };
+  const currentBusinessAddress = user?.businessAddress;
   const signOut = useSignOut();
   const navigate = useNavigate();
 
@@ -62,12 +67,53 @@ export const ProfilePage = () => {
     // }
   };
 
-  const handleSave = () => {
-    // form.submit();
-    // form.resetFields();
-    setProfilePicture(form.getFieldValue("profilePicture"));
+  const handleSave = async (values: Profile) => {
+    console.log("values", values);
+    if (values.businessAddress !== currentBusinessAddress) {
+      try {
+        const location = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${values.businessAddress}&key=AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro}`
+        );
+        const locationData = await location.json();
+        locationCoordinates = locationData.results[0].geometry.location;
+      } catch (error) {
+        console.error("Error fetching location:", error);
+        message.error(t("An error occurred while fetching location"));
+      }
+    }
+
+    try {
+      const editUrl = `${url}/${user.id}`;
+      const response = await fetch(editUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          businessName: values.businessName,
+          email: values.email,
+          city: values.city,
+          profilePicture: values.profilePicture,
+          cif: values.cif,
+          businessAddress: values.businessAddress,
+          googleMapsUrl: values.googleMapsUrl,
+          latitude: locationCoordinates.lat,
+          longitude: locationCoordinates.lng,
+        }),
+      });
+
+      if (response.ok) {
+        message.success(t("Profile updated successfully"));
+      } else {
+        message.error(t("Failed to update profile"));
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      message.error(t("An error occurred while updating the profile"));
+    }
     console.log("save");
     setIsEditing(!isEditing);
+    navigate("/profile");
   };
 
   const handleCancel = () => {
@@ -136,7 +182,7 @@ export const ProfilePage = () => {
                 type="primary"
                 className="profile-button"
                 style={{ margin: 0 }}
-                onClick={isEditing ? handleSave : handleEdit}
+                onClick={isEditing ? (e) => handleSave(form.getFieldsValue()) : handleEdit}
               >
                 {isEditing ? t("save_button") : t("edit_button")}
               </Button>

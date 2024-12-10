@@ -1,4 +1,4 @@
-import { isDesktop } from 'react-device-detect';
+import { isDesktop } from "react-device-detect";
 import PlaceHolderImg from "../../../img/placeholder300x300.png";
 import React, { useEffect, useState } from "react";
 import {
@@ -20,7 +20,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ClockCircleOutlined,
-  CreditCardOutlined
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
@@ -28,7 +28,7 @@ import dayjs from "dayjs";
 import { AddActivityForm } from "./components/AddActivityForm";
 import { EditOfferForm } from "./components/EditOfferForm";
 import { BASE_URL } from "../../../configs/GeneralApiType";
-if (isDesktop) import ("./OffersPage.css");
+if (isDesktop) import("./OffersPage.css");
 
 interface Offer {
   id: string;
@@ -93,7 +93,9 @@ export const OffersPage = () => {
   };
 
   const handlePayOffer = (offerId: string) => {
-      window.location.href = encodeURI(`https://buy.stripe.com/test_dR65lKc2j9ry3eM9AA?client_reference_id=${offerId}&prefilled_email=${user.email}`);
+    window.location.href = encodeURI(
+      `https://buy.stripe.com/test_dR65lKc2j9ry3eM9AA?client_reference_id=${offerId}&prefilled_email=${user.email}`
+    );
   };
 
   const handleEditOffer = (offer: Offer) => {
@@ -260,7 +262,9 @@ export const OffersPage = () => {
                       key="edit"
                       onClick={() => handleEditOffer(offer)}
                     />,
-                    <CreditCardOutlined onClick={() => handlePayOffer(offer.id)} />,
+                    <CreditCardOutlined
+                      onClick={() => handlePayOffer(offer.id)}
+                    />,
                     <DeleteOutlined
                       key="delete"
                       className="delete-button"
@@ -268,15 +272,30 @@ export const OffersPage = () => {
                     />,
                   ]}
                 >
-                  <Tooltip title={expired ? t("offer_expired") : (offer.paid ? t("offer_paid") : t("offer_invalid"))}>
+                  <Tooltip
+                    title={
+                      expired
+                        ? t("offer_expired")
+                        : offer.paid
+                        ? t("offer_paid")
+                        : t("offer_invalid")
+                    }
+                  >
                     {expired ? (
-                      <CloseCircleOutlined className="offer-state-icon" style={{ color: "black" }} />
+                      <CloseCircleOutlined
+                        className="offer-state-icon"
+                        style={{ color: "black" }}
+                      />
+                    ) : offer.paid ? (
+                      <CheckCircleOutlined
+                        className="offer-state-icon"
+                        style={{ color: "green" }}
+                      />
                     ) : (
-                      offer.paid ? (
-                        <CheckCircleOutlined className="offer-state-icon" style={{ color: "green" }} />
-                      ) : (
-                        <CloseCircleOutlined className="offer-state-icon" style={{ color: "red" }} />
-                      )
+                      <CloseCircleOutlined
+                        className="offer-state-icon"
+                        style={{ color: "red" }}
+                      />
                     )}
                   </Tooltip>
                   <Tag color="#34638a" className="overlay-tag">
