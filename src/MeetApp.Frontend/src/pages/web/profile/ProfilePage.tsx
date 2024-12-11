@@ -2,7 +2,7 @@ import { isDesktop } from "react-device-detect";
 if (isDesktop) import("./profilePage.css");
 
 import React, { useState } from "react";
-import { useAuthUser, useSignOut } from "react-auth-kit";
+import { useSignOut } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
 import {
   Col,
@@ -17,22 +17,9 @@ import {
 } from "antd";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import { useNavigate } from "react-router-dom";
-import { latLngEquals } from "@vis.gl/react-google-maps";
+import { loadUserFromSession } from "../utilities";
 
 const url = `${BASE_URL}/api/v1/users/businessUpdate`;
-interface RegisterForm {
-  email: string;
-  password: string;
-  userType: string;
-  city: string;
-  profilePicture: string;
-  businessName: string;
-  businessAddress: string;
-  businessCategory: string;
-  cif: string;
-  googleMapsUrl: string;
-}
-
 interface Profile {
   email: string;
   password: string;
@@ -50,72 +37,99 @@ interface Profile {
 
 export const ProfilePage = () => {
   const { t } = useTranslation("profilepage");
-  const user = useAuthUser()()?.user;
+  const [user, setUser] = useState(loadUserFromSession());
   const [form] = Form.useForm<Profile>();
   const [isEditing, setIsEditing] = useState(false);
   const [profilePicture, setProfilePicture] = useState<string>(
     user?.profilePicture
   );
-  const [locationCoordinates, setLocationCoordinates] = useState({ lat: user.latitude, lng: user.longitude });
-  const currentBusinessAddress = user?.businessAddress;
+  const [locationCoordinates, setLocationCoordinates] = useState({
+    lat: user?.latitude,
+    lng: user?.longitude,
+  });
+  const currentBusinessAddress = user?.bussinesAddress;
   const signOut = useSignOut();
   const navigate = useNavigate();
 
   const handleEdit = () => {
     setIsEditing(!isEditing);
-    // if (isEditing) {
-    //   form.resetFields();
-    // }
+  };
+
+  const getCoordinates = async (address: string) => {
+    const encodedAddress = encodeURIComponent(address);
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.status === "OK") {
+        const location = data.results[0].geometry.location;
+        return { lat: location.lat, lng: location.lng };
+      } else {
+        message.error(t("An error occurred while fetching location"));
+        return null;
+      }
+    } catch (err) {
+      message.error(t("An error occurred while fetching location"));
+      return null;
+    }
+  };
+
+  const updateProfile = async (values: Profile) => {
+    const editUrl = `${url}/${user.id}`;
+    const response = await fetch(editUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        businessName: values.businessName,
+        email: values.email,
+        city: values.city,
+        profilePicture: values.profilePicture,
+        cif: values.cif,
+        businessAddress: values.businessAddress,
+        googleMapsUrl: values.googleMapsUrl,
+        latitude: locationCoordinates.lat,
+        longitude: locationCoordinates.lng,
+      }),
+    });
+
+    if (response.ok) {
+      const updatedUser = {
+        id: user.id,
+        bussinesName: values.businessName,
+        email: values.email,
+        city: values.city,
+        profilePicture: values.profilePicture,
+        cif: values.cif,
+        bussinesAddress: values.businessAddress,
+        googleMapsUrl: values.googleMapsUrl,
+        latitude: locationCoordinates.lat,
+        longitude: locationCoordinates.lng,
+      };
+      console.log("Updated user:", updatedUser);
+      sessionStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      message.success(t("Profile updated successfully"));
+    } else {
+      message.error(t("Failed to update profile"));
+    }
   };
 
   const handleSave = async (values: Profile) => {
-    console.log("values", values);
-    if (values.businessAddress !== currentBusinessAddress) {
-      try {
-        console.log(values.businessAddress);
-        const location = await fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(values.businessAddress)}&key=AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro`
-        );
-        const locationData = await location.json();
-        setLocationCoordinates(locationData.results[0].geometry.location);
-      } catch (error) {
-        console.error("Error fetching location:", error);
-        message.error(t("An error occurred while fetching location"));
+    console.log(values.businessAddress, currentBusinessAddress);
+    if (values.businessAddress != currentBusinessAddress) {
+      const result = await getCoordinates(values.businessAddress);
+      if (result) {
+        setLocationCoordinates(result);
       }
     }
-
-    try {
-      const editUrl = `${url}/${user.id}`;
-      const response = await fetch(editUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          businessName: values.businessName,
-          email: values.email,
-          city: values.city,
-          profilePicture: values.profilePicture,
-          cif: values.cif,
-          businessAddress: values.businessAddress,
-          googleMapsUrl: values.googleMapsUrl,
-          latitude: locationCoordinates.lat,
-          longitude: locationCoordinates.lng,
-        }),
-      });
-
-      if (response.ok) {
-        message.success(t("Profile updated successfully"));
-      } else {
-        message.error(t("Failed to update profile"));
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      message.error(t("An error occurred while updating the profile"));
-    }
-    console.log("save");
+    await updateProfile(values);
     setIsEditing(!isEditing);
-    navigate("/profile");
   };
 
   const handleCancel = () => {
@@ -184,7 +198,11 @@ export const ProfilePage = () => {
                 type="primary"
                 className="profile-button"
                 style={{ margin: 0 }}
-                onClick={isEditing ? (e) => handleSave(form.getFieldsValue()) : handleEdit}
+                onClick={
+                  isEditing
+                    ? (e) => handleSave(form.getFieldsValue())
+                    : handleEdit
+                }
               >
                 {isEditing ? t("save_button") : t("edit_button")}
               </Button>
@@ -239,11 +257,7 @@ export const ProfilePage = () => {
                 <Input onChange={handleOnChangeProfilePicture} />
               </Form.Item>
 
-              <Form.Item
-                label={t("cif")}
-                name="cif"
-                initialValue={user?.cif}
-              >
+              <Form.Item label={t("cif")} name="cif" initialValue={user?.cif}>
                 <Input />
               </Form.Item>
 
@@ -266,7 +280,6 @@ export const ProfilePage = () => {
           </div>
         </Col>
       </Row>
-      {/* </div> */}
     </div>
   );
 };

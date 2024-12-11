@@ -19,6 +19,7 @@ import {
   AntOutline,
   CalendarOutline,
   ClockCircleOutline,
+  EditSOutline,
   EnvironmentOutline,
   RightOutline,
   UserOutline,
@@ -248,8 +249,9 @@ const ActivitiesMobilePage: React.FC = () => {
         </Button>
       </div>
       <Divider />
-      <div className="card-activities">{items}</div>
-
+      <div className="scroll">
+        <div className="card-activities">{items}</div>
+      </div>
       {isModalVisible && (
         <Modal
           visible={isModalVisible}
@@ -298,6 +300,7 @@ const ActivitiesMobilePage: React.FC = () => {
                   <Form.Item
                     name="title"
                     rules={[{ required: true, message: "" }]}
+                    label={<EditSOutline />}
                   >
                     <Input
                       placeholder={t("activity_title")}
@@ -305,7 +308,7 @@ const ActivitiesMobilePage: React.FC = () => {
                       // onChange={(value) => {
                       //   setUsername(value);
                       // }}
-                      className="form-input"
+                      // className="form-input"
                     />
                   </Form.Item>
                   <Form.Item
@@ -323,6 +326,19 @@ const ActivitiesMobilePage: React.FC = () => {
                       rows={2}
                       showCount
                       className="form-input"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="location"
+                    rules={[{ required: true, message: "" }]}
+                    label={<EnvironmentOutline />}
+                  >
+                    <Input
+                      placeholder={t("location_title")}
+                      name="location"
+                      // onChange={(value) => {
+                      //   setUsername(value);
+                      // }}
                     />
                   </Form.Item>
                   <Form.Item
@@ -359,6 +375,7 @@ const ActivitiesMobilePage: React.FC = () => {
                         message: "",
                       },
                     ]}
+                    label={<UserOutline />}
                   >
                     <Input
                       type="number"
@@ -367,7 +384,6 @@ const ActivitiesMobilePage: React.FC = () => {
                       // onChange={(value) => {
                       //   setPassword(value);
                       // }}
-                      className="form-input"
                     />
                   </Form.Item>
                 </Form>

@@ -2,7 +2,7 @@ import { isMobile } from "react-device-detect";
 if (isMobile) import("./mobileMainPageStyles.css");
 
 import React, { useState } from "react";
-import { Card } from "antd-mobile";
+import { Card, Tag } from "antd-mobile";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
 import {
@@ -120,6 +120,9 @@ const MobileMainPage: React.FC = () => {
           // onHeaderClick={onHeaderClick}
           style={{ borderRadius: "16px" }}
         >
+          <div className="overlay-tag">
+            <Tag round color="#34638a">{offer.tag}</Tag>
+          </div>
           <div className="card-content">
             <p>{offer.description}</p>
           </div>
@@ -127,11 +130,12 @@ const MobileMainPage: React.FC = () => {
             <div className="date-container">
               <div>
                 <CalendarOutline />
-                <span>{dayjs(offer.expirationDate).format(t("global:date_format"))}</span>
+                <span>
+                  {dayjs(offer.expirationDate).format(t("global:date_format"))}
+                </span>
               </div>
             </div>
-            <div className="buttons-container">
-            </div>
+            <div className="buttons-container"></div>
             <Button
               color="primary"
               onClick={() => {
@@ -181,7 +185,9 @@ const MobileMainPage: React.FC = () => {
           </Dropdown.Item>
         </Dropdown>
       </div>
-      <div className="offers-container">{offersCards}</div>
+      <div className="scroll">
+        <div className="offers-container">{offersCards}</div>
+      </div>
     </div>
   );
 };

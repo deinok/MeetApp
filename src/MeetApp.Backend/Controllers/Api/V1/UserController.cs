@@ -253,6 +253,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
 				City = user.City,
 				GoogleMapsUrl = user.GoogleMapsUrl,
 				ProfilePicture = user.ProfilePicture,
+				Latitude = user.Latitude,
+				Longitude = user.Longitude,
 			};
 		}
 
@@ -272,6 +274,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
 			public User.BussinesCategoryType BussinesCategory { get; set; }
 			public string? CIF { get; set; }
 			public string? GoogleMapsUrl { get; set; }
+			public decimal? Longitude { get; set; }
+			public decimal? Latitude { get; set; }
 			/* BUSSINES FIELDS */
 		}
 
@@ -361,6 +365,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
 			public User.BussinesCategoryType? BussinesCategory { get; set; }
 			public string? CIF { get; set; }
 			public string? GoogleMapsUrl { get; set; }
+			public decimal? Longitude { get; set; }
+			public decimal? Latitude { get; set; }
 			/* BUSSINES FIELDS */
 
 		}

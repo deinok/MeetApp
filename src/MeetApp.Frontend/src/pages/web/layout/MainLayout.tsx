@@ -23,6 +23,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const user = auth()?.user;
 
   const handleLogout = () => {
+    sessionStorage.clear();
     signOut();
     navigate("/login");
   };
