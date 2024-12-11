@@ -17,6 +17,7 @@ import {
 } from "antd";
 import { BASE_URL } from "../../../configs/GeneralApiType";
 import { useNavigate } from "react-router-dom";
+import { latLngEquals } from "@vis.gl/react-google-maps";
 
 const url = `${BASE_URL}/api/v1/users/businessUpdate`;
 interface RegisterForm {
@@ -55,7 +56,7 @@ export const ProfilePage = () => {
   const [profilePicture, setProfilePicture] = useState<string>(
     user?.profilePicture
   );
-  var locationCoordinates = { lat: user?.latitude, lng: user?.longitude };
+  const [locationCoordinates, setLocationCoordinates] = useState({ lat: user.latitude, lng: user.longitude });
   const currentBusinessAddress = user?.businessAddress;
   const signOut = useSignOut();
   const navigate = useNavigate();
@@ -71,11 +72,12 @@ export const ProfilePage = () => {
     console.log("values", values);
     if (values.businessAddress !== currentBusinessAddress) {
       try {
+        console.log(values.businessAddress);
         const location = await fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${values.businessAddress}&key=AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro}`
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(values.businessAddress)}&key=AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro`
         );
         const locationData = await location.json();
-        locationCoordinates = locationData.results[0].geometry.location;
+        setLocationCoordinates(locationData.results[0].geometry.location);
       } catch (error) {
         console.error("Error fetching location:", error);
         message.error(t("An error occurred while fetching location"));
@@ -239,7 +241,7 @@ export const ProfilePage = () => {
 
               <Form.Item
                 label={t("cif")}
-                name="businessCif"
+                name="cif"
                 initialValue={user?.cif}
               >
                 <Input />
@@ -247,7 +249,7 @@ export const ProfilePage = () => {
 
               <Form.Item
                 label={t("business_address")}
-                name="businessAdress"
+                name="businessAddress"
                 initialValue={user?.bussinesAddress}
               >
                 <Input />
