@@ -134,7 +134,31 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required decimal Longitude { get; set; }
             public required decimal Latitude { get; set; }
         }
+        [AllowAnonymous]
+        [HttpGet("businesses")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<BusinessInfoResponse>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllBusinesses(CancellationToken cancellationToken = default)
+        {
+            var result = await userManager.Users
+                .Select(user => new BusinessInfoResponse
+                {
+                    BusinessId = user.Id,
+                    BusinessName = user.BussinesName,
+                    ProfilePicture = user.ProfilePicture
+                })
+                .ToListAsync(cancellationToken);
 
+            return Ok(result);
+        }
+
+        public record BusinessInfoResponse
+        {
+            public required Guid BusinessId { get; init; }
+            public required string? BusinessName { get; init; }
+            public required string? ProfilePicture { get; init; }
+        }
         [AllowAnonymous]
         [HttpPut("userUpdate/{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
