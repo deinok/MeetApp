@@ -3,50 +3,95 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
 
-.greeting-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-}
+  .greeting-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+  }
 
-.business-pictures {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  width: 100%;
-  background-color: transparent;
-}
+  .business-pictures {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+    background-color: transparent;
+  }
 
-.business-picture {
-  margin-bottom: 10%;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.068);
-  padding: 15px;
-}
+  .business-picture {
+    margin-bottom: 10%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.068);
+    padding: 15px;
+  }
 
-.business-picture img {
-  width: 100%;
-  object-fit: cover !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
+  .business-picture img {
+    width: 100%;
+    object-fit: cover !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
 
-h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
+  .offers-container {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+  }
 
-h2 {
-  margin-bottom: 20px;
-  font-size: 20px;
-  color: #333;
+  .card {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 60px;
+      text-align: justify;
+    }
+
+    .card-footer {
+      padding-top: 11px;
+      border-top: 1px solid #e5e5e5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        font-size: 12px;
+        width: 80px;
+        height: 40px;
+      }
+
+      .date-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: fit-content;
+        font-size: 12px !important;
+        color: #4e4e4e;
+
+        span {
+          margin-left: 10px;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
 }

@@ -68,7 +68,7 @@ export const LoginPage = () => {
     <div className="container">
       <div className="banner">
         <img className="logoLogin" src={LogoLogin} alt="logo" />
-        <LanguageSelector />
+        {/* <LanguageSelector /> */}
       </div>
       <div className="loginPagecontainer">
         <div className="login-container">

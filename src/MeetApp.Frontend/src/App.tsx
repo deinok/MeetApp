@@ -1,6 +1,6 @@
-import React from "react";
-import { RequireAuth } from "react-auth-kit";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { RequireAuth, useSignOut } from "react-auth-kit";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ProfilePage } from "./pages/web/profile/ProfilePage";
 import { LoginPage } from "./pages/web/login/LoginPage";
 import { RegisterPage } from "./pages/web/register/RegisterPage";
@@ -11,9 +11,6 @@ import MainPage from "./pages/web/main/MainPage";
 import { OffersPage } from "./pages/web/offers/OffersPage";
 import StatsPage from "./pages/web/stats/statsPage";
 import {
-  BrowserView,
-  MobileView,
-  isBrowser,
   isMobile,
 } from "react-device-detect";
 import MobileMainLayout from "./pages/mobile/layout/MobileMainLayout";
@@ -27,6 +24,22 @@ import MobileMapPage from "./pages/mobile/map/mobileMapPage";
 isMobile && import("./MobileApp.css");
 
 function App() {
+  const navigate = useNavigate();
+  const signOut = useSignOut();
+
+  useEffect(() => {
+    const lastMode = localStorage.getItem("deviceMode");
+    const currentMode = isMobile ? "mobile" : "desktop";
+
+    if (lastMode && lastMode !== currentMode) {
+      signOut();
+      navigate("/login");
+    }
+
+    // Store the current mode in localStorage
+    localStorage.setItem("deviceMode", currentMode);
+  }, []);
+
   if (isMobile) {
     return (
       <Routes>

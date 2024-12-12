@@ -99,11 +99,11 @@ namespace MeetApp.Backend.Controllers.Api.V1
         }
         [AllowAnonymous]
         [HttpPut("businessUpdate/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateBusinessUser([FromForm][Required] BusinessUserUpdateRequest userUpdateRequest, [FromRoute] Guid id, CancellationToken cancellationToken=default)
+        public async Task<IActionResult> UpdateBusinessUser([FromBody][Required] BusinessUserUpdateRequest userUpdateRequest, [FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             var user = await userManager.FindByIdAsync(id.ToString());
             if (user is null)
@@ -119,7 +119,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             user.GoogleMapsUrl = userUpdateRequest.GoogleMapsUrl;
             user.Longitude = userUpdateRequest.Longitude;
             user.Latitude = userUpdateRequest.Latitude;
-            _ =await userManager.UpdateAsync(user);
+            _ = await userManager.UpdateAsync(user);
             return Ok(user);
         }
         public record BusinessUserUpdateRequest
@@ -130,18 +130,18 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required string ProfilePictureUrl { get; set; }
             public required string CIF { get; set; }
             public required string BusinessAdress { get; set; }
-            public required string GoogleMapsUrl{ get; set; }
+            public required string GoogleMapsUrl { get; set; }
             public required decimal Longitude { get; set; }
             public required decimal Latitude { get; set; }
         }
 
         [AllowAnonymous]
         [HttpPut("userUpdate/{id}")]
-        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateUser([FromForm][Required] UserUpdateRequest userUpdateRequest, [FromRoute] Guid id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateUser([FromBody][Required] UserUpdateRequest userUpdateRequest, [FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             var user = await userManager.FindByIdAsync(id.ToString());
             if (user is null)
