@@ -2,37 +2,37 @@ import React, { useEffect, useState } from "react";
 import { HubConnectionBuilder, HubConnection } from "@microsoft/signalr";
 import { BASE_CHAT_HUB_URL, BASE_URL } from "../../../configs/GeneralApiType";
 import "./chatPage.css";
-import background from "../../../img/chatbackground.jpg"
+import background from "../../../img/chatbackground.jpg";
 import { useAuthUser } from "react-auth-kit";
 import { useParams } from "react-router-dom";
 import { Button, Modal, Switch } from "antd-mobile";
 import { CheckOutline, CloseOutline, RightOutline } from "antd-mobile-icons";
-import { use } from "i18next";
 import dayjs from "dayjs";
 import { Avatar, QRCode } from "antd";
 
 const ChatPageMobile: React.FC = () => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
-
   const [inputMessage, setInputMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { activityId } = useParams<{ activityId: string }>();
   const user = useAuthUser()()?.user;
   const userId = user.id;
-  const name = user.name; 
-  const avatar = user.profilePicture; 
+  const name = user.name;
+  const avatar = user.profilePicture;
   const translateUrl = `${BASE_URL}/api/v1/text-translation`;
   const [autoTranslate, setAutoTranslate] = useState(false);
   const [messages, setMessages] = useState<
-    { user: string, message: string, date?: Date, activityId?: string }[]
+    { user: string; message: string; name: string; avatar: string; date?: Date; activityId?: string }[]
   >([]);
 
   const handleCardClick = () => {
     setIsModalVisible(true);
   };
+
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
       .withUrl(BASE_CHAT_HUB_URL, { withCredentials: false })
@@ -54,12 +54,14 @@ const ChatPageMobile: React.FC = () => {
             "NotifyJoinChat",
             (joinedUserId: string, joinedActivityId: string) => {
               if (joinedActivityId === activityId && joinedUserId !== userId) {
-                console.log(`El usuario ${name} se ha unido al chat.`);
+                console.log(`El usuario ${joinedUserId} se ha unido al chat.`);
                 setMessages((prevMessages) => [
                   ...prevMessages,
                   {
-                    user: name,
-                    message: `El usuario ${name} se ha unido al chat.`,
+                    user: joinedUserId,
+                    name: `Usuario ${joinedUserId}`,
+                    avatar: "ruta_a_avatar_predeterminado",
+                    message: `El usuario ${joinedUserId} se ha unido al chat.`,
                     date: new Date(),
                   },
                 ]);
@@ -86,12 +88,19 @@ const ChatPageMobile: React.FC = () => {
             sessionStorage.getItem("autoTranslate") === "true"
               ? await translateMessage(message)
               : message;
+
           setMessages((prevMessages) => [
             ...prevMessages,
-            { user: senderId, activityId: activityId, message: messageToShow },
+            {
+              user: senderId,
+              activityId,
+              name: senderId === userId ? name : `Usuario ${senderId}`,
+              avatar: senderId === userId ? avatar : "ruta_a_avatar_predeterminado",
+              message: messageToShow,
+              date: new Date(),
+            },
           ]);
           console.log(`Mensaje recibido de ${senderId}: ${message}`);
-          console.log(sessionStorage.getItem("autoTranslate"));
         }
       );
     }
@@ -109,12 +118,20 @@ const ChatPageMobile: React.FC = () => {
           sessionStorage.getItem("autoTranslate") === "true"
             ? await translateMessage(inputMessage)
             : inputMessage;
+
         setMessages((prevMessages) => [
           ...prevMessages,
-          { user: userId, message: messageToShow, date: new Date() },
+          {
+            user: userId,
+            activityId,
+            name,
+            avatar,
+            message: messageToShow,
+            date: new Date(),
+          },
         ]);
+
         setInputMessage("");
-        console.log(sessionStorage.getItem("autoTranslate"));
       } catch (error) {
         console.error("Error al enviar mensaje:", error);
       }
@@ -145,7 +162,6 @@ const ChatPageMobile: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("The switch state has changed to:", autoTranslate);
     sessionStorage.setItem("autoTranslate", autoTranslate.toString());
   }, [autoTranslate]);
 
@@ -154,9 +170,8 @@ const ChatPageMobile: React.FC = () => {
   };
 
   return (
-    
     <div className="chat-container">
-    <div
+      <div
         className="chat-profile"
         style={{ display: "flex", justifyContent: "space-between" }}
         onClick={handleCardClick}
@@ -169,41 +184,48 @@ const ChatPageMobile: React.FC = () => {
       >
         <p>{activityId}</p>
         <Switch
-        checked={autoTranslate}
-        onChange={handleSwitchChange}
-        style={{ margin: "10px", alignSelf: "end" }}
-        checkedText={<CheckOutline fontSize={18} />}
-        uncheckedText={<CloseOutline fontSize={18} />}
-      />
+          checked={autoTranslate}
+          onChange={handleSwitchChange}
+          style={{ margin: "10px", alignSelf: "end" }}
+          checkedText={<CheckOutline fontSize={18} />}
+          uncheckedText={<CloseOutline fontSize={18} />}
+        />
       </div>
-      <div className="messages-container" style={{backgroundImage: `url(${background})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",}}>
-
-
-
+      <div
+        className="messages-container"
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+      >
         {messages.map((msg, index) => (
-          <>
-          <div style={{display : "flex", gap: "10px", alignItems: "center"}}>
-          <Avatar src={avatar} className="avatar-size1" style={{ width: "10%", height: "50px", borderRadius: "50%"  }} /><div
+          <div
+            style={{ display: "flex", gap: "10px", alignItems: "center" }}
             key={index}
-            className={`message ${msg.user === name ? "sent" : "received"}`}
           >
-            <p className="user">{name}:</p>
-            <div style={{display: "flex", gap: "8em"}}>
-            <p className="text">{msg.message}</p>
-            <p className="date" style={{alignContent: "end" }}>
-              {msg.date?.toLocaleTimeString(undefined, {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
+            <Avatar
+              src={msg.avatar}
+              className="avatar-size1"
+              style={{ width: "10%", height: "50px", borderRadius: "50%" }}
+            />
+            <div
+              className={`message ${msg.user === userId ? "sent" : "received"}`}
+            >
+              <p className="user">{msg.name}</p>
+              <div style={{ display: "flex", gap: "8em" }}>
+                <p className="text">{msg.message}</p>
+                <p className="date" style={{ alignContent: "end" }}>
+                  {msg.date?.toLocaleTimeString(undefined, {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
             </div>
           </div>
-          </div></>
         ))}
-              
       </div>
       <div className="input-container">
         <input
@@ -221,18 +243,28 @@ const ChatPageMobile: React.FC = () => {
       {isModalVisible && (
         <Modal
           visible={isModalVisible}
-          content={<div><strong>ActivityId:</strong> {activityId}<div style={{ height: "auto", margin: "0 auto", maxWidth: 200, width: "100%" }}>
-          <QRCode
-            size={250}
-            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-            value={"https://meet-app-udl.azurewebsites.net/"}
-          />
-        </div></div>}
+          content={
+            <div>
+              <strong>ActivityId:</strong> {activityId}
+              <div
+                style={{
+                  height: "auto",
+                  margin: "0 auto",
+                  maxWidth: 200,
+                  width: "100%",
+                }}
+              >
+                <QRCode
+                  size={250}
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  value={"https://meet-app-udl.azurewebsites.net/"}
+                />
+              </div>
+            </div>
+          }
           closeOnMaskClick={true}
           onClose={handleCancel}
-          actions={[
-            { key: "cancel", text: "cancel", onClick: handleCancel },
-          ]}
+          actions={[{ key: "cancel", text: "cancel", onClick: handleCancel }]}
         />
       )}
     </div>
