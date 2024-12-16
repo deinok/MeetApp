@@ -2,26 +2,30 @@ import React, { useEffect, useState } from "react";
 import { HubConnectionBuilder, HubConnection } from "@microsoft/signalr";
 import { BASE_CHAT_HUB_URL, BASE_URL } from "../../../configs/GeneralApiType";
 import "./chatPage.css";
+import background from "../../../img/chatbackground.jpg"
 import { useAuthUser } from "react-auth-kit";
 import { useParams } from "react-router-dom";
 import { Button, Modal, Switch } from "antd-mobile";
 import { CheckOutline, CloseOutline, RightOutline } from "antd-mobile-icons";
 import { use } from "i18next";
 import dayjs from "dayjs";
-import { QRCode } from "antd";
+import { Avatar, QRCode } from "antd";
 
 const ChatPageMobile: React.FC = () => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
-  const [messages, setMessages] = useState<
-    { user: string; message: string; date?: Date; activityId?: string }[]
-  >([]);
+
   const [inputMessage, setInputMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { activityId } = useParams<{ activityId: string }>();
   const user = useAuthUser()()?.user;
   const userId = user.id;
+  const name = user.name; 
+  const avatar = user.profilePicture; 
   const translateUrl = `${BASE_URL}/api/v1/text-translation`;
   const [autoTranslate, setAutoTranslate] = useState(false);
+  const [messages, setMessages] = useState<
+    { user: string, message: string, date?: Date, activityId?: string }[]
+  >([]);
 
   const handleCardClick = () => {
     setIsModalVisible(true);
@@ -50,12 +54,12 @@ const ChatPageMobile: React.FC = () => {
             "NotifyJoinChat",
             (joinedUserId: string, joinedActivityId: string) => {
               if (joinedActivityId === activityId && joinedUserId !== userId) {
-                console.log(`El usuario ${joinedUserId} se ha unido al chat.`);
+                console.log(`El usuario ${name} se ha unido al chat.`);
                 setMessages((prevMessages) => [
                   ...prevMessages,
                   {
-                    user: "System",
-                    message: `El usuario ${joinedUserId} se ha unido al chat.`,
+                    user: name,
+                    message: `El usuario ${name} se ha unido al chat.`,
                     date: new Date(),
                   },
                 ]);
@@ -143,7 +147,6 @@ const ChatPageMobile: React.FC = () => {
   useEffect(() => {
     console.log("The switch state has changed to:", autoTranslate);
     sessionStorage.setItem("autoTranslate", autoTranslate.toString());
-    // Add your logic here if needed
   }, [autoTranslate]);
 
   const handleSwitchChange = (checked: boolean) => {
@@ -153,17 +156,9 @@ const ChatPageMobile: React.FC = () => {
   return (
     
     <div className="chat-container">
-      <h2>Chat en Tiempo Real</h2>
-
-      <Switch
-        checked={autoTranslate}
-        onChange={handleSwitchChange}
-        style={{ margin: "10px", alignSelf: "end" }}
-        checkedText={<CheckOutline fontSize={18} />}
-        uncheckedText={<CloseOutline fontSize={18} />}
-      />
-      <div
+    <div
         className="chat-profile"
+        style={{ display: "flex", justifyContent: "space-between" }}
         onClick={handleCardClick}
         tabIndex={0}
         onKeyDown={(e) => {
@@ -173,25 +168,43 @@ const ChatPageMobile: React.FC = () => {
         }}
       >
         <p>{activityId}</p>
+        <Switch
+        checked={autoTranslate}
+        onChange={handleSwitchChange}
+        style={{ margin: "10px", alignSelf: "end" }}
+        checkedText={<CheckOutline fontSize={18} />}
+        uncheckedText={<CloseOutline fontSize={18} />}
+      />
       </div>
-      <div className="messages-container">
+      <div className="messages-container" style={{backgroundImage: `url(${background})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",}}>
+
+
+
         {messages.map((msg, index) => (
-          <div
+          <>
+          <div style={{display : "flex", gap: "10px", alignItems: "center"}}>
+          <Avatar src={avatar} className="avatar-size1" style={{ width: "10%", height: "50px", borderRadius: "50%"  }} /><div
             key={index}
-            className={`message ${msg.user === userId ? "sent" : "received"}`}
+            className={`message ${msg.user === name ? "sent" : "received"}`}
           >
-            <p className="user">{msg.user}:</p>
+            <p className="user">{name}:</p>
+            <div style={{display: "flex", gap: "8em"}}>
             <p className="text">{msg.message}</p>
-            <p className="date">
+            <p className="date" style={{alignContent: "end" }}>
               {msg.date?.toLocaleTimeString(undefined, {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
             </p>
+            </div>
           </div>
+          </div></>
         ))}
+              
       </div>
-
       <div className="input-container">
         <input
           type="text"
@@ -204,6 +217,7 @@ const ChatPageMobile: React.FC = () => {
           <RightOutline />
         </Button>
       </div>
+
       {isModalVisible && (
         <Modal
           visible={isModalVisible}
