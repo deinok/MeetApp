@@ -130,6 +130,7 @@ export const ProfilePage = () => {
     }
     await updateProfile(values);
     setIsEditing(!isEditing);
+    navigate("/profile");
   };
 
   const handleCancel = () => {
