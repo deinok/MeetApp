@@ -66,17 +66,6 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [ProducesResponseType<ICollection<OfferReadResponse>>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ReadAsync(CancellationToken cancellationToken = default)
         {
-            var result = await this.Read()
-                .ToListAsync(cancellationToken);
-            return this.Ok(result);
-        }
-        [AllowAnonymous]
-        [HttpGet("getoffers")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType<ICollection<OfferPaidResponse>>(StatusCodes.Status200OK)]
-        [ProducesResponseType<ICollection<OfferPaidResponse>>(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetByPaid(CancellationToken cancellationToken = default)
-        {
             var result = await appDbContext.Offers
                 .Where(offer => offer.Paid)
                 .Include(offer => offer.Bussines)
@@ -84,25 +73,22 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 .Select(offer => new OfferPaidResponse
                 {
                     BussinesId = offer.Bussines.Id,
-                    BusinessName = offer.Bussines.BussinesName,
                     Description = offer.Description,
                     ExpirationDate = offer.ExpirationDate,
                     Id = offer.Id,
-                    Paid = offer.Paid,
                     Tag = offer.Tag,
                     Title = offer.Title,
                 })
                 .ToListAsync(cancellationToken);
             return this.Ok(result);
         }
+
         public record OfferPaidResponse
         {
             public required Guid BussinesId { get; init; }
-            public required string BusinessName { get; init; }
             public required string Description { get; init; }
             public required DateOnly ExpirationDate { get; init; }
             public required Guid Id { get; init; }
-            public required bool Paid { get; init; }
             public string? Tag { get; init; }
             public required string Title { get; init; }
         }

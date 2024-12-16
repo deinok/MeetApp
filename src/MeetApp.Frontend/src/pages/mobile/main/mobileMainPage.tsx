@@ -1,7 +1,7 @@
 import { isMobile } from "react-device-detect";
 if (isMobile) import("./mobileMainPageStyles.css");
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Tag } from "antd-mobile";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
@@ -31,6 +31,7 @@ import {
 } from "antd-mobile-icons";
 import { Divider } from "antd";
 import dayjs from "dayjs";
+import { BASE_URL } from "../../../configs/GeneralApiType";
 
 const empresesPictures = [
   McDonaldsPicture,
@@ -49,58 +50,84 @@ interface Offer {
   tag: string;
 }
 
+interface Business {
+  businessId: string;
+  businessName: string;
+  profilePicture: string;
+  businessAddress: string;
+  latitude: number;
+  longitude: number;
+}
+
 const MobileMainPage: React.FC = () => {
   const { t } = useTranslation(["mainpage", "global"]);
   const user = useAuthUser()()?.user;
   const empresesjson = empreses;
   const items = empresesPictures.map((empresa, index) => (
-    <Swiper.Item key={index}>
+    <Swiper.Item key={index}> 
       <div className="business-picture">
         <Image src={empresa} width={100} height={100} fit="cover" />
       </div>
     </Swiper.Item>
   ));
-  const [offers, setOffers] = useState<Offer[]>([
-    {
-      id: "1",
-      bussinesId: "1",
-      title: "Oferta 1",
-      description: "Descripción de la oferta 1",
-      expirationDate: "2022-12-31",
-      paid: false,
-      tag: "50%",
-    },
-    {
-      id: "2",
-      bussinesId: "2",
-      title: "Oferta 2",
-      description: "Descripción de la oferta 2",
-      expirationDate: "2022-12-31",
-      paid: false,
-      tag: "2x1",
-    },
-    {
-      id: "3",
-      bussinesId: "3",
-      title: "Oferta 3",
-      description: "Descripción de la oferta 3",
-      expirationDate: "2022-12-31",
-      paid: false,
-      tag: "3x2",
-    },
-    {
-      id: "4",
-      bussinesId: "4",
-      title: "Oferta 4",
-      description: "Descripción de la oferta 4",
-      expirationDate: "2022-12-31",
-      paid: false,
-      tag: "5x1",
-    },
-  ]);
+  const url = `${BASE_URL}/api/v1/offers`;
+  const urlBusinesses = `${BASE_URL}/api/v1/users/businesses`;
+  const [offers, setOffers] = useState<Offer[]>([]);
+  const [businesses, setBusinesses] = useState<Map<string, Business>>();
+
+  const fetchOffers = async () => {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data: Offer[] = await response.json();
+        setOffers(data);
+        // setFilteredOffers(data);
+      } else {
+        Toast.show({ icon: "fail", content: t("Failed to fetch offers") });
+      }
+    } catch (error) {
+      console.error("Error fetching offers:", error);
+      Toast.show({
+        icon: "fail",
+        content: t("An error occurred while fetching offers"),
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchOffers();
+  }, []);
+
+  const fetchBusinesses = async () => {
+    try {
+      const response = await fetch(urlBusinesses);
+      if (response.ok) {
+        const data: Business[] = await response.json();
+        const map: Map<string, Business> = new Map();
+        console.log("Data fetched:", data);
+        data.forEach((business) => {
+          map.set(business.businessId, business);
+        });
+        setBusinesses(map);
+        console.log("Businesses fetched:", map);
+      } else {
+        Toast.show({ icon: "fail", content: t("Failed to fetch businesses") });
+      }
+    } catch (error) {
+      console.error("Error fetching businesses:", error);
+      Toast.show({
+        icon: "fail",
+        content: t("An error occurred while fetching businesses"),
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
 
   const offersCards = offers.map((offer, index) => {
-    return (
+    return businesses && businesses.get(offer.bussinesId) && (
       <div
         className="card"
         key={offer.id}
@@ -113,7 +140,7 @@ const MobileMainPage: React.FC = () => {
           title={<div className="card-title">{offer.title}</div>}
           extra={
             <div>
-              <Avatar src={McDonaldsPicture} />
+              <Avatar src={businesses.get(offer.bussinesId)?.profilePicture ?? ""} />
             </div>
           }
           // onBodyClick={onBodyClick}
@@ -121,7 +148,9 @@ const MobileMainPage: React.FC = () => {
           style={{ borderRadius: "16px" }}
         >
           <div className="overlay-tag">
-            <Tag round color="#34638a">{offer.tag}</Tag>
+            <Tag round color="#34638a">
+              {offer.tag}
+            </Tag>
           </div>
           <div className="card-content">
             <p>{offer.description}</p>
@@ -158,11 +187,6 @@ const MobileMainPage: React.FC = () => {
         </h1>
       </div>
       <Divider />
-      {/* <div className="business-pictures">
-        <Swiper loop autoplay>
-          {items}
-        </Swiper>
-      </div> */}
       <h3>{t("available_offers")}</h3>
       <div className="filter-container">
         <Dropdown>
@@ -170,15 +194,11 @@ const MobileMainPage: React.FC = () => {
             <div style={{ padding: 12 }}>
               <Radio.Group defaultValue="default">
                 <Space direction="vertical" block>
-                  <Radio block value="default">
-                    McDonalds Copa D'or
-                  </Radio>
-                  <Radio block value="nearest">
-                    Domino's Pizza
-                  </Radio>
-                  <Radio block value="top-rated">
-                    Burger King
-                  </Radio>
+                  {businesses && [...businesses.values()].map((business) => (
+                    <Radio key={business.id} value={business.id}>
+                      {business.businessName}
+                    </Radio>
+                  ))}
                 </Space>
               </Radio.Group>
             </div>
