@@ -81,6 +81,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public uint? PeopleLimit { get; init; }
             public required string BusinessName { get; init; }
         }
+
         [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.Json)]
         [HttpPost]
@@ -89,6 +90,10 @@ namespace MeetApp.Backend.Controllers.Api.V1
         [ProducesResponseType<ICollection<ActivityCreateRequest>>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAsync([FromBody][Required] ActivityCreateRequest activityCreateRequest, CancellationToken cancellationToken = default)
         {
+            var offer = await this.appDbContext.Offers
+                .Include(x => x.Bussines)
+                .Where(x => x.Id == activityCreateRequest.OfferId)
+                .SingleOrDefaultAsync(cancellationToken);
             var activity = new Activity
             {
                 OfferId = activityCreateRequest.OfferId,
@@ -162,6 +167,9 @@ namespace MeetApp.Backend.Controllers.Api.V1
                     DateTime = x.DateTime,
                     Description = x.Description,
                     Id = x.Id,
+                    Latitude = x.Latitude,
+                    Location = x.Location,
+                    Longitude = x.Longitude,
                     OfferId = x.OfferId,
                     OwnerId = x.OwnerId,
                     PeopleLimit = x.PeopleLimit,
@@ -192,6 +200,12 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required string Description { get; init; }
 
             public required Guid Id { get; init; }
+
+            public required int? Latitude { get; set; }
+
+            public required string? Location { get; set; }
+
+            public required int? Longitude { get; set; }
 
             public required Guid? OfferId { get; init; }
 
