@@ -1,3 +1,6 @@
 {
-  "greeting": "Welcome"
+  "greeting": "Welcome",
+  "available_offers": "Available offers",
+  "all": "All",
+  "create_activity": "Create activity"
 }

@@ -13,8 +13,10 @@ import {
   UserOutline,
 } from "antd-mobile-icons";
 import { isMobile } from "react-device-detect";
-import { Button, Divider } from "antd-mobile";
+import { Button, Divider, Modal } from "antd-mobile";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 isMobile && import("./MapWithMarkersStyles.css");
 
 interface Activity {
@@ -41,10 +43,48 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
 }) => {
   const mapContainerStyle = {
     width: "100%",
-    height: "400px",
+    height: "calc(100vh - 280px)"
   };
 
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { t } = useTranslation(["mappage", "global"]);
+  const navigate = useNavigate();
+
+  const joinActivityModal = () => {
+    return (
+      <Modal
+        visible={isModalVisible}
+        content={t("global:join_message", {
+          name: selectedActivity?.title,
+        })}
+        closeOnMaskClick={true}
+        onClose={handleCancel}
+        actions={[
+          { key: "no", text: t("global:no"), onClick: handleCancel },
+          {
+            key: "yes",
+            text: t("global:yes"),
+            onClick: () => handleConfirmJoin(selectedActivity!),
+          },
+        ]}
+      />
+    );
+  };
+
+  const handleConfirmJoin = (activity: Activity) => {
+    setIsModalVisible(false);
+    navigate(`/chat/${activity.id}`);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleOpenGoogleMaps = () => {
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${selectedActivity?.latitude},${selectedActivity?.longitude}`;
+    window.open(googleMapsUrl, '_blank');
+  };
 
   return (
     <APIProvider apiKey="AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro">
@@ -74,7 +114,9 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
 
         {selectedActivity && (
           <InfoWindow
-            headerContent={<h3 style={{minWidth:"50vw"}}>{selectedActivity.title}</h3>}
+            headerContent={
+              <h3 style={{ minWidth: "50vw" }}>{selectedActivity.title}</h3>
+            }
             position={{
               lat: selectedActivity.latitude,
               lng: selectedActivity.longitude,
@@ -85,27 +127,28 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
               <p>
                 <span>{selectedActivity.description}</span>
               </p>
-              <Divider/>
+              <Divider />
               <p>
                 <UserOutline />
                 <span>0/{selectedActivity.peopleLimit}</span>
               </p>
               <p>
                 <EnvironmentOutline />
-                <span>{selectedActivity.location}</span>
+                <span><a onClick={handleOpenGoogleMaps}>{selectedActivity.location}</a></span>
               </p>
               <p>
                 <ClockCircleOutline />
                 <span>{dayjs(selectedActivity.dateTime).format("HH:mm")}</span>
               </p>
               <p>
-                <Button color="primary" className="activity-join-button">
-                  Join
+                <Button color="primary" className="activity-join-button" onClick={() => setIsModalVisible(true)}>
+                  {t("global:join")}
                 </Button>
               </p>
             </div>
           </InfoWindow>
         )}
+        {isModalVisible && joinActivityModal()}
       </Map>
     </APIProvider>
   );

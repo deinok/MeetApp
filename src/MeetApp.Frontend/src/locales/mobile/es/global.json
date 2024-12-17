@@ -1,7 +1,16 @@
 {
-    "date_format": "DD/MM/YYYY",
-    "time_format": "HH:mm",
-    "confirm": "Confirmar",
-    "cancel": "Cancelar",
-    "publish_button": "Publicar"
+  "date_format": "DD/MM/YYYY",
+  "time_format": "HH:mm",
+  "confirm": "Confirmar",
+  "cancel": "Cancelar",
+  "publish": "Publicar",
+  "title": "Título",
+  "description": "Descripción",
+  "location": "Ubicación",
+  "join": "Unirse",
+  "yes": "Sí",
+  "no": "No",
+  "date": "Fecha",
+  "time": "Hora",
+  "join_message": "¿Quieres unirte a {{name}}?"
 }

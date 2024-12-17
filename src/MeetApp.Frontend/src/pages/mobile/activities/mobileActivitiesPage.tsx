@@ -271,7 +271,7 @@ const ActivitiesMobilePage: React.FC = () => {
                 handlerOpenModal(activity);
               }}
             >
-              {t("join_button")}
+              {t("global:join")}
             </Button>
           </div>
         </Card>
@@ -329,7 +329,7 @@ const ActivitiesMobilePage: React.FC = () => {
             footer={
               <>
                 <Button block type="submit" color="primary" size="large">
-                  {t("global:publish_button")}
+                  {t("global:publish")}
                 </Button>
               </>
             }
@@ -340,7 +340,7 @@ const ActivitiesMobilePage: React.FC = () => {
               label={<EditSOutline />}
             >
               <Input
-                placeholder={t("activity_title")}
+                placeholder={t("global:title")}
                 name="title"
                 // onChange={(value) => {
                 //   setUsername(value);
@@ -358,7 +358,7 @@ const ActivitiesMobilePage: React.FC = () => {
               ]}
             >
               <TextArea
-                placeholder={t("activity_description")}
+                placeholder={t("global:description")}
                 maxLength={100}
                 rows={2}
                 showCount
@@ -370,7 +370,7 @@ const ActivitiesMobilePage: React.FC = () => {
               rules={[{ required: true, message: "" }]}
               label={<EnvironmentOutline />}
             >
-              <Input placeholder={t("location_title")} name="location" />
+              <Input placeholder={t("global:location")} name="location" />
             </Form.Item>
             <Form.Item
               name="dateTime"

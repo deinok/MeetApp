@@ -27,8 +27,6 @@ const MapComponent: React.FC = () => {
   const user = useAuthUser()()?.user;
   const url = `${BASE_URL}/api/v1/activities`;
 
-  const center = { lat: 40.73061, lng: -73.935242 }; // Coordenadas del centro del mapa.
-
   const [timePickerVisible, setTimePickerVisible] = useState(false); // State to control the visibility of the Picker
   const [datePickerVisible, setDatePickerVisible] = useState(false); // State to control the visibility of the Picker
   const [selectedTime, setSelectedTime] = useState<string | null>(null); // State to store the selected time
@@ -60,7 +58,10 @@ const MapComponent: React.FC = () => {
       const response = await fetch(url);
       if (response.ok) {
         const data: Activity[] = await response.json();
-        setActivities(data);
+        const validData = data.filter((activity) => {
+          return activity.latitude && activity.longitude;
+        });
+        setActivities(validData);
         console.log(data);
       } else {
         Toast.show({ icon: "fail", content: "Error fetching activities" });
@@ -126,16 +127,18 @@ const MapComponent: React.FC = () => {
             />
           </div>
         </div>
-        {location && <MapWithMarkers center={location} activities={activities} />}
+        {location && (
+          <MapWithMarkers center={location} activities={activities} />
+        )}
       </div>
       <div>
-        {location ? (
+        {/* {location ? (
           <p>
             Your location: Latitude: {location.lat}, Longitude: {location.lng}
           </p>
         ) : (
           <p>Fetching location...</p>
-        )}
+        )} */}
       </div>
     </div>
   );

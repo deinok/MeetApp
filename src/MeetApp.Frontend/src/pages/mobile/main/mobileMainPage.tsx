@@ -251,7 +251,7 @@ const MobileMainPage: React.FC = () => {
                       setSelectedOffer(offer);
                     }}
                   >
-                    {t("Crear Actividad")}
+                    {t("create_activity")}
                   </Button>
                 </div>
               </Card>
@@ -311,7 +311,7 @@ const MobileMainPage: React.FC = () => {
     return (
       <Radio.Group defaultValue="default" onChange={handleBusinessSelection}>
         <Space direction="vertical" block>
-          <Radio value="default">{t("All")}</Radio>
+          <Radio value="default">{t("all")}</Radio>
           {businesses &&
             [...businesses.entries()].map(([id, business]) => (
               <Radio key={id} value={id}>
@@ -377,7 +377,7 @@ const MobileMainPage: React.FC = () => {
             footer={
               <>
                 <Button block type="submit" color="primary" size="large">
-                  {t("global:publish_button")}
+                  {t("global:publish")}
                 </Button>
               </>
             }
@@ -388,7 +388,7 @@ const MobileMainPage: React.FC = () => {
               label={<EditSOutline />}
             >
               <Input
-                placeholder={t("activity_title")}
+                placeholder={t("global:title")}
                 name="title"
                 // onChange={(value) => {
                 //   setUsername(value);
@@ -406,7 +406,7 @@ const MobileMainPage: React.FC = () => {
               ]}
             >
               <TextArea
-                placeholder={t("activity_description")}
+                placeholder={t("global:description")}
                 maxLength={100}
                 rows={2}
                 showCount
@@ -420,7 +420,7 @@ const MobileMainPage: React.FC = () => {
               initialValue={business!.businessAddress}
             >
               <Input
-                placeholder={t("location_title")}
+                placeholder={t("global:location")}
                 name="location"
                 disabled
               />
