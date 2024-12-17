@@ -1,7 +1,7 @@
 import { isMobile } from "react-device-detect";
 if (isMobile) import("./mobileMainPageStyles.css");
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, Tag } from "antd-mobile";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
@@ -64,7 +64,7 @@ const MobileMainPage: React.FC = () => {
   const user = useAuthUser()()?.user;
   const empresesjson = empreses;
   const items = empresesPictures.map((empresa, index) => (
-    <Swiper.Item key={index}> 
+    <Swiper.Item key={index}>
       <div className="business-picture">
         <Image src={empresa} width={100} height={100} fit="cover" />
       </div>
@@ -72,16 +72,38 @@ const MobileMainPage: React.FC = () => {
   ));
   const url = `${BASE_URL}/api/v1/offers`;
   const urlBusinesses = `${BASE_URL}/api/v1/users/businesses`;
-  const [offers, setOffers] = useState<Offer[]>([]);
+  const [offers, setOffers] = useState<Map<string, Offer[]>>();
   const [businesses, setBusinesses] = useState<Map<string, Business>>();
+  const [filteredOffers, setFilteredOffers] = useState<Map<string, Offer[]>>();
+
+  const dropdownRef = useRef<{ close: () => void }>(null); // Create a ref with 'close' method access
+
+  const handleClose = () => {
+    dropdownRef.current?.close(); // Call the close method exposed by the Dropdown
+  };
+  const [businessSelectedName, setBusinessSelectedName] = useState<string>();
 
   const fetchOffers = async () => {
     try {
       const response = await fetch(url);
       if (response.ok) {
         const data: Offer[] = await response.json();
-        setOffers(data);
-        // setFilteredOffers(data);
+        const offerMap = new Map<string, Offer[]>();
+
+        data.forEach((offer) => {
+          const { bussinesId } = offer;
+
+          // Check if the businessId already exists in the Map
+          if (!offerMap.has(bussinesId)) {
+            offerMap.set(bussinesId, []); // Initialize an empty array for new keys
+          }
+
+          // Add the offer to the corresponding businessId array
+          offerMap.get(bussinesId)?.push(offer);
+        });
+        setOffers(offerMap);
+        console.log("Offers fetched:", offerMap);
+        setFilteredOffers(offerMap);
       } else {
         Toast.show({ icon: "fail", content: t("Failed to fetch offers") });
       }
@@ -126,58 +148,131 @@ const MobileMainPage: React.FC = () => {
     fetchBusinesses();
   }, []);
 
-  const offersCards = offers.map((offer, index) => {
-    return businesses && businesses.get(offer.bussinesId) && (
-      <div
-        className="card"
-        key={offer.id}
-        // onClick={() => handleCardClick(activity.name)}
-        // onKeyDown={(event) => handleCardKeyDown(event, activity.name)}
-        tabIndex={0}
-        role="button"
-      >
-        <Card
-          title={<div className="card-title">{offer.title}</div>}
-          extra={
-            <div>
-              <Avatar src={businesses.get(offer.bussinesId)?.profilePicture ?? ""} />
-            </div>
-          }
-          // onBodyClick={onBodyClick}
-          // onHeaderClick={onHeaderClick}
-          style={{ borderRadius: "16px" }}
-        >
-          <div className="overlay-tag">
-            <Tag round color="#34638a">
-              {offer.tag}
-            </Tag>
-          </div>
-          <div className="card-content">
-            <p>{offer.description}</p>
-          </div>
-          <div className="card-footer">
-            <div className="date-container">
-              <div>
-                <CalendarOutline />
-                <span>
-                  {dayjs(offer.expirationDate).format(t("global:date_format"))}
-                </span>
+  const buildSwiperItems = (offers: Offer[]) => {
+    return offers.map((offer) => {
+      return (
+        <Swiper.Item key={offer.id}>
+          <div
+            className="swiper-item"
+            key={offer.id}
+            // onClick={() => handleCardClick(activity.name)}
+            // onKeyDown={(event) => handleCardKeyDown(event, activity.name)}
+            tabIndex={0}
+            role="button"
+          >
+            <div className="card">
+              <div className="overlay-tag">
+                <Tag round color="#34638a">
+                  {offer.tag}
+                </Tag>
               </div>
+              <Card
+                className="card-element"
+                title={<div className="card-title">{offer.title}</div>}
+                extra={
+                  <div>
+                    <Avatar
+                      src={
+                        businesses?.get(offer.bussinesId)?.profilePicture ?? ""
+                      }
+                    />
+                  </div>
+                }
+                // onBodyClick={onBodyClick}
+                // onHeaderClick={onHeaderClick}
+              >
+                <div className="card-content">
+                  <p>{offer.description}</p>
+                </div>
+                <div className="card-footer">
+                  <div className="date-container">
+                    <div>
+                      <CalendarOutline />
+                      <span>
+                        {dayjs(offer.expirationDate).format(
+                          t("global:date_format")
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="buttons-container"></div>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      // handlerOpenModal(activity);
+                    }}
+                  >
+                    {t("Crear Actividad")}
+                  </Button>
+                </div>
+              </Card>
             </div>
-            <div className="buttons-container"></div>
-            <Button
-              color="primary"
-              onClick={() => {
-                // handlerOpenModal(activity);
-              }}
-            >
-              {t("use_button")}
-            </Button>
           </div>
-        </Card>
-      </div>
+        </Swiper.Item>
+      );
+    });
+  };
+
+  const buildOfferSwipers = (offersMap: Map<string, Offer[]>) => {
+    return (
+      offersMap &&
+      businesses &&
+      [...offersMap.entries()].map(([businessId, offersList]) => {
+        return (
+          <>
+            {!businessSelectedName && (
+              <h3>{businesses?.get(businessId)?.businessName}</h3>
+            )}
+            <div key={businessId} className="business-offers">
+              <Swiper
+                slideSize={90}
+                trackOffset={5}
+                stuckAtBoundary={false}
+                total={offersList.length}
+                // indicator={true}
+                // defaultIndex={2}
+                style={{
+                  "--track-padding": " 0 0 5px",
+                }}
+              >
+                {buildSwiperItems(offersList)}
+              </Swiper>
+            </div>
+          </>
+        );
+      })
     );
-  });
+  };
+
+  const handleBusinessSelection = (key: any) => {
+    const selectedBusinessId = key;
+    if (selectedBusinessId === "default") {
+      setFilteredOffers(offers);
+    } else {
+      const selectedBusinessOffers = offers?.get(selectedBusinessId);
+      setFilteredOffers(
+        new Map([[selectedBusinessId!, selectedBusinessOffers!]])
+      );
+    }
+    setBusinessSelectedName(businesses?.get(selectedBusinessId)?.businessName);
+    handleClose();
+  };
+
+  const buildBusinessSelect = () => {
+    return (
+      <Radio.Group defaultValue="default" onChange={handleBusinessSelection}>
+        <Space direction="vertical" block>
+          <Radio value="default">{t("All")}</Radio>
+          {businesses &&
+            [...businesses.entries()].map(([id, business]) => (
+              <Radio key={id} value={id}>
+                {business.businessName}
+              </Radio>
+            ))}
+        </Space>
+      </Radio.Group>
+    );
+  };
 
   return (
     <div className="main-container">
@@ -187,26 +282,18 @@ const MobileMainPage: React.FC = () => {
         </h1>
       </div>
       <Divider />
-      <h3>{t("available_offers")}</h3>
+      <h2>{t("available_offers")}</h2>
       <div className="filter-container">
-        <Dropdown>
-          <Dropdown.Item key="sorter" title="Empresa">
-            <div style={{ padding: 12 }}>
-              <Radio.Group defaultValue="default">
-                <Space direction="vertical" block>
-                  {businesses && [...businesses.values()].map((business) => (
-                    <Radio key={business.id} value={business.id}>
-                      {business.businessName}
-                    </Radio>
-                  ))}
-                </Space>
-              </Radio.Group>
-            </div>
+        <Dropdown ref={dropdownRef}>
+          <Dropdown.Item key="sorter" title={businessSelectedName ?? t("all")}>
+            <div style={{ padding: 12 }}>{buildBusinessSelect()}</div>
           </Dropdown.Item>
         </Dropdown>
       </div>
       <div className="scroll">
-        <div className="offers-container">{offersCards}</div>
+        <div className="offers-container">
+          {buildOfferSwipers(filteredOffers!)}
+        </div>
       </div>
     </div>
   );

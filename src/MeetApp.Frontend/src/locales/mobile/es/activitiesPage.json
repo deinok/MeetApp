@@ -12,8 +12,6 @@
   "activity_description": "Descripción de la actividad",
   "activity_datetime": "Fecha de la actividad",
   "activity_people": "Número de personas",
-  "date_format": "DD/MM/YYYY",
-  "time_format": "HH:mm",
   "create_button": "Publicar",
   "confirm_date": "Confirmar",
   "cancel_date": "Cancelar"

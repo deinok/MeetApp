@@ -78,7 +78,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             arrow={{ pointAtCenter: true }}
           >
             <Avatar
-              src="https://logos-world.net/wp-content/uploads/2020/04/McDonalds-Logo.png"
+              src={user?.profilePicture}
               size="large"
               style={{ cursor: "pointer" }}
             />

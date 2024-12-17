@@ -21,6 +21,7 @@ body * {
 
 * {
   font-family: "Montserrat", sans-serif;
+  --adm-font-family: "Montserrat", sans-serif;
 }
 
 .adm-button {

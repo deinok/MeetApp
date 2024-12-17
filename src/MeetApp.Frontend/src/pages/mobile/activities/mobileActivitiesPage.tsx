@@ -55,16 +55,16 @@ const ActivitiesMobilePage: React.FC = () => {
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity>();
   const [newActivity, setNewActivity] = useState<Partial<Activity>>({});
-  const { t } = useTranslation("activitiespage");
+  const { t } = useTranslation(["activitiespage", "global"]);
   const user = useAuthUser()()?.user;
   const [activities, setActivities] = useState<Activity[]>([]);
   const navigate = useNavigate();
   const url = `${BASE_URL}/api/v1/activity`;
 
-  const dateFormatTemp = t("date_format");
-  const timeFormatTemp = t("time_format");
+  const dateFormatTemp = t("global:date_format");
+  const timeFormatTemp = t("global:time_format");
   const dateFormat =
-    dateFormatTemp != "date_format" ? dateFormatTemp : "YYYY-MM-DD";
+    (dateFormatTemp != "date_format") ? dateFormatTemp : "YYYY-MM-DD";
   const timeFormat = timeFormatTemp != "time_format" ? timeFormatTemp : "HH:mm";
 
   const [form] = Form.useForm<ActivityForm>();
