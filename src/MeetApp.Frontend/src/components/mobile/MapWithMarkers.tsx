@@ -41,7 +41,7 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
   center,
   activities,
 }) => {
-  const mapContainerStyle = {
+  const mapContainerStyle = { 
     width: "100%",
     height: "calc(100vh - 280px)"
   };
