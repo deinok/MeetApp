@@ -1,4 +1,7 @@
 {
     "date_format": "DD/MM/YYYY",
-    "time_format": "HH:mm"
+    "time_format": "HH:mm",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "publish_button": "Publicar"
 }

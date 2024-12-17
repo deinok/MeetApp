@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import MapWithMarkers from "../../../components/mobile/MapWithMarkers";
 import CustomTimePicker from "../../../components/mobile/CustomTimePicker";
 import CustomDatePicker from "../../../components/mobile/CustomDatePicker";
-import { Button, DatePickerRef, PickerRef } from "antd-mobile";
+import { Button, DatePickerRef, PickerRef, Toast } from "antd-mobile";
 import dayjs from "dayjs";
 import {
   AddOutline,
@@ -18,11 +18,14 @@ import {
   RightOutline,
   UserOutline,
 } from "antd-mobile-icons";
+import { BASE_URL } from "../../../configs/GeneralApiType";
+import { use } from "i18next";
 
 const MapComponent: React.FC = () => {
   const [location, setLocation] = useState<{ lat: number; lng: number }>();
   const { t } = useTranslation(["mappage", "global"]);
   const user = useAuthUser()()?.user;
+  const url = `${BASE_URL}/api/v1/activities`;
 
   const center = { lat: 40.73061, lng: -73.935242 }; // Coordenadas del centro del mapa.
 
@@ -30,6 +33,7 @@ const MapComponent: React.FC = () => {
   const [datePickerVisible, setDatePickerVisible] = useState(false); // State to control the visibility of the Picker
   const [selectedTime, setSelectedTime] = useState<string | null>(null); // State to store the selected time
   const [selectedDate, setSelectedDate] = useState<string | null>(null); // State to store the selected date
+  const [activities, setActivities] = useState<Activity[]>([]); // State to store the activities fetched from the API
 
   // Lista de puntos a marcar.
   const locations = [
@@ -37,6 +41,38 @@ const MapComponent: React.FC = () => {
     { lat: 34.052235, lng: -118.243683 }, // Ejemplo: Los Ángeles
     { lat: 41.878113, lng: -87.629799 }, // Ejemplo: Chicago
   ];
+
+  interface Activity {
+    id: string;
+    offerId: string;
+    ownerId: string;
+    title: string;
+    description: string;
+    dateTime: string;
+    peopleLimit: number;
+    location: string;
+    latitude: number;
+    longitude: number;
+  }
+
+  const fetchActivity = async () => {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data: Activity[] = await response.json();
+        setActivities(data);
+        console.log(data);
+      } else {
+        Toast.show({ icon: "fail", content: "Error fetching activities" });
+      }
+    } catch (error) {
+      Toast.show({ icon: "fail", content: "Error fetching activities" });
+    }
+  };
+
+  useEffect(() => {
+    fetchActivity();
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -63,7 +99,7 @@ const MapComponent: React.FC = () => {
             {/* <span>Fecha:</span> */}
             <Button onClick={() => setDatePickerVisible(true)}>
               <div className="button-content">
-                <CalendarOutline className="icon"/>
+                <CalendarOutline className="icon" />
                 <span className="value">{selectedDate}</span>
               </div>
             </Button>
@@ -78,7 +114,7 @@ const MapComponent: React.FC = () => {
             {/* <span>Desde:</span> */}
             <Button onClick={() => setTimePickerVisible(true)}>
               <div className="button-content">
-                <ClockCircleOutline className="icon"/>
+                <ClockCircleOutline className="icon" />
                 <span className="value">{selectedTime} </span>
               </div>
             </Button>
@@ -90,7 +126,7 @@ const MapComponent: React.FC = () => {
             />
           </div>
         </div>
-        {location && <MapWithMarkers center={location} locations={locations} />}
+        {location && <MapWithMarkers center={location} activities={activities} />}
       </div>
       <div>
         {location ? (

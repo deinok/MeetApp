@@ -12,6 +12,7 @@ import {
   Form,
   DatePicker,
   TextArea,
+  Stepper,
 } from "antd-mobile";
 import { useNavigate } from "react-router-dom";
 import {
@@ -39,6 +40,9 @@ interface Activity {
   description: string;
   dateTime: string;
   peopleLimit: number;
+  location: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface ActivityForm {
@@ -48,6 +52,9 @@ interface ActivityForm {
   description: string;
   dateTime: string;
   peopleLimit: number;
+  location: string;
+  latitude: number;
+  longitude: number;
 }
 
 const ActivitiesMobilePage: React.FC = () => {
@@ -58,13 +65,15 @@ const ActivitiesMobilePage: React.FC = () => {
   const { t } = useTranslation(["activitiespage", "global"]);
   const user = useAuthUser()()?.user;
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredActivities, setFilteredActivities] = useState<Activity[]>([]);
   const navigate = useNavigate();
   const url = `${BASE_URL}/api/v1/activity`;
 
   const dateFormatTemp = t("global:date_format");
   const timeFormatTemp = t("global:time_format");
   const dateFormat =
-    (dateFormatTemp != "date_format") ? dateFormatTemp : "YYYY-MM-DD";
+    dateFormatTemp != "date_format" ? dateFormatTemp : "YYYY-MM-DD";
   const timeFormat = timeFormatTemp != "time_format" ? timeFormatTemp : "HH:mm";
 
   const [form] = Form.useForm<ActivityForm>();
@@ -87,10 +96,42 @@ const ActivitiesMobilePage: React.FC = () => {
     fetchActivity();
   }, []);
 
+  const getCoordinates = async (address: string) => {
+    const encodedAddress = encodeURIComponent(address);
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.status === "OK") {
+        const location = data.results[0].geometry.location;
+        return { lat: location.lat, lng: location.lng };
+      } else {
+        message.error(t("An error occurred while fetching location"));
+        return null;
+      }
+    } catch (err) {
+      message.error(t("An error occurred while fetching location"));
+      return null;
+    }
+  };
+
   const handleCreateActivity = async (values: ActivityForm) => {
+    const location = await getCoordinates(values.location);
+
+    if (!location) {
+      message.error("Error fetching location of the activity");
+      return;
+    }
+
     const activityData = {
       ...values,
       ownerId: user.id,
+      latitude: location.lat,
+      longitude: location.lng,
     };
 
     try {
@@ -162,7 +203,7 @@ const ActivitiesMobilePage: React.FC = () => {
   };
   console.log(selectedActivity, "selectedActivity id here");
 
-  const items = activities.map((activity, index) => {
+  const items = filteredActivities.map((activity, index) => {
     const { date, time } = processDateTime(activity.dateTime);
     return (
       <div
@@ -189,12 +230,10 @@ const ActivitiesMobilePage: React.FC = () => {
           </div>
           <div className="card-footer">
             <div className="date-container">
-              {activity.offerId && (
-                <div>
-                  <EnvironmentOutline />
-                  <span></span>
-                </div>
-              )}
+              <div>
+                <EnvironmentOutline />
+                <span>{activity.location}</span>
+              </div>
               <div>
                 <CalendarOutline />
                 <span>{date}</span>
@@ -240,10 +279,152 @@ const ActivitiesMobilePage: React.FC = () => {
     );
   });
 
+  const joinActivityModal = () => {
+    return (
+      <Modal
+        visible={isModalVisible}
+        content={t("join_activity_message", {
+          name: selectedActivity?.title,
+        })}
+        closeOnMaskClick={true}
+        onClose={handleCancel}
+        actions={[
+          { key: "no", text: t("no"), onClick: handleCancel },
+          {
+            key: "yes",
+            text: t("yes"),
+            onClick: () => handleConfirmJoin(selectedActivity!),
+          },
+        ]}
+      />
+    );
+  };
+
+  useEffect(() => {
+    const filtered = activities.filter(
+      (activity) =>
+        activity.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        activity.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredActivities(filtered);
+  }, [searchTerm, activities]);
+
+  const createActivityModal = () => {
+    return (
+      <Modal
+        visible={isFormModalVisible}
+        closeOnMaskClick={true}
+        onClose={() => setIsFormModalVisible(false)}
+        title={t("create_activity")}
+        style={{
+          width: "100%", // Custom width
+          maxWidth: "500px", // Optional max width for responsiveness
+        }}
+        content={
+          <Form
+            form={form}
+            layout="horizontal"
+            mode="card"
+            onFinish={handleCreateActivity}
+            footer={
+              <>
+                <Button block type="submit" color="primary" size="large">
+                  {t("global:publish_button")}
+                </Button>
+              </>
+            }
+          >
+            <Form.Item
+              name="title"
+              rules={[{ required: true, message: "" }]}
+              label={<EditSOutline />}
+            >
+              <Input
+                placeholder={t("activity_title")}
+                name="title"
+                // onChange={(value) => {
+                //   setUsername(value);
+                // }}
+                // className="form-input"
+              />
+            </Form.Item>
+            <Form.Item
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+              ]}
+            >
+              <TextArea
+                placeholder={t("activity_description")}
+                maxLength={100}
+                rows={2}
+                showCount
+                className="form-input"
+              />
+            </Form.Item>
+            <Form.Item
+              name="location"
+              rules={[{ required: true, message: "" }]}
+              label={<EnvironmentOutline />}
+            >
+              <Input placeholder={t("location_title")} name="location" />
+            </Form.Item>
+            <Form.Item
+              name="dateTime"
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+              ]}
+              trigger="onConfirm"
+              onClick={(e, datePickerRef: RefObject<DatePickerRef>) => {
+                datePickerRef.current?.open();
+              }}
+              label={<CalendarOutline />}
+            >
+              <DatePicker
+                precision="minute"
+                cancelText={t("global:cancel")}
+                confirmText={t("global:confirm")}
+              >
+                {(value) =>
+                  value
+                    ? dayjs(value).format(dateFormat + " " + timeFormat)
+                    : ""
+                }
+              </DatePicker>
+            </Form.Item>
+
+            <Form.Item
+              initialValue={2}
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+              ]}
+              name="peopleLimit"
+              label={<UserOutline />}
+            >
+              <Stepper min={2}/>
+            </Form.Item>
+          </Form>
+        }
+      />
+    );
+  };
+
   return (
     <div className="activities-container">
       <div className="search-bar">
-        <SearchBar placeholder={t("search_placeholder")} />
+        <SearchBar
+          placeholder={t("search_placeholder")}
+          onChange={(value) => setSearchTerm(value)}
+        />
         <Button color="primary" onClick={() => setIsFormModalVisible(true)}>
           <AddOutline />
         </Button>
@@ -252,146 +433,10 @@ const ActivitiesMobilePage: React.FC = () => {
       <div className="scroll">
         <div className="card-activities">{items}</div>
       </div>
-      {isModalVisible && (
-        <Modal
-          visible={isModalVisible}
-          content={t("join_activity_message", {
-            name: selectedActivity?.title,
-          })}
-          closeOnMaskClick={true}
-          onClose={handleCancel}
-          actions={[
-            { key: "no", text: t("no"), onClick: handleCancel },
-            {
-              key: "yes",
-              text: t("yes"),
-              onClick: () => handleConfirmJoin(selectedActivity!),
-            },
-          ]}
-        />
-      )}
-
-      {isFormModalVisible && (
-        <div className="create-activity-modal">
-          <Modal
-            visible={isFormModalVisible}
-            closeOnMaskClick={true}
-            onClose={() => setIsFormModalVisible(false)}
-            title={t("create_activity")}
-            style={{
-              width: "100%", // Custom width
-              maxWidth: "500px", // Optional max width for responsiveness
-            }}
-            content={
-              <>
-                <Form
-                  form={form}
-                  layout="horizontal"
-                  mode="card"
-                  onFinish={handleCreateActivity}
-                  footer={
-                    <>
-                      <Button block type="submit" color="primary" size="large">
-                        {t("create_button")}
-                      </Button>
-                    </>
-                  }
-                >
-                  <Form.Item
-                    name="title"
-                    rules={[{ required: true, message: "" }]}
-                    label={<EditSOutline />}
-                  >
-                    <Input
-                      placeholder={t("activity_title")}
-                      name="title"
-                      // onChange={(value) => {
-                      //   setUsername(value);
-                      // }}
-                      // className="form-input"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="description"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                    ]}
-                  >
-                    <TextArea
-                      placeholder={t("activity_description")}
-                      maxLength={100}
-                      rows={2}
-                      showCount
-                      className="form-input"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="location"
-                    rules={[{ required: true, message: "" }]}
-                    label={<EnvironmentOutline />}
-                  >
-                    <Input
-                      placeholder={t("location_title")}
-                      name="location"
-                      // onChange={(value) => {
-                      //   setUsername(value);
-                      // }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="dateTime"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                    ]}
-                    trigger="onConfirm"
-                    onClick={(e, datePickerRef: RefObject<DatePickerRef>) => {
-                      datePickerRef.current?.open();
-                    }}
-                    label={<CalendarOutline />}
-                  >
-                    <DatePicker
-                      precision="minute"
-                      cancelText={t("cancel_date")}
-                      confirmText={t("confirm_date")}
-                    >
-                      {(value) =>
-                        value
-                          ? dayjs(value).format(dateFormat + " " + timeFormat)
-                          : ""
-                      }
-                    </DatePicker>
-                  </Form.Item>
-                  <Form.Item
-                    name="peopleLimit"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                    ]}
-                    label={<UserOutline />}
-                  >
-                    <Input
-                      type="number"
-                      placeholder={t("activity_people")}
-                      name="peopleLimit"
-                      // onChange={(value) => {
-                      //   setPassword(value);
-                      // }}
-                    />
-                  </Form.Item>
-                </Form>
-              </>
-            }
-          />
-        </div>
-      )}
+      {isModalVisible && joinActivityModal()}
+      <div className="create-activity-modal">
+        {isFormModalVisible && createActivityModal()}
+      </div>
     </div>
   );
 };

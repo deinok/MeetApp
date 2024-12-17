@@ -1,8 +1,18 @@
 import { isMobile } from "react-device-detect";
 if (isMobile) import("./mobileMainPageStyles.css");
 
-import React, { useEffect, useRef, useState } from "react";
-import { Card, Tag } from "antd-mobile";
+import React, { RefObject, useEffect, useRef, useState } from "react";
+import {
+  Card,
+  DatePicker,
+  DatePickerRef,
+  Form,
+  Input,
+  Modal,
+  Stepper,
+  Tag,
+  TextArea,
+} from "antd-mobile";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
 import {
@@ -25,6 +35,7 @@ import {
   AntOutline,
   CalendarOutline,
   ClockCircleOutline,
+  EditSOutline,
   EnvironmentOutline,
   RightOutline,
   UserOutline,
@@ -32,6 +43,7 @@ import {
 import { Divider } from "antd";
 import dayjs from "dayjs";
 import { BASE_URL } from "../../../configs/GeneralApiType";
+import { off } from "process";
 
 const empresesPictures = [
   McDonaldsPicture,
@@ -59,6 +71,31 @@ interface Business {
   longitude: number;
 }
 
+interface Activity {
+  id: string;
+  offerId: string;
+  ownerId: string;
+  title: string;
+  description: string;
+  dateTime: string;
+  peopleLimit: number;
+  location: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface ActivityForm {
+  offerId: string;
+  ownerId: string;
+  title: string;
+  description: string;
+  dateTime: string;
+  peopleLimit: number;
+  location: string;
+  latitude: number;
+  longitude: number;
+}
+
 const MobileMainPage: React.FC = () => {
   const { t } = useTranslation(["mainpage", "global"]);
   const user = useAuthUser()()?.user;
@@ -72,9 +109,20 @@ const MobileMainPage: React.FC = () => {
   ));
   const url = `${BASE_URL}/api/v1/offers`;
   const urlBusinesses = `${BASE_URL}/api/v1/users/businesses`;
+  const urlPostActivity = `${BASE_URL}/api/v1/activities`;
   const [offers, setOffers] = useState<Map<string, Offer[]>>();
   const [businesses, setBusinesses] = useState<Map<string, Business>>();
   const [filteredOffers, setFilteredOffers] = useState<Map<string, Offer[]>>();
+  const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<Offer>();
+
+  const dateFormatTemp = t("global:date_format");
+  const timeFormatTemp = t("global:time_format");
+  const dateFormat =
+    dateFormatTemp != "date_format" ? dateFormatTemp : "YYYY-MM-DD";
+  const timeFormat = timeFormatTemp != "time_format" ? timeFormatTemp : "HH:mm";
+
+  const [form] = Form.useForm<ActivityForm>();
 
   const dropdownRef = useRef<{ close: () => void }>(null); // Create a ref with 'close' method access
 
@@ -199,7 +247,8 @@ const MobileMainPage: React.FC = () => {
                   <Button
                     color="primary"
                     onClick={() => {
-                      // handlerOpenModal(activity);
+                      setIsFormModalVisible(true);
+                      setSelectedOffer(offer);
                     }}
                   >
                     {t("Crear Actividad")}
@@ -274,6 +323,153 @@ const MobileMainPage: React.FC = () => {
     );
   };
 
+  const handleCreateActivity = async (values: ActivityForm) => {
+    const business = businesses?.get(selectedOffer!.bussinesId);
+
+    const activityData = {
+      ...values,
+      ownerId: user.id,
+      offerId: selectedOffer!.id,
+      location: business?.businessAddress,
+      latitude: business?.latitude,
+      longitude: business?.longitude,
+    };
+
+    try {
+      const response = await fetch(urlPostActivity, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(activityData),
+      });
+
+      if (response.ok) {
+        const createdActivity: Activity = await response.json();
+        Toast.show({ icon: "success", content: t("Activity created") });
+        setIsFormModalVisible(false);
+      } else {
+        Toast.show({ icon: "fail", content: t("Error creating activity") });
+      }
+    } catch (error) {
+      Toast.show({ icon: "fail", content: t("Error creating activity") });
+    }
+  };
+
+  const createActivityModal = () => {
+    const business = businesses?.get(selectedOffer!.bussinesId);
+    return (
+      <Modal
+        visible={isFormModalVisible}
+        closeOnMaskClick={true}
+        onClose={() => setIsFormModalVisible(false)}
+        title={t("create_activity")}
+        style={{
+          width: "100%", // Custom width
+          maxWidth: "500px", // Optional max width for responsiveness
+        }}
+        content={
+          <Form
+            form={form}
+            layout="horizontal"
+            mode="card"
+            onFinish={handleCreateActivity}
+            footer={
+              <>
+                <Button block type="submit" color="primary" size="large">
+                  {t("global:publish_button")}
+                </Button>
+              </>
+            }
+          >
+            <Form.Item
+              name="title"
+              rules={[{ required: true, message: "" }]}
+              label={<EditSOutline />}
+            >
+              <Input
+                placeholder={t("activity_title")}
+                name="title"
+                // onChange={(value) => {
+                //   setUsername(value);
+                // }}
+                // className="form-input"
+              />
+            </Form.Item>
+            <Form.Item
+              name="description"
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+              ]}
+            >
+              <TextArea
+                placeholder={t("activity_description")}
+                maxLength={100}
+                rows={2}
+                showCount
+                className="form-input"
+              />
+            </Form.Item>
+            <Form.Item
+              name="location"
+              rules={[{ required: true, message: "" }]}
+              label={<EnvironmentOutline />}
+              initialValue={business!.businessAddress}
+            >
+              <Input
+                placeholder={t("location_title")}
+                name="location"
+                disabled
+              />
+            </Form.Item>
+            <Form.Item
+              name="dateTime"
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+              ]}
+              trigger="onConfirm"
+              onClick={(e, datePickerRef: RefObject<DatePickerRef>) => {
+                datePickerRef.current?.open();
+              }}
+              label={<CalendarOutline />}
+            >
+              <DatePicker
+                precision="minute"
+                cancelText={t("global:cancel")}
+                confirmText={t("global:confirm")}
+              >
+                {(value) =>
+                  value
+                    ? dayjs(value).format(dateFormat + " " + timeFormat)
+                    : ""
+                }
+              </DatePicker>
+            </Form.Item>
+            <Form.Item
+              initialValue={2}
+              rules={[
+                {
+                  required: true,
+                  message: "",
+                },
+              ]}
+              name="peopleLimit"
+              label={<UserOutline />}
+            >
+              <Stepper min={2} />
+            </Form.Item>
+          </Form>
+        }
+      />
+    );
+  };
+
   return (
     <div className="main-container">
       <div className="greeting-container">
@@ -293,6 +489,9 @@ const MobileMainPage: React.FC = () => {
       <div className="scroll">
         <div className="offers-container">
           {buildOfferSwipers(filteredOffers!)}
+          <div className="create-activity-modal">
+            {isFormModalVisible && createActivityModal()}
+          </div>
         </div>
       </div>
     </div>

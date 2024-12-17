@@ -149,4 +149,40 @@
   .adm-swiper-slide-active {
     transform: scale(1);
   }
+
+
+  .create-activity-modal {
+    .adm-center-popup-wrap {
+      width: 100%;
+    }
+    .adm-form-item-required-asterisk {
+      color: transparent;
+    }
+
+    .adm-list-item-content-prefix {
+      width: 25px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .adm-list-item {
+      padding: 0;
+    }
+
+    .adm-list-item-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #d9d9d9;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      padding: 0;
+      border-radius: 10px;
+      width: 100%;
+    }
+
+    .adm-list-item-content-main {
+      padding: 0;
+    }
+  }
 }
