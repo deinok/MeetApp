@@ -1,3 +1,6 @@
 {
-  "greeting": "Bienvenido"
+  "greeting": "Bienvenido",
+  "available_offers": "Ofertas disponibles",
+  "all": "Todos",
+  "create_activity": "Crear actividad"
 }

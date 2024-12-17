@@ -2,6 +2,7 @@ import { Picker, Button, Space, PickerRef } from "antd-mobile";
 import dayjs from "dayjs";
 import { use } from "i18next";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface TimePickerProps {
   visible: boolean;
@@ -17,7 +18,7 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({
   defaultValue,
 }) => {
   const [selectedTime, setSelectedTime] = useState<string | null>(defaultValue ?? null);
-
+  const { t } = useTranslation("global");
   // Generate options for hours and minutes
   const hours = Array.from({ length: 24 }, (_, i) => ({
     label: i.toString().padStart(2, "0"),
@@ -47,9 +48,9 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({
           setSelectedTime(`${values[0]}:${values[1]}`);
           setVisibleHandler(false);
         }}
-        confirmText="OK"
-        cancelText="Cancel"
-        title="Select Time"
+        confirmText={t("global:confirm")}
+        cancelText={t("global:cancel")}
+        title={t("global:time")}
         mouseWheel={true}
         value={selectedTime ? selectedTime.split(":") : undefined}
       ></Picker>

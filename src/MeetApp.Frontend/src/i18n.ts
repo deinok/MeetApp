@@ -31,6 +31,7 @@ import mobileRegisterES from "./locales/mobile/es/registerPage.json";
 import mobileProfileES from "./locales/mobile/es/profilePage.json";
 import mobileMainES from "./locales/mobile/es/mainPage.json";
 
+import mobileGlobalEN from "./locales/mobile/en/global.json";
 import mobileLayoutEN from "./locales/mobile/en/layout.json";
 import mobileActivitiesEN from "./locales/mobile/en/activitiesPage.json";
 import mobileLoginEN from "./locales/mobile/en/loginPage.json";
@@ -38,6 +39,7 @@ import mobileRegisterEN from "./locales/mobile/en/registerPage.json";
 import mobileProfileEN from "./locales/mobile/en/profilePage.json";
 import mobileMainEN from "./locales/mobile/en/mainPage.json";
 
+import mobileGlobalBS from "./locales/mobile/bs/global.json";
 import mobileLayoutBS from "./locales/mobile/bs/layout.json";
 import mobileActivitiesBS from "./locales/mobile/bs/activitiesPage.json";
 import mobileLoginBS from "./locales/mobile/bs/loginPage.json";
@@ -84,6 +86,7 @@ const mobileResources = {
     mainpage: mobileMainES,
   },
   en: {
+    global: mobileGlobalEN,
     layout: mobileLayoutEN,
     activitiespage: mobileActivitiesEN,
     loginpage: mobileLoginEN,
@@ -92,6 +95,7 @@ const mobileResources = {
     mainpage: mobileMainEN,
   },
   bs: {
+    global: mobileGlobalBS,
     layout: mobileLayoutBS,
     activitiespage: mobileActivitiesBS,
     loginpage: mobileLoginBS,
@@ -110,7 +114,7 @@ if (isMobile) {
   i18n.use(initReactI18next).init({
     resources: mobileResources,
     lng: initialLanguage, // Idioma por defecto
-    fallbackLng: "es",
+    fallbackLng: "en",
     ns: [
       "global",
       "layout",
@@ -122,7 +126,7 @@ if (isMobile) {
       "registerpage",
       "activitiespage",
     ], // Definimos los namespaces a usar
-    defaultNS: "mainpage", // Namespace por defecto, en este caso 'mainpage'
+    defaultNS: "global", // Namespace por defecto, en este caso 'mainpage'
     interpolation: {
       escapeValue: false,
     },

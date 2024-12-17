@@ -2,6 +2,7 @@ import { Picker, Button, Space, PickerRef, DatePicker } from "antd-mobile";
 import dayjs from "dayjs";
 import { use } from "i18next";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface DatePickerProps {
   visible: boolean;
@@ -9,6 +10,7 @@ interface DatePickerProps {
   onChange: (value: string) => void;
   defaultValue?: string;
 }
+
 
 const CustomDatePicker: React.FC<DatePickerProps> = ({
   visible,
@@ -19,6 +21,7 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
   const [selectedTime, setSelectedTime] = useState<string | null>(
     defaultValue ?? null
   );
+  const {t} = useTranslation("global");
 
   useEffect(() => {
     if (selectedTime) {
@@ -36,9 +39,9 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
           setSelectedTime(dayjs(value).format("DD-MM-YYYY"));
           setVisibleHandler(false);
         }}
-        confirmText="OK"
-        cancelText="Cancel"
-        title="Select Date"
+        confirmText={t("global:confirm")}
+        cancelText={t("global:cancel")}
+        title={t("global:date")}
         mouseWheel={true}
         value={dayjs(selectedTime, 'DD-MM-YYYY').toDate() ?? undefined}
       ></DatePicker>

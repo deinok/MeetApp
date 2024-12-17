@@ -97,9 +97,12 @@ namespace MeetApp.Backend.Controllers.Api.V1
             if (identityResult.Succeeded) { return this.Ok(); }
             return this.BadRequest();
         }
+
+
         [AllowAnonymous]
         [HttpPut("businessUpdate/{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -113,9 +116,9 @@ namespace MeetApp.Backend.Controllers.Api.V1
             user.BussinesName = userUpdateRequest.BusinessName;
             user.Email = userUpdateRequest.Email;
             user.City = userUpdateRequest.City;
-            user.ProfilePicture = userUpdateRequest.ProfilePictureUrl;
+            user.ProfilePicture = userUpdateRequest.ProfilePicture;
             user.CIF = userUpdateRequest.CIF;
-            user.BussinesAddress = userUpdateRequest.BusinessAdress;
+            user.BussinesAddress = userUpdateRequest.BusinessAddress;
             user.GoogleMapsUrl = userUpdateRequest.GoogleMapsUrl;
             user.Longitude = userUpdateRequest.Longitude;
             user.Latitude = userUpdateRequest.Latitude;
@@ -124,16 +127,17 @@ namespace MeetApp.Backend.Controllers.Api.V1
         }
         public record BusinessUserUpdateRequest
         {
-            public required string BusinessName { get; set; }
-            public required string Email { get; set; }
-            public required string City { get; set; }
-            public required string ProfilePictureUrl { get; set; }
-            public required string CIF { get; set; }
-            public required string BusinessAdress { get; set; }
-            public required string GoogleMapsUrl { get; set; }
-            public required decimal Longitude { get; set; }
-            public required decimal Latitude { get; set; }
+            public required string BusinessName { get; init; }
+            public required string Email { get; init; }
+            public required string City { get; init; }
+            public required string ProfilePicture { get; init; }
+            public required string CIF { get; init; }
+            public required string BusinessAddress { get; init; }
+            public required string GoogleMapsUrl { get; init; }
+            public required decimal Longitude { get; init; }
+            public required decimal Latitude { get; init; }
         }
+
         [AllowAnonymous]
         [HttpGet("businesses")]
         [Produces(MediaTypeNames.Application.Json)]
@@ -142,14 +146,18 @@ namespace MeetApp.Backend.Controllers.Api.V1
         public async Task<IActionResult> GetAllBusinesses(CancellationToken cancellationToken = default)
         {
             var result = await userManager.Users
+                 .Include(user => user.Offers)
+                  .Where(user => user.Offers.Any(offer => offer.Paid))
                 .Select(user => new BusinessInfoResponse
                 {
                     BusinessId = user.Id,
                     BusinessName = user.BussinesName,
-                    ProfilePicture = user.ProfilePicture
+                    ProfilePicture = user.ProfilePicture,
+                    BusinessAddress = user.BussinesAddress,
+                    Latitude = user.Latitude,
+                    Longitude = user.Longitude,
                 })
                 .ToListAsync(cancellationToken);
-
             return Ok(result);
         }
 
@@ -158,10 +166,15 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public required Guid BusinessId { get; init; }
             public required string? BusinessName { get; init; }
             public required string? ProfilePicture { get; init; }
+            public required string? BusinessAddress { get; init; }
+            public required decimal? Latitude { get; init; }
+            public required decimal? Longitude { get; init; }
         }
+
         [AllowAnonymous]
         [HttpPut("userUpdate/{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -175,7 +188,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
             user.Name = userUpdateRequest.Name;
             user.Email = userUpdateRequest.Email;
             user.City = userUpdateRequest.City;
-            user.ProfilePicture = userUpdateRequest.ProfilePictureUrl;
+            user.ProfilePicture = userUpdateRequest.ProfilePicture;
             _ = await userManager.UpdateAsync(user);
             return Ok(user);
         }
@@ -183,7 +196,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
         {
             public required string Email { get; set; }
             public required string City { get; set; }
-            public required string ProfilePictureUrl { get; set; }
+            public required string ProfilePicture { get; set; }
             public required string Name { get; set; }
         }
 
@@ -273,6 +286,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 City = user.City,
                 GoogleMapsUrl = user.GoogleMapsUrl,
                 ProfilePicture = user.ProfilePicture,
+                Latitude = user.Latitude,
+                Longitude = user.Longitude,
             };
         }
 
@@ -292,6 +307,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public User.BussinesCategoryType BussinesCategory { get; set; }
             public string? CIF { get; set; }
             public string? GoogleMapsUrl { get; set; }
+            public decimal? Longitude { get; set; }
+            public decimal? Latitude { get; set; }
             /* BUSSINES FIELDS */
         }
 
@@ -381,6 +398,8 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public User.BussinesCategoryType? BussinesCategory { get; set; }
             public string? CIF { get; set; }
             public string? GoogleMapsUrl { get; set; }
+            public decimal? Longitude { get; set; }
+            public decimal? Latitude { get; set; }
             /* BUSSINES FIELDS */
 
         }

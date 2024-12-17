@@ -51,7 +51,7 @@ export const OffersPage = () => {
   const [form] = Form.useForm();
   const user = useAuthUser()()!.user;
 
-  const url = `${BASE_URL}/api/v1/offers`;
+  const url = `${BASE_URL}/api/v1/offers/business/${user.id}`;
 
   const fetchOffers = async () => {
     try {

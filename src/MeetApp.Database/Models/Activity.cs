@@ -29,11 +29,11 @@ namespace MeetApp.Database.Models
 
         public uint? PeopleLimit { get; set; }
 
-        public int? Latitude { get; set; }
-
         public string? Location { get; set; }
 
-        public int? Longitude { get; set; }
+        public decimal? Latitude { get; set; }
+
+        public decimal? Longitude { get; set; }
 
         [ForeignKey(nameof(OfferId))]
         [InverseProperty(nameof(Offer.Activities))]

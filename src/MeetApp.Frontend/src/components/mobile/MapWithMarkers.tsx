@@ -13,26 +13,78 @@ import {
   UserOutline,
 } from "antd-mobile-icons";
 import { isMobile } from "react-device-detect";
-import { Button } from "antd-mobile";
+import { Button, Divider, Modal } from "antd-mobile";
+import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 isMobile && import("./MapWithMarkersStyles.css");
+
+interface Activity {
+  id: string;
+  offerId: string;
+  ownerId: string;
+  title: string;
+  description: string;
+  dateTime: string;
+  peopleLimit: number;
+  location: string;
+  latitude: number;
+  longitude: number;
+}
 
 interface MapWithMarkersProps {
   center: { lat: number; lng: number } | undefined;
-  locations: ({ lat: number; lng: number } | undefined)[];
+  activities: Activity[];
 }
 
 const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
   center,
-  locations,
+  activities,
 }) => {
-  const mapContainerStyle = {
+  const mapContainerStyle = { 
     width: "100%",
-    height: "400px",
+    height: "calc(100vh - 280px)"
   };
 
-  const [selectedLocation, setSelectedLocation] = useState<
-    google.maps.LatLng | { lat: number; lng: number } | null
-  >();
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { t } = useTranslation(["mappage", "global"]);
+  const navigate = useNavigate();
+
+  const joinActivityModal = () => {
+    return (
+      <Modal
+        visible={isModalVisible}
+        content={t("global:join_message", {
+          name: selectedActivity?.title,
+        })}
+        closeOnMaskClick={true}
+        onClose={handleCancel}
+        actions={[
+          { key: "no", text: t("global:no"), onClick: handleCancel },
+          {
+            key: "yes",
+            text: t("global:yes"),
+            onClick: () => handleConfirmJoin(selectedActivity!),
+          },
+        ]}
+      />
+    );
+  };
+
+  const handleConfirmJoin = (activity: Activity) => {
+    setIsModalVisible(false);
+    navigate(`/chat/${activity.id}`);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleOpenGoogleMaps = () => {
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${selectedActivity?.latitude},${selectedActivity?.longitude}`;
+    window.open(googleMapsUrl, '_blank');
+  };
 
   return (
     <APIProvider apiKey="AIzaSyDtkRH-fJVpyyeHtsLJqkLowlS3Zot93ro">
@@ -44,50 +96,59 @@ const MapWithMarkers: React.FC<MapWithMarkersProps> = ({
         disableDefaultUI={true}
         style={mapContainerStyle}
       >
-        <AdvancedMarker
-          position={center}
-          title={"Mi casa"}
-          onClick={() => setSelectedLocation(center)}
-        >
+        <AdvancedMarker position={center}>
           <Pin
             background={"#0f9d58"}
             borderColor={"#006425"}
             glyphColor={"#60d98f"}
           />
         </AdvancedMarker>
-        {locations &&
-          locations.map((location, index) => (
-            <AdvancedMarker key={index} position={location} />
+        {activities &&
+          activities.map((activity, index) => (
+            <AdvancedMarker
+              key={index}
+              position={{ lat: activity.latitude, lng: activity.longitude }}
+              onClick={() => setSelectedActivity(activity)}
+            />
           ))}
 
-        {selectedLocation && (
+        {selectedActivity && (
           <InfoWindow
-            headerContent={<h3>Title</h3>}
-            position={selectedLocation} // Position the bubble at the marker's location
-            onCloseClick={() => setSelectedLocation(null)} // Close the bubble when clicked
+            headerContent={
+              <h3 style={{ minWidth: "50vw" }}>{selectedActivity.title}</h3>
+            }
+            position={{
+              lat: selectedActivity.latitude,
+              lng: selectedActivity.longitude,
+            }} // Position the bubble at the marker's location
+            onCloseClick={() => setSelectedActivity(null)} // Close the bubble when clicked
           >
             <div className="activity-marker-window">
               <p>
+                <span>{selectedActivity.description}</span>
+              </p>
+              <Divider />
+              <p>
                 <UserOutline />
-                <span>0/5</span>
+                <span>0/{selectedActivity.peopleLimit}</span>
               </p>
               <p>
                 <EnvironmentOutline />
-                <span>Location</span>
+                <span><a onClick={handleOpenGoogleMaps}>{selectedActivity.location}</a></span>
               </p>
               <p>
                 <ClockCircleOutline />
-                <span>9:00h</span>
+                <span>{dayjs(selectedActivity.dateTime).format("HH:mm")}</span>
               </p>
-              <p>Click to see more details...</p>
               <p>
-                <Button color="primary" className="activity-join-button">
-                  Join
+                <Button color="primary" className="activity-join-button" onClick={() => setIsModalVisible(true)}>
+                  {t("global:join")}
                 </Button>
               </p>
             </div>
           </InfoWindow>
         )}
+        {isModalVisible && joinActivityModal()}
       </Map>
     </APIProvider>
   );

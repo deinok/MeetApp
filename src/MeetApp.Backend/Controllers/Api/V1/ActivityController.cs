@@ -101,7 +101,10 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 Title = activityCreateRequest.Title,
                 Description = activityCreateRequest.Description,
                 DateTime = activityCreateRequest.DateTime,
-                PeopleLimit = activityCreateRequest.PeopleLimit
+                PeopleLimit = activityCreateRequest.PeopleLimit,
+                Location = activityCreateRequest.Location,
+                Latitude = activityCreateRequest.Latitude,
+                Longitude = activityCreateRequest.Longitude
             };
             this.appDbContext.Activities.Add(activity);
             _ = await this.appDbContext.SaveChangesAsync(cancellationToken);
@@ -112,7 +115,10 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 Title = activity.Title,
                 Description = activity.Description,
                 DateTime = activity.DateTime,
-                PeopleLimit = activity.PeopleLimit
+                PeopleLimit = activity.PeopleLimit,
+                Location = activityCreateRequest.Location,
+                Latitude = activityCreateRequest.Latitude,
+                Longitude = activityCreateRequest.Longitude
             });
         }
 
@@ -194,26 +200,25 @@ namespace MeetApp.Backend.Controllers.Api.V1
 
         public record ActivityGetResponse
         {
-
-            public required DateTimeOffset DateTime { get; init; }
-
-            public required string Description { get; init; }
-
             public required Guid Id { get; init; }
-
-            public required int? Latitude { get; set; }
-
-            public required string? Location { get; set; }
-
-            public required int? Longitude { get; set; }
 
             public required Guid? OfferId { get; init; }
 
             public required Guid OwnerId { get; init; }
 
+            public required string Title { get; init; }
+
+            public required string Description { get; init; }
+
+            public required DateTimeOffset DateTime { get; init; }
+
             public required uint? PeopleLimit { get; init; }
 
-            public required string Title { get; init; }
+            public required string? Location { get; init; }
+
+            public required decimal? Latitude { get; init; }
+
+            public required decimal? Longitude { get; init; }
 
         }
 
@@ -230,6 +235,14 @@ namespace MeetApp.Backend.Controllers.Api.V1
             public DateTimeOffset DateTime { get; set; }
 
             public uint? PeopleLimit { get; set; }
+
+            public required string? Location { get; set; }
+
+            public required decimal? Latitude { get; set; }
+
+            public required decimal? Longitude { get; set; }
+
+
 
         }
 

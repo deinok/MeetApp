@@ -1,0 +1,16 @@
+{
+    "date_format": "DD/MM/YYYY",
+    "time_format": "HH:mm",
+    "confirm": "Potvrdi",
+    "cancel": "Otkaži",
+    "publish": "Objavi",
+    "title": "Naslov",
+    "description": "Opis",
+    "location": "Lokacija",
+    "join": "Pridruži se",
+    "yes": "Da",
+    "no": "Ne",
+    "date": "Datum",
+    "time": "Vrijeme",
+    "join_message": "Želite li se pridružiti {{name}}?"
+}

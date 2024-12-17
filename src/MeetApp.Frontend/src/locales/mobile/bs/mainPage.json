@@ -1,3 +1,6 @@
 {
-  "greeting": "Dobrodošli"
+  "greeting": "Dobrodošli",
+  "available_offers": "Dostupne ponude",
+  "all": "Svi",
+  "create_activity": "Kreiraj aktivnost"
 }

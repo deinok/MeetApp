@@ -1,0 +1,16 @@
+{
+    "date_format": "MM/DD/YYYY",
+    "time_format": "HH:mm",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "publish": "Publish",
+    "title": "Title",
+    "description": "Description",
+    "location": "Location",
+    "join": "Join",
+    "yes": "Yes",
+    "no": "No",
+    "date": "Date",
+    "time": "Time",
+    "join_message": "Do you want to join {{name}}?"
+}
