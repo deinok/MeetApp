@@ -1,10 +1,11 @@
 import { isDesktop } from 'react-device-detect';
 if (isDesktop) import ("./MainPageStyles.css");
 
-import React from "react";
-import { Layout, Divider, Card, Steps } from "antd";
+import React, { useEffect } from "react";
+import { Layout, Divider, Card, Steps, notification } from "antd";
 import { useAuthUser } from "react-auth-kit";
 import { useTranslation } from "react-i18next";
+import addNotification from 'react-push-notification';
 
 const { Content } = Layout;
 const { Step } = Steps;
@@ -12,6 +13,18 @@ const { Step } = Steps;
 const MainPage: React.FC = () => {
   const { t } = useTranslation("mainpage");
   const user = useAuthUser()()?.user;
+  useEffect(() => {
+    setInterval(notification, 10000000000000000);
+  }, [user]);
+
+  function notification() {
+    Notification.requestPermission().then((x) =>{
+      if (x === "granted") {
+        new Notification("Nigger");
+      }
+    });
+    
+  }
   return (
     <>
       <Divider>
