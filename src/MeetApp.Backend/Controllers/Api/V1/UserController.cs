@@ -261,7 +261,13 @@ namespace MeetApp.Backend.Controllers.Api.V1
             });
         }
 
-        private async Task<UserResponse> GetAsync(Guid id, CancellationToken cancellationToken = default)
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType<ICollection<Guid>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<UserResponse> GetAsync([FromRoute] Guid id, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
             {
