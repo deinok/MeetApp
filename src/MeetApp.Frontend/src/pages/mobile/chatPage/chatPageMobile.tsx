@@ -16,6 +16,7 @@ const ChatPageMobile: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { activityId } = useParams<{ activityId: string }>();
   const user = useAuthUser()()?.user;
+  const userUrl = `${BASE_URL}/api/v1/user`;
   const userId = user.id;
   const name = user.name;
   const avatar = user.profilePicture;
@@ -24,6 +25,25 @@ const ChatPageMobile: React.FC = () => {
   const [messages, setMessages] = useState<
     { user: string; message: string; name: string; avatar: string; date?: Date; activityId?: string }[]
   >([]);
+
+  const fetchUserData = async (id: string) => {
+    try {
+      const response = await fetch(`${userUrl}/${id}`);
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          name: data.name || `Usuario ${id}`,
+          avatar: data.avatar || "ruta_a_avatar_predeterminado",
+        };
+      } else {
+        console.error(`Error al obtener datos del usuario con ID ${id}:`, response.status);
+        return { name: `Usuario ${id}`, avatar: "ruta_a_avatar_predeterminado" };
+      }
+    } catch (error) {
+      console.error("Error al consultar el usuario:", error);
+      return { name: `Usuario ${id}`, avatar: "ruta_a_avatar_predeterminado" };
+    }
+  };
 
   const handleCardClick = () => {
     setIsModalVisible(true);
@@ -50,28 +70,13 @@ const ChatPageMobile: React.FC = () => {
 
           await connection.invoke("JoinChat", userId, activityId);
 
-          connection.on(
-            "NotifyJoinChat",
-            (joinedUserId: string, joinedActivityId: string) => {
-              if (joinedActivityId === activityId && joinedUserId !== userId) {
-                console.log(`El usuario ${joinedUserId} se ha unido al chat.`);
-                setMessages((prevMessages) => [
-                  ...prevMessages,
-                  {
-                    user: joinedUserId,
-                    name: `Usuario ${joinedUserId}`,
-                    avatar: "ruta_a_avatar_predeterminado",
-                    message: `El usuario ${joinedUserId} se ha unido al chat.`,
-                    date: new Date(),
-                  },
-                ]);
-              }
-            }
-          );
+          // Notificar cuando un usuario se une al chat
+          connection.on("NotifyJoinChat", handleUserJoined);
+
+          // Notificar cuando se recibe un mensaje
+          connection.on("NotifySendMessage", handleIncomingMessage);
         })
-        .catch((error) =>
-          console.error("Error al conectar con el hub:", error)
-        );
+        .catch((error) => console.error("Error al conectar con el hub:", error));
     }
 
     return () => {
@@ -81,34 +86,69 @@ const ChatPageMobile: React.FC = () => {
 
   useEffect(() => {
     if (connection) {
-      connection.on(
-        "NotifySendMessage",
-        async (senderId: string, activityId: string, message: string) => {
-          const messageToShow =
-            sessionStorage.getItem("autoTranslate") === "true"
-              ? await translateMessage(message)
-              : message;
+      connection.off("NotifyJoinChat"); // Limpia escuchadores previos
+      connection.off("NotifySendMessage");
 
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              user: senderId,
-              activityId,
-              name: senderId === userId ? name : `Usuario ${senderId}`,
-              avatar: senderId === userId ? avatar : "ruta_a_avatar_predeterminado",
-              message: messageToShow,
-              date: new Date(),
-            },
-          ]);
-          console.log(`Mensaje recibido de ${senderId}: ${message}`);
-        }
-      );
+      connection.on("NotifyJoinChat", handleUserJoined);
+      connection.on("NotifySendMessage", handleIncomingMessage);
     }
 
     return () => {
+      connection?.off("NotifyJoinChat");
       connection?.off("NotifySendMessage");
     };
   }, [connection]);
+
+  const handleUserJoined = async (joinedUserId: string, joinedActivityId: string) => {
+    if (joinedActivityId !== activityId) return;
+
+    const userData =
+      joinedUserId === userId
+        ? { name, avatar }
+        : await fetchUserData(joinedUserId);
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        user: joinedUserId,
+        activityId: joinedActivityId,
+        name: userData.name,
+        avatar: userData.avatar,
+        message: `${userData.name} se ha unido al chat.`,
+        date: new Date(),
+      },
+    ]);
+  };
+
+  const handleIncomingMessage = async (
+    senderId: string,
+    activityId: string,
+    message: string
+  ) => {
+    if (activityId !== activityId) return;
+
+    const messageToShow =
+      sessionStorage.getItem("autoTranslate") === "true"
+        ? await translateMessage(message)
+        : message;
+
+    const userData =
+      senderId === userId
+        ? { name, avatar }
+        : await fetchUserData(senderId);
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        user: senderId,
+        activityId,
+        name: userData.name,
+        avatar: userData.avatar,
+        message: messageToShow,
+        date: new Date(),
+      },
+    ]);
+  };
 
   const sendMessage = async () => {
     if (connection && inputMessage.trim()) {
