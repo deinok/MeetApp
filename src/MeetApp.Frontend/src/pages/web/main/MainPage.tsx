@@ -25,7 +25,6 @@ const { Step } = Steps;
 const MainPage: React.FC = () => {
   const { t } = useTranslation("mainpage");
   const user = useAuthUser()()?.user;
-
   const urlCheckQr = `${BASE_URL}/api/v1/activities/checkQrCode`;
 
   const [qrValue, setQrValue] = useState<string>("");
@@ -81,6 +80,7 @@ const MainPage: React.FC = () => {
         });
       } catch (error) {
         console.error("Error checking QR code:", error);
+
       }
     } else {
       console.error("No QR code scanned");

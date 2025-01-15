@@ -207,11 +207,6 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
             title={t("activities_section")}
           />
           <TabBar.Item
-            key=""
-            icon={<MessageOutline />}
-            title={t("chats_section")}
-          />
-          <TabBar.Item
             key="/map"
             icon={<EnvironmentOutline />}
             title={t("map_section")}
