@@ -6,7 +6,7 @@ import background from "../../../img/chatbackground.jpg";
 import { useAuthUser } from "react-auth-kit";
 import { useParams } from "react-router-dom";
 import { Button, Modal, Switch } from "antd-mobile";
-import { CheckOutline, CloseOutline, RightOutline } from "antd-mobile-icons";
+import { CheckOutline, CloseOutline, RightOutline, SystemQRcodeOutline } from "antd-mobile-icons";
 import dayjs from "dayjs";
 import { Avatar, QRCode } from "antd";
 
@@ -33,7 +33,7 @@ const ChatPageMobile: React.FC = () => {
         const data = await response.json();
         return {
           name: data.name || `Usuario ${id}`,
-          avatar: data.avatar || "ruta_a_avatar_predeterminado",
+          avatar: data.profilePicture || "ruta_a_avatar_predeterminado",
         };
       } else {
         console.error(`Error al obtener datos del usuario con ID ${id}:`, response.status);
@@ -214,15 +214,11 @@ const ChatPageMobile: React.FC = () => {
       <div
         className="chat-profile"
         style={{ display: "flex", justifyContent: "space-between" }}
-        onClick={handleCardClick}
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            handleCardClick();
-          }
-        }}
       >
-        <p>{activityId}</p>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "center", width: "100%" }}>
+        <SystemQRcodeOutline width={45} height={45} onClick={handleCardClick}/>
+        </div>
         <Switch
           checked={autoTranslate}
           onChange={handleSwitchChange}
