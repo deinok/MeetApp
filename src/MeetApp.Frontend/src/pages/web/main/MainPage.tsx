@@ -25,10 +25,6 @@ const { Step } = Steps;
 const MainPage: React.FC = () => {
   const { t } = useTranslation("mainpage");
   const user = useAuthUser()()?.user;
-  useEffect(() => {
-    setInterval(notification, 10000000000000000);
-  }, [user]);
-
   const urlCheckQr = `${BASE_URL}/api/v1/activities/checkQrCode`;
 
   const [qrValue, setQrValue] = useState<string>("");
@@ -84,6 +80,7 @@ const MainPage: React.FC = () => {
         });
       } catch (error) {
         console.error("Error checking QR code:", error);
+
       }
     } else {
       console.error("No QR code scanned");
@@ -108,15 +105,6 @@ const MainPage: React.FC = () => {
     setIsModalVisible(true);
     setTimeout(startScanner, 300); // Espera a que el modal se renderice
   };
-
-  function notification() {
-    //AQUIIIIIII
-    Notification.requestPermission().then((x) => {
-      if (x === "granted") {
-        new Notification("Nigger");
-      }
-    });
-  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQrValue(e.target.value); // Allow manual input of the QR value

@@ -39,6 +39,29 @@ const MobileMainLayout: React.FC<MobileMainLayoutProps> = ({ children }) => {
   const [language, setLanguage] = useState("es");
   const [visible, setVisible] = useState(false);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      if (now.getSeconds() === 59) {
+        sendNotification();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  function sendNotification() {
+    if (Notification.permission === "granted") {
+      new Notification("New Activity Created");
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification("New Activity Created");
+        }
+      });
+    }
+  }
+
   const handleLogout = () => {
     signOut();
     navigate("/login");
