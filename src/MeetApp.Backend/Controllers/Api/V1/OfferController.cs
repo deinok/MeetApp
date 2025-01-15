@@ -133,6 +133,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                     Title = x.Title,
                 });
         }
+
         public record OfferCreateRequest
         {
             public required Guid BussinesId { get; init; }

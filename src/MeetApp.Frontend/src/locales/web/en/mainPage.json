@@ -1,3 +1,6 @@
 {
-  "title": "Welcome, {{name}}"
+  "title": "Welcome, {{name}}",
+  "qr_validation": "QR Validation",
+  "code_check": "Check Code",
+  "qr_instruction": "Click on the QR to scan"
 }

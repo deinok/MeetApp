@@ -183,6 +183,49 @@ namespace MeetApp.Backend.Controllers.Api.V1
                 });
         }
 
+        [AllowAnonymous]
+        [HttpPost("checkQrCode")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CheckQrCodeAsync([FromBody][Required] CheckQrCodeRequest checkQrCodeRequest, CancellationToken cancellationToken = default)
+        {
+            // Qr is valid when the activityId exists, 
+            //the activity has an offer associated, 
+            //the businessId given is the same as the offfer's businessId 
+            //and the offer is valid and not expired.
+            // Return a Json object with the status of the Qr code (valid = true/false)
+            var activity = await this.appDbContext.Activities
+                .Include(x => x.Offer)
+                .ThenInclude(x => x!.Bussines)
+                .Where(x => x.Id == checkQrCodeRequest.ActivityId)
+                .SingleOrDefaultAsync(cancellationToken);
+            if (activity is null)
+            {
+                return NotFound("Activity does not exist");
+            }
+            if (activity.Offer is null)
+            {
+                return NotFound("Offer does not exist: " + activity.Offer);
+            }
+            if (activity.Offer.Bussines.Id != checkQrCodeRequest.BusinessId)
+            {
+                return NotFound("Offer does not belong to the business");
+            }
+            if (activity.Offer.ExpirationDate.ToDateTime(TimeOnly.MaxValue) < DateTimeOffset.Now)
+            {
+                return NotFound("Offer is expired");
+            }
+            return Ok("The QR code is valid");
+        }
+
+        public record CheckQrCodeRequest
+        {
+            public Guid ActivityId { get; set; }
+            public Guid BusinessId { get; set; }
+        }
+
         public record ActivityUpdateRequest
         {
             public Guid? OfferId { get; set; }
