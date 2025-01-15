@@ -51,11 +51,12 @@ export const OffersPage = () => {
   const [form] = Form.useForm();
   const user = useAuthUser()()!.user;
 
-  const url = `${BASE_URL}/api/v1/offers/business/${user.id}`;
+  const url = `${BASE_URL}/api/v1/offers`;
+  const urlGetOffers = `${BASE_URL}/api/v1/offers/business/${user.id}`;
 
   const fetchOffers = async () => {
     try {
-      const response = await fetch(url);
+      const response = await fetch(urlGetOffers);
       if (response.ok) {
         const data: Offer[] = await response.json();
         setOffers(data);

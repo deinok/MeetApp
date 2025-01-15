@@ -297,7 +297,7 @@ const ChatPageMobile: React.FC = () => {
                 <QRCode
                   size={250}
                   style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  value={"https://meet-app-udl.azurewebsites.net/"}
+                  value={activityId ?? ''}
                 />
               </div>
             </div>
