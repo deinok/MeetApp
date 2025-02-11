@@ -39,7 +39,7 @@ namespace MeetApp.Backend
                         .WithOrigins("http://localhost:5000")
                         .WithOrigins("https://localhost:5001")
                         .WithOrigins("http://localhost:5173")
-                        .WithOrigins("https://meet-app-udl.azurewebsites.net");
+                        .WithOrigins("https://meet-app-2.azurewebsites.net");
                 });
             });
             webApplicationBuilder.Services.AddAzureClients(azureClientFactoryBuilder =>
@@ -50,7 +50,7 @@ namespace MeetApp.Backend
             {
                 dbContextOptionsBuilder.EnableDetailedErrors();
                 dbContextOptionsBuilder.EnableSensitiveDataLogging();
-                dbContextOptionsBuilder.UseNpgsql(webApplicationBuilder.Configuration.GetConnectionString(nameof(AppDbContext)), npgsqlOptionsAction =>
+                dbContextOptionsBuilder.UseAzureSql(webApplicationBuilder.Configuration.GetConnectionString(nameof(AppDbContext)), npgsqlOptionsAction =>
                 {
                     npgsqlOptionsAction.CommandTimeout(120);
                     npgsqlOptionsAction.EnableRetryOnFailure();

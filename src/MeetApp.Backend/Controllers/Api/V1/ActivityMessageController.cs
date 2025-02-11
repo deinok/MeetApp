@@ -72,7 +72,7 @@ namespace MeetApp.Backend.Controllers.Api.V1
                     Id = x.Id,
                     Message = x.Message,
                     Timestamp = x.Timestamp,
-                    UserId = x.UserId,
+                    UserId = x.UserId!.Value,
                 });
         }
 
