@@ -13,7 +13,7 @@ namespace MeetApp.Database.Models
 
         public Guid ActivityId { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         [Required]
         [StringLength(1024)]
@@ -28,7 +28,7 @@ namespace MeetApp.Database.Models
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(User.ActivityMessages))]
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
     }
 

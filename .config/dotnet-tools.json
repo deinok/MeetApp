@@ -7,7 +7,7 @@
         "dotnet-ef"
       ],
       "rollForward": false,
-      "version": "9.0.0"
+      "version": "9.0.1"
     },
     "microsoft.openapi.kiota": {
       "commands": [

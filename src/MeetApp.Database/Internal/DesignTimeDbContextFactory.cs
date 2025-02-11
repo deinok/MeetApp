@@ -10,7 +10,7 @@ namespace MeetApp.Database.Internal
         public AppDbContext CreateDbContext(string[] args)
         {
             var dbContextOptionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            dbContextOptionsBuilder.UseNpgsql();
+            dbContextOptionsBuilder.UseAzureSql();
             return new AppDbContext(dbContextOptionsBuilder.Options);
         }
 
