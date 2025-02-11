@@ -29,6 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MeetApp.Frontend", "MeetApp
 		src\MeetApp.Frontend\package.json = src\MeetApp.Frontend\package.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{979FCC3D-A4EC-43E5-A107-09B1A5D4C5CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D53783EF-AEE6-4367-BE90-FBD27ED4BB1D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\main.yml = .github\workflows\main.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +58,7 @@ Global
 		{191032FA-1A46-46BD-BD95-0CF198F08311} = {5682996B-7101-45DE-AB6E-458B641DC95A}
 		{72AB8932-0B14-4F97-A812-A78E6AA93677} = {5682996B-7101-45DE-AB6E-458B641DC95A}
 		{68C3E8C7-7247-42D5-ABB8-067EE13CC445} = {5682996B-7101-45DE-AB6E-458B641DC95A}
+		{D53783EF-AEE6-4367-BE90-FBD27ED4BB1D} = {979FCC3D-A4EC-43E5-A107-09B1A5D4C5CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E2F3610-FC03-4DA6-9491-B045E9EC7D48}
